@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:planty_connect/model/message_model.dart';
-import 'package:planty_connect/utils/app_state.dart';
-import 'package:planty_connect/utils/exception.dart';
-import 'package:planty_connect/utils/firestore_collections.dart';
+import 'package:flutter_web_chat_app/model/message_model.dart';
+import 'package:flutter_web_chat_app/utils/app_state.dart';
+import 'package:flutter_web_chat_app/utils/exception.dart';
+import 'package:flutter_web_chat_app/utils/firestore_collections.dart';
 
 class ChatRoomService {
   CollectionReference chatRoom =

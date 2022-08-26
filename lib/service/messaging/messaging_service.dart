@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
-import 'package:planty_connect/model/send_notification_model.dart';
+import 'package:flutter_web_chat_app/model/send_notification_model.dart';
 
 class MessagingService {
   FirebaseMessaging message = FirebaseMessaging.instance;

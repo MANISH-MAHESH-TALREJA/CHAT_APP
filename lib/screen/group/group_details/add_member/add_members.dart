@@ -3,12 +3,12 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:planty_connect/model/group_model.dart';
-import 'package:planty_connect/screen/group/group_details/add_member/add_members_view_model.dart';
-import 'package:planty_connect/screen/group/group_details/add_member/widgets/user_card.dart';
-import 'package:planty_connect/utils/app.dart';
-import 'package:planty_connect/utils/color_res.dart';
-import 'package:planty_connect/utils/styles.dart';
+import 'package:flutter_web_chat_app/model/group_model.dart';
+import 'package:flutter_web_chat_app/screen/group/group_details/add_member/add_members_view_model.dart';
+import 'package:flutter_web_chat_app/screen/group/group_details/add_member/widgets/user_card.dart';
+import 'package:flutter_web_chat_app/utils/app.dart';
+import 'package:flutter_web_chat_app/utils/color_res.dart';
+import 'package:flutter_web_chat_app/utils/styles.dart';
 import 'package:stacked/stacked.dart';
 
 class AddMembers extends StatelessWidget {

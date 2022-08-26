@@ -4,15 +4,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:planty_connect/model/group_model.dart';
-import 'package:planty_connect/model/message_model.dart';
-import 'package:planty_connect/model/user_model.dart';
-import 'package:planty_connect/screen/forward/forward_view_model.dart';
-import 'package:planty_connect/screen/forward/widgets/group_card.dart';
-import 'package:planty_connect/screen/forward/widgets/user_card.dart';
-import 'package:planty_connect/utils/app.dart';
-import 'package:planty_connect/utils/color_res.dart';
-import 'package:planty_connect/utils/styles.dart';
+import 'package:flutter_web_chat_app/model/group_model.dart';
+import 'package:flutter_web_chat_app/model/message_model.dart';
+import 'package:flutter_web_chat_app/model/user_model.dart';
+import 'package:flutter_web_chat_app/screen/forward/forward_view_model.dart';
+import 'package:flutter_web_chat_app/screen/forward/widgets/group_card.dart';
+import 'package:flutter_web_chat_app/screen/forward/widgets/user_card.dart';
+import 'package:flutter_web_chat_app/utils/app.dart';
+import 'package:flutter_web_chat_app/utils/color_res.dart';
+import 'package:flutter_web_chat_app/utils/styles.dart';
 import 'package:stacked/stacked.dart';
 
 class Forward extends StatelessWidget {

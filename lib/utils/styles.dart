@@ -1,4 +1,4 @@
-import 'package:planty_connect/utils/color_res.dart';
+import 'package:flutter_web_chat_app/utils/color_res.dart';
 import 'package:flutter/cupertino.dart';
 
 // ignore: non_constant_identifier_names

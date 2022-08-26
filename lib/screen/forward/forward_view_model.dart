@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import 'package:planty_connect/model/message_model.dart';
-import 'package:planty_connect/model/room_model.dart';
-import 'package:planty_connect/model/send_notification_model.dart';
-import 'package:planty_connect/model/user_model.dart';
-import 'package:planty_connect/utils/app.dart';
-import 'package:planty_connect/utils/app_state.dart';
+import 'package:flutter_web_chat_app/model/message_model.dart';
+import 'package:flutter_web_chat_app/model/room_model.dart';
+import 'package:flutter_web_chat_app/model/send_notification_model.dart';
+import 'package:flutter_web_chat_app/model/user_model.dart';
+import 'package:flutter_web_chat_app/utils/app.dart';
+import 'package:flutter_web_chat_app/utils/app_state.dart';
 import 'package:stacked/stacked.dart';
 
 class ForwardViewModel extends BaseViewModel {

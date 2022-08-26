@@ -1,5 +1,5 @@
-import 'package:planty_connect/model/group_model.dart';
-import 'package:planty_connect/model/user_model.dart';
+import 'package:flutter_web_chat_app/model/group_model.dart';
+import 'package:flutter_web_chat_app/model/user_model.dart';
 
 class RoomModel {
   String id;

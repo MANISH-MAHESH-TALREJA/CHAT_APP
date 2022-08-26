@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:planty_connect/model/room_model.dart';
-import 'package:planty_connect/utils/color_res.dart';
-import 'package:planty_connect/utils/styles.dart';
+import 'package:flutter_web_chat_app/model/room_model.dart';
+import 'package:flutter_web_chat_app/utils/color_res.dart';
+import 'package:flutter_web_chat_app/utils/styles.dart';
 
 class GroupCard extends StatelessWidget {
   final RoomModel groupModel;

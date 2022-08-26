@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:planty_connect/model/message_model.dart';
-import 'package:planty_connect/screen/person/chat_screen/widget/message_view/document_message.dart';
-import 'package:planty_connect/screen/person/chat_screen/widget/message_view/image_message.dart';
-import 'package:planty_connect/screen/person/chat_screen/widget/message_view/text_message.dart';
-import 'package:planty_connect/utils/app_state.dart';
-import 'package:planty_connect/utils/color_res.dart';
+import 'package:flutter_web_chat_app/model/message_model.dart';
+import 'package:flutter_web_chat_app/screen/person/chat_screen/widget/message_view/document_message.dart';
+import 'package:flutter_web_chat_app/screen/person/chat_screen/widget/message_view/image_message.dart';
+import 'package:flutter_web_chat_app/screen/person/chat_screen/widget/message_view/text_message.dart';
+import 'package:flutter_web_chat_app/utils/app_state.dart';
+import 'package:flutter_web_chat_app/utils/color_res.dart';
 
 class MessageView extends StatelessWidget {
   final int index;

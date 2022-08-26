@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:planty_connect/model/message_model.dart';
-import 'package:planty_connect/screen/group/chat_screen/widget/reply_message.dart';
-import 'package:planty_connect/utils/app.dart';
-import 'package:planty_connect/utils/color_res.dart';
-import 'package:planty_connect/utils/styles.dart';
+import 'package:flutter_web_chat_app/model/message_model.dart';
+import 'package:flutter_web_chat_app/screen/group/chat_screen/widget/reply_message.dart';
+import 'package:flutter_web_chat_app/utils/app.dart';
+import 'package:flutter_web_chat_app/utils/color_res.dart';
+import 'package:flutter_web_chat_app/utils/styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class InputBottomBar extends StatelessWidget {

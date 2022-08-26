@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:planty_connect/model/group_model.dart';
-import 'package:planty_connect/utils/exception.dart';
-import 'package:planty_connect/utils/firestore_collections.dart';
+import 'package:flutter_web_chat_app/model/group_model.dart';
+import 'package:flutter_web_chat_app/utils/exception.dart';
+import 'package:flutter_web_chat_app/utils/firestore_collections.dart';
 
 class GroupService {
   CollectionReference group =

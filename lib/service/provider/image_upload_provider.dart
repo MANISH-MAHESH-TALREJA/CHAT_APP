@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:planty_connect/utils/view_state.dart';
+import 'package:flutter_web_chat_app/utils/view_state.dart';
 
 class ImageUploadProvider with ChangeNotifier {
   ViewState _viewState = ViewState.IDLE;

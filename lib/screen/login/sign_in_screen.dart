@@ -3,12 +3,12 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:planty_connect/screen/login/sign_in_view_model.dart';
-import 'package:planty_connect/utils/app.dart';
-import 'package:planty_connect/utils/color_res.dart';
-import 'package:planty_connect/utils/common_widgets.dart';
+import 'package:flutter_web_chat_app/screen/login/sign_in_view_model.dart';
+import 'package:flutter_web_chat_app/utils/app.dart';
+import 'package:flutter_web_chat_app/utils/color_res.dart';
+import 'package:flutter_web_chat_app/utils/common_widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:planty_connect/utils/styles.dart';
+import 'package:flutter_web_chat_app/utils/styles.dart';
 import 'package:stacked/stacked.dart';
 
 class SignInScreen extends StatelessWidget {

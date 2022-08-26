@@ -4,13 +4,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:planty_connect/model/group_model.dart';
-import 'package:planty_connect/model/send_notification_model.dart';
-import 'package:planty_connect/model/user_model.dart';
-import 'package:planty_connect/screen/home/home_screen.dart';
-import 'package:planty_connect/utils/app.dart';
-import 'package:planty_connect/utils/app_state.dart';
-import 'package:planty_connect/utils/exception.dart';
+import 'package:flutter_web_chat_app/model/group_model.dart';
+import 'package:flutter_web_chat_app/model/send_notification_model.dart';
+import 'package:flutter_web_chat_app/model/user_model.dart';
+import 'package:flutter_web_chat_app/screen/home/home_screen.dart';
+import 'package:flutter_web_chat_app/utils/app.dart';
+import 'package:flutter_web_chat_app/utils/app_state.dart';
+import 'package:flutter_web_chat_app/utils/exception.dart';
 import 'package:stacked/stacked.dart';
 
 class AddDescriptionViewModel extends BaseViewModel {

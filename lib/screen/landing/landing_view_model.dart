@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:planty_connect/screen/login/sign_in_screen.dart';
-import 'package:planty_connect/screen/register/sign_up_screen.dart';
+import 'package:flutter_web_chat_app/screen/login/sign_in_screen.dart';
+import 'package:flutter_web_chat_app/screen/register/sign_up_screen.dart';
 
 class LandingViewModel {
   LandingViewModel();

@@ -1,4 +1,4 @@
-import 'package:planty_connect/model/user_model.dart';
+import 'package:flutter_web_chat_app/model/user_model.dart';
 
 class AppState {
   static final AppState _singleton = AppState._internal();

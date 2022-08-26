@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import 'package:planty_connect/model/room_model.dart';
-import 'package:planty_connect/model/send_notification_model.dart';
-import 'package:planty_connect/model/user_model.dart';
-import 'package:planty_connect/screen/group/new_group/add_description/add_description.dart';
-import 'package:planty_connect/screen/home/home_screen.dart';
-import 'package:planty_connect/service/chat_room_service/chat_room_service.dart';
-import 'package:planty_connect/utils/app.dart';
-import 'package:planty_connect/utils/app_state.dart';
+import 'package:flutter_web_chat_app/model/room_model.dart';
+import 'package:flutter_web_chat_app/model/send_notification_model.dart';
+import 'package:flutter_web_chat_app/model/user_model.dart';
+import 'package:flutter_web_chat_app/screen/group/new_group/add_description/add_description.dart';
+import 'package:flutter_web_chat_app/screen/home/home_screen.dart';
+import 'package:flutter_web_chat_app/service/chat_room_service/chat_room_service.dart';
+import 'package:flutter_web_chat_app/utils/app.dart';
+import 'package:flutter_web_chat_app/utils/app_state.dart';
 import 'package:stacked/stacked.dart';
 
 class SelectMembersViewModel extends BaseViewModel {

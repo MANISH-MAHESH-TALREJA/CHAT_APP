@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:planty_connect/model/user_model.dart';
-import 'package:planty_connect/utils/app.dart';
-import 'package:planty_connect/utils/app_state.dart';
-import 'package:planty_connect/utils/exception.dart';
+import 'package:flutter_web_chat_app/model/user_model.dart';
+import 'package:flutter_web_chat_app/utils/app.dart';
+import 'package:flutter_web_chat_app/utils/app_state.dart';
+import 'package:flutter_web_chat_app/utils/exception.dart';
 
 FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 

@@ -1,17 +1,16 @@
-name: planty_connect
-description: A new Flutter application.
+name: flutter_web_chat_app
+description: FLUTTER WEB CHAT APP
 
 publish_to: 'none'
 
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.9.0 <3.0.0"
+  sdk: '>=2.18.0-271.4.beta <3.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
-
 
   cupertino_icons: ^1.0.2
 
@@ -67,6 +66,11 @@ dependencies:
   # chat pagination
   paginate_firestore: ^1.0.1
 
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.1
 
 flutter:
 

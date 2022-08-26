@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:planty_connect/screen/video_picker/controller/controller.dart';
-import 'package:planty_connect/screen/video_picker/video_picker_view_model.dart';
-import 'package:planty_connect/utils/app.dart';
-import 'package:planty_connect/utils/color_res.dart';
+import 'package:flutter_web_chat_app/screen/video_picker/controller/controller.dart';
+import 'package:flutter_web_chat_app/screen/video_picker/video_picker_view_model.dart';
+import 'package:flutter_web_chat_app/utils/app.dart';
+import 'package:flutter_web_chat_app/utils/color_res.dart';
 import 'package:stacked/stacked.dart';
 
 // ignore: must_be_immutable

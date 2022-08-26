@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:planty_connect/model/user_model.dart';
-import 'package:planty_connect/screen/home/home_screen.dart';
-import 'package:planty_connect/screen/login/sign_in_screen.dart';
-import 'package:planty_connect/utils/app.dart';
+import 'package:flutter_web_chat_app/model/user_model.dart';
+import 'package:flutter_web_chat_app/screen/home/home_screen.dart';
+import 'package:flutter_web_chat_app/screen/login/sign_in_screen.dart';
+import 'package:flutter_web_chat_app/utils/app.dart';
 import 'package:stacked/stacked.dart';
 
 class SignUpViewModel extends BaseViewModel {

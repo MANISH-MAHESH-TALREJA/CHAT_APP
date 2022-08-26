@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
-import 'package:planty_connect/model/user_model.dart';
-import 'package:planty_connect/service/user_service/user_service.dart';
-import 'package:planty_connect/utils/app_state.dart';
+import 'package:flutter_web_chat_app/model/user_model.dart';
+import 'package:flutter_web_chat_app/service/user_service/user_service.dart';
+import 'package:flutter_web_chat_app/utils/app_state.dart';
 
 class UserProvider with ChangeNotifier {
   UserModel _user;

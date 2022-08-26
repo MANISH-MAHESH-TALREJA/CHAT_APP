@@ -3,13 +3,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:planty_connect/model/group_model.dart';
-import 'package:planty_connect/screen/landing/landing_screen.dart';
-import 'package:planty_connect/screen/person/settings/widget/dialog_view.dart';
-import 'package:planty_connect/service/auth_service/auth_service.dart';
-import 'package:planty_connect/utils/app.dart';
-import 'package:planty_connect/utils/app_state.dart';
-import 'package:planty_connect/utils/exception.dart';
+import 'package:flutter_web_chat_app/model/group_model.dart';
+import 'package:flutter_web_chat_app/screen/landing/landing_screen.dart';
+import 'package:flutter_web_chat_app/screen/person/settings/widget/dialog_view.dart';
+import 'package:flutter_web_chat_app/service/auth_service/auth_service.dart';
+import 'package:flutter_web_chat_app/utils/app.dart';
+import 'package:flutter_web_chat_app/utils/app_state.dart';
+import 'package:flutter_web_chat_app/utils/exception.dart';
 import 'package:stacked/stacked.dart';
 
 class SettingViewModel extends BaseViewModel {

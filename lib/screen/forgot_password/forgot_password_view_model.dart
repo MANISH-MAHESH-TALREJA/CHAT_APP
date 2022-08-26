@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:planty_connect/utils/app.dart';
+import 'package:flutter_web_chat_app/utils/app.dart';
 import 'package:stacked/stacked.dart';
 
 class ForgotPasswordViewModel extends BaseViewModel {

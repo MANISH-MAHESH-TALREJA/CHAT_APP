@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:planty_connect/model/user_model.dart';
-import 'package:planty_connect/service/auth_service/auth_service.dart';
-import 'package:planty_connect/utils/app.dart';
-import 'package:planty_connect/utils/app_state.dart';
-import 'package:planty_connect/utils/exception.dart';
-import 'package:planty_connect/utils/firestore_collections.dart';
+import 'package:flutter_web_chat_app/model/user_model.dart';
+import 'package:flutter_web_chat_app/service/auth_service/auth_service.dart';
+import 'package:flutter_web_chat_app/utils/app.dart';
+import 'package:flutter_web_chat_app/utils/app_state.dart';
+import 'package:flutter_web_chat_app/utils/exception.dart';
+import 'package:flutter_web_chat_app/utils/firestore_collections.dart';
 import 'package:rxdart/rxdart.dart';
 
 class UserService {

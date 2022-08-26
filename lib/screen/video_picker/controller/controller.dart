@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:get/get.dart';
 import 'package:photo_manager/photo_manager.dart';
-import 'package:planty_connect/utils/color_res.dart';
+import 'package:flutter_web_chat_app/utils/color_res.dart';
 
 class VideoController extends GetxController{
 
