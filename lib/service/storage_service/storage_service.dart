@@ -5,7 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 class StorageService {
   FirebaseStorage _storage = FirebaseStorage.instance;
 
-  Future<String> uploadGroupIcon(File image) async {
+  Future<String?> uploadGroupIcon(File image) async {
     try {
       Reference reference = _storage.ref().child(
           "GroupIcons/${DateTime.now().millisecondsSinceEpoch}${image.path.split("/").last}");
@@ -18,7 +18,7 @@ class StorageService {
     }
   }
 
-  Future<String> uploadImage(File image, String roomId) async {
+  Future<String?> uploadImage(File image, String roomId) async {
     try {
       Reference reference = _storage.ref().child(
           "$roomId/images/${DateTime.now().millisecondsSinceEpoch}${image.path.split("/").last}");
@@ -31,7 +31,7 @@ class StorageService {
     }
   }
 
-  Future<String> uploadDocument(File doc, String roomId) async {
+  Future<String?> uploadDocument(File doc, String roomId) async {
     try {
       Reference reference =
           _storage.ref().child("$roomId/documents/${doc.path.split("/").last}");
@@ -44,7 +44,7 @@ class StorageService {
     }
   }
 
-  Future<String> uploadMusic(File music, String roomId) async {
+  Future<String?> uploadMusic(File music, String roomId) async {
     try {
       Reference reference =
           _storage.ref().child("$roomId/musics/${music.path.split("/").last}");
@@ -57,7 +57,7 @@ class StorageService {
     }
   }
 
-  Future<String> uploadVideo(File video, String roomId) async {
+  Future<String?> uploadVideo(File video, String roomId) async {
     try {
       Reference reference =
           _storage.ref().child("$roomId/videos/${video.path.split("/").last}");
@@ -70,9 +70,9 @@ class StorageService {
     }
   }
 
-  Future<FullMetadata> getData(String document) async {
+  Future<FullMetadata?> getData(String? document) async {
     try {
-      Reference reference = _storage.refFromURL(document);
+      Reference reference = _storage.refFromURL(document!);
       return await reference.getMetadata();
     } catch (e) {
       print(e);
@@ -80,7 +80,7 @@ class StorageService {
     }
   }
 
-  Future<bool> downloadMedia(String document, String filePath) async {
+  Future<bool?> downloadMedia(String document, String filePath) async {
     try {
       await _storage.refFromURL(document).writeToFile(File(filePath));
       return true;

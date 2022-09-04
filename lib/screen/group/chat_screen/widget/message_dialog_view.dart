@@ -7,15 +7,15 @@ import 'package:flutter_web_chat_app/utils/common_widgets.dart';
 import 'package:flutter_web_chat_app/utils/styles.dart';
 
 class MessageDialog extends StatelessWidget {
-  final bool sender;
-  final Function onReplyTap;
-  final Function onForwardTap;
-  final Function onForwardMultipleTap;
-  final Function onDeleteMultipleTap;
-  final Function onDeleteTap;
-  final MessageModel message;
+  final bool? sender;
+  final Function? onReplyTap;
+  final Function? onForwardTap;
+  final Function? onForwardMultipleTap;
+  final Function? onDeleteMultipleTap;
+  final Function? onDeleteTap;
+  final MessageModel? message;
 
-  MessageDialog({
+  const MessageDialog({super.key,
     this.sender,
     this.onReplyTap,
     this.onForwardTap,
@@ -36,16 +36,16 @@ class MessageDialog extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        cardView(AppRes.reply, onReplyTap),
+        cardView(AppRes.reply, onReplyTap!),
         divider,
-        cardView(AppRes.forward, onForwardTap),
+        cardView(AppRes.forward, onForwardTap!),
         divider,
-        cardView(AppRes.forwardMultiple, onForwardMultipleTap),
-        sender ? divider : Container(),
-        sender ? cardView(AppRes.delete, onDeleteTap) : Container(),
-        sender ? divider : Container(),
-        sender
-            ? cardView(AppRes.deleteMultiple, onDeleteMultipleTap)
+        cardView(AppRes.forwardMultiple, onForwardMultipleTap!),
+        sender! ? divider : Container(),
+        sender! ? cardView(AppRes.delete, onDeleteTap!) : Container(),
+        sender! ? divider : Container(),
+        sender!
+            ? cardView(AppRes.deleteMultiple, onDeleteMultipleTap!)
             : Container(),
       ],
     );
@@ -59,7 +59,7 @@ class MessageDialog extends StatelessWidget {
       child: Container(
         height: 45,
         alignment: Alignment.center,
-        padding: EdgeInsets.symmetric(horizontal: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 12),
         child: Text(
           title,
           style: AppTextStyle(
@@ -74,11 +74,11 @@ class MessageDialog extends StatelessWidget {
 
 // ignore: must_be_immutable
 class GroupInfoDialog extends StatelessWidget {
-  final String title;
-  final String description;
-  final Function(String, String) doneTap;
+  final String? title;
+  final String? description;
+  final Function(String?, String?)? doneTap;
 
-  GroupInfoDialog(this.title, this.description, this.doneTap) {
+  GroupInfoDialog(this.title, this.description, this.doneTap, {super.key}) {
     titleController = TextEditingController(text: title);
     descController = TextEditingController(text: description);
   }
@@ -89,8 +89,8 @@ class GroupInfoDialog extends StatelessWidget {
         color: ColorRes.dimGray.withOpacity(0.3),
       );
 
-  TextEditingController titleController;
-  TextEditingController descController;
+  TextEditingController? titleController;
+  TextEditingController? descController;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -105,11 +105,11 @@ class GroupInfoDialog extends StatelessWidget {
           children: [
             TextFormField(
               controller: titleController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: AppRes.type_group_title_here,
               ),
               validator: (s) {
-                if (s.isEmpty) {
+                if (s!.isEmpty) {
                   return AppRes.can_not_be_empty;
                 } else {
                   return null;
@@ -121,18 +121,18 @@ class GroupInfoDialog extends StatelessWidget {
               controller: descController,
               minLines: 4,
               maxLines: 4,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: AppRes.type_group_title_here,
               ),
             ),
             verticalSpaceSmall,
             EvolveButton(
               onTap: () {
-                if (_formKey.currentState.validate()) {
+                if (_formKey.currentState!.validate()) {
                   Get.back();
-                  doneTap.call(
-                    titleController.text.trim(),
-                    descController.text.trim(),
+                  doneTap!.call(
+                    titleController!.text.trim(),
+                    descController!.text.trim(),
                   );
                 }
               },
@@ -150,7 +150,7 @@ class GroupInfoDialog extends StatelessWidget {
       child: Container(
         height: 45,
         alignment: Alignment.center,
-        padding: EdgeInsets.symmetric(horizontal: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 12),
         child: Text(
           title,
           style: AppTextStyle(

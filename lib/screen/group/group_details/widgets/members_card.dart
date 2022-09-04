@@ -13,29 +13,29 @@ class MembersCard extends StatelessWidget {
   final List<GroupMember> groupMembers;
   final GroupDetailsViewModel model;
 
-  MembersCard(this.groupMembers, this.model);
+  const MembersCard(this.groupMembers, this.model, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
       itemCount: groupMembers.length,
       shrinkWrap: true,
-      padding: EdgeInsets.all(0),
-      physics: NeverScrollableScrollPhysics(),
+      padding: const EdgeInsets.all(0),
+      physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         return StreamBuilder<DocumentSnapshot>(
           stream: userService.getUserStream(groupMembers[index].memberId),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              UserModel userModel = UserModel.fromMap(snapshot.data.data());
+              UserModel userModel = UserModel.fromMap(snapshot.data!.data() as Map<String, dynamic>);
               return GestureDetector(
                 onTap: () {
-                  if (userModel.uid != appState.currentUser.uid) {
+                  if (userModel.uid != appState.currentUser!.uid) {
                     model.groupMembersTap.call(
                       groupMembers[index],
                       groupMembers
                           .firstWhere((element) =>
-                              element.memberId == appState.currentUser.uid)
+                              element.memberId == appState.currentUser!.uid)
                           .isAdmin,
                       model,
                     );
@@ -46,13 +46,13 @@ class MembersCard extends StatelessWidget {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Container(
+                      SizedBox(
                         height: 40,
                         width: 40,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(60),
                           child: Image.network(
-                            userModel.profilePicture,
+                            userModel.profilePicture!,
                             height: 40,
                             width: 40,
                             fit: BoxFit.cover,
@@ -64,9 +64,9 @@ class MembersCard extends StatelessWidget {
                           margin: const EdgeInsets.symmetric(horizontal: 12),
                           width: Get.width,
                           child: Text(
-                            userModel.uid == appState.currentUser.uid
+                            userModel.uid! == appState.currentUser!.uid!
                                 ? "You"
-                                : userModel.name,
+                                : userModel.name!,
                             style: AppTextStyle(
                               color: ColorRes.black,
                               fontSize: 16,
@@ -105,7 +105,7 @@ class MembersCard extends StatelessWidget {
         );
       },
       separatorBuilder: (BuildContext context, int index) {
-        return Divider();
+        return const Divider();
       },
     );
   }

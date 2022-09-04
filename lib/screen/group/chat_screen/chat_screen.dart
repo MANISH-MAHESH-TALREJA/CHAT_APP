@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
@@ -18,21 +19,21 @@ import 'package:flutter_web_chat_app/utils/color_res.dart';
 import 'package:flutter_web_chat_app/utils/common_widgets.dart';
 import 'package:stacked/stacked.dart';
 
-AppLifecycleState appLifeState;
+AppLifecycleState? appLifeState;
 
 class ChatScreen extends StatefulWidget {
-  final GroupModel groupModel;
-  final bool isFromHome;
+  final GroupModel? groupModel;
+  final bool? isFromHome;
 
-  ChatScreen(this.groupModel, this.isFromHome);
+  const ChatScreen(this.groupModel, this.isFromHome, {super.key});
 
   @override
-  _ChatScreenState createState() => _ChatScreenState();
+  ChatScreenState createState() => ChatScreenState();
 }
 
 bool appIsBG = false;
 
-class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
+class ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
@@ -51,18 +52,20 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
     if (state == AppLifecycleState.detached ||
         state == AppLifecycleState.inactive ||
         state == AppLifecycleState.paused) {
-      print(widget.groupModel.groupId);
+      if (kDebugMode) {
+        print(widget.groupModel!.groupId);
+      }
       appIsBG = true;
-      if (widget.groupModel.groupId != null) {
+      if (widget.groupModel!.groupId != null) {
         chatRoomService.updateLastMessage(
           {"typing_id": null},
-          widget.groupModel.groupId,
+          widget.groupModel!.groupId!,
         );
       }
     }
     chatRoomService.updateLastMessage(
-      {"${appState.currentUser.uid}_newMessage": 0},
-      widget.groupModel.groupId,
+      {"${appState.currentUser!.uid}_newMessage": 0},
+      widget.groupModel!.groupId!,
     );
   }
 
@@ -70,7 +73,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return ViewModelBuilder<ChatScreenViewModel>.reactive(
       onModelReady: (model) async {
-        model.init(widget.groupModel, widget.isFromHome);
+        model.init(widget.groupModel!, widget.isFromHome!);
       },
       builder: (context, model, child) {
         return WillPopScope(
@@ -92,35 +95,35 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
             },
             child: StreamBuilder<DocumentSnapshot>(
               stream: groupService.getGroupStream(
-                  (widget.groupModel.groupId != null ||
-                      widget.groupModel.groupId != "")
-                      ? widget.groupModel.groupId
-                      : appState.currentActiveRoom),
+                  (widget.groupModel!.groupId! != null ||
+                      widget.groupModel!.groupId! != "")
+                      ? widget.groupModel!.groupId!
+                      : appState.currentActiveRoom!),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   model.clearNewMessage();
-                  if (snapshot.data.exists) {
+                  if (snapshot.data!.exists) {
                     GroupModel groupData = GroupModel.fromMap(
-                      snapshot.data.data(),
-                      snapshot.data.id,
+                      snapshot.data!.data() as Map<String, dynamic>,
+                      snapshot.data!.id,
                     );
-                    if (groupData.members
+                    if (groupData.members!
                         .where((element) =>
                     element.memberId ==
-                        appState.currentUser.uid)
+                        appState.currentUser!.uid)
                         .isEmpty) {
-                      Future.delayed(Duration(seconds: 2))
+                      Future.delayed(const Duration(seconds: 2))
                           .then((value) => model.onBack());
                       return Scaffold(
                         backgroundColor: ColorRes.background,
-                        body: Center(
+                        body: const Center(
                           child: Text(
                               "You have been removed from this group"),
                         ),
                         appBar: AppBar(
                           leading: Container(
                             margin:
-                            EdgeInsets.symmetric(horizontal: 13),
+                            const EdgeInsets.symmetric(horizontal: 13),
                             child: InkWell(
                               onTap: model.onBack,
                               child: Icon(
@@ -161,11 +164,11 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                                 children: [
                                   Expanded(
                                     child: PaginateFirestore(
-                                      padding: EdgeInsets.all(10.0),
+                                      padding: const EdgeInsets.all(10.0),
                                       query:
                                       chatRoomService.getMessages(
                                           model
-                                              .groupModel.groupId,
+                                              .groupModel!.groupId!,
                                           model.chatLimit),
                                       itemBuilderType:
                                       PaginateBuilderType
@@ -185,7 +188,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                                         return MessageView(
                                           index,
                                           MessageModel.fromMap(
-                                            documentSnapshot.data(),
+                                            documentSnapshot.data() as Map<String, dynamic>,
                                             documentSnapshot.id,
                                           ),
                                           model.downloadDocument,
@@ -196,7 +199,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                                           model.isForwardMode,
                                         );
                                       },
-                                      emptyDisplay: Center(
+                                      emptyDisplay: const Center(
                                         child: Text("Send message"),
                                       ),
                                       reverse: true,
@@ -221,7 +224,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                             SafeArea(
                               child: AnimatedOpacity(
                                 opacity: model.isAttachment ? 1 : 0,
-                                duration: Duration(milliseconds: 500),
+                                duration: const Duration(milliseconds: 500),
                                 child: model.isAttachment
                                     ? AttachmentView(
                                   onGalleryTap:
@@ -257,10 +260,10 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                                 MainAxisAlignment.center,
                                 children: [
                                   Platform.isIOS
-                                      ? CupertinoActivityIndicator()
-                                      : CircularProgressIndicator(),
+                                      ? const CupertinoActivityIndicator()
+                                      : const CircularProgressIndicator(),
                                   verticalSpaceSmall,
-                                  Text("Uploading media")
+                                  const Text("Uploading media")
                                 ],
                               ),
                             )
@@ -270,17 +273,17 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                       );
                     }
                   } else {
-                    Future.delayed(Duration(seconds: 2))
+                    Future.delayed(const Duration(seconds: 2))
                         .then((value) => model.onBack());
                     return Scaffold(
                       backgroundColor: ColorRes.background,
-                      body: Center(
+                      body: const Center(
                         child: Text("This group is deleted"),
                       ),
                       appBar: AppBar(
                         leading: Container(
                           margin:
-                          EdgeInsets.symmetric(horizontal: 13),
+                          const EdgeInsets.symmetric(horizontal: 13),
                           child: InkWell(
                             onTap: model.onBack,
                             child: Icon(
@@ -302,7 +305,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                     appBar: PreferredSize(
                       preferredSize: Size(Get.width, 50),
                       child: Header(
-                        groupModel: widget.groupModel,
+                        groupModel: widget.groupModel!,
                         onBack: model.onBack,
                         headerClick: model.headerClick,
                         isDeleteMode: model.isDeleteMode,
@@ -314,8 +317,8 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                     ),
                     body: Center(
                       child: Platform.isIOS
-                          ? CupertinoActivityIndicator()
-                          : CircularProgressIndicator(),
+                          ? const CupertinoActivityIndicator()
+                          : const CircularProgressIndicator(),
                     ),
                   );
                 }

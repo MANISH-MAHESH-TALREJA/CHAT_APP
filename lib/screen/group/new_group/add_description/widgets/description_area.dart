@@ -6,25 +6,25 @@ import 'package:flutter_web_chat_app/utils/color_res.dart';
 import 'package:flutter_web_chat_app/utils/styles.dart';
 
 class DescriptionArea extends StatelessWidget {
-  final TextEditingController title;
-  final TextEditingController description;
-  final Function imagePick;
-  final File image;
-  final GlobalKey<FormState> formKey;
+  final TextEditingController? title;
+  final TextEditingController? description;
+  final Function? imagePick;
+  final File? image;
+  final GlobalKey<FormState>? formKey;
 
-  DescriptionArea({
-    @required this.title,
-    @required this.description,
-    @required this.imagePick,
-    @required this.image,
-    @required this.formKey,
+  const DescriptionArea({super.key,
+    this.title,
+    this.description,
+    this.imagePick,
+    this.image,
+    this.formKey,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: ColorRes.white,
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       child: Form(
         key: formKey,
         child: Column(
@@ -34,7 +34,7 @@ class DescriptionArea extends StatelessWidget {
               children: [
                 InkWell(
                   onTap: () {
-                    imagePick.call();
+                    imagePick!.call();
                   },
                   child: image == null
                       ? Container(
@@ -45,7 +45,7 @@ class DescriptionArea extends StatelessWidget {
                             color: ColorRes.dimGray.withOpacity(0.5),
                             borderRadius: BorderRadius.circular(60),
                           ),
-                          child: Icon(
+                          child: const Icon(
                             Icons.camera_alt,
                             color: ColorRes.white,
                           ),
@@ -57,7 +57,7 @@ class DescriptionArea extends StatelessWidget {
                             height: 50,
                             width: 50,
                             child: Image.file(
-                              image,
+                              image!,
                               height: 50,
                               width: 50,
                               fit: BoxFit.cover,
@@ -69,11 +69,11 @@ class DescriptionArea extends StatelessWidget {
                 Expanded(
                   child: TextFormField(
                     controller: title,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: AppRes.type_group_title_here,
                     ),
                     validator: (s) {
-                      if (s.isEmpty) {
+                      if (s!.isEmpty) {
                         return AppRes.can_not_be_empty;
                       } else {
                         return null;
@@ -94,7 +94,7 @@ class DescriptionArea extends StatelessWidget {
             verticalSpaceSmall,
             TextField(
               controller: description,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: AppRes.type_group_description_here,
               ),
               minLines: 1,

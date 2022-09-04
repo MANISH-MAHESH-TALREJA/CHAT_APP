@@ -12,10 +12,10 @@ void handleException(exception) {
       Get.snackbar(
         "Failed",
         "Please check your internet connection",
-        duration: Duration(seconds: 5),
+        duration: const Duration(seconds: 5),
         backgroundColor: ColorRes.red,
         colorText: ColorRes.white,
-        icon: Icon(
+        icon: const Icon(
           Icons.cancel,
           color: ColorRes.white,
           size: 32,
@@ -24,11 +24,11 @@ void handleException(exception) {
     } else {
       Get.snackbar(
         "Failed",
-        exception.message,
-        duration: Duration(seconds: 5),
+        exception.message!,
+        duration: const Duration(seconds: 5),
         backgroundColor: ColorRes.red,
         colorText: ColorRes.white,
-        icon: Icon(
+        icon: const Icon(
           Icons.cancel,
           color: ColorRes.white,
           size: 32,
@@ -42,11 +42,11 @@ void handleException(exception) {
           ? "Can not find account with this email"
           : exception.code == "wrong-password"
               ? "The password is invalid"
-              : exception.message,
-      duration: Duration(seconds: 5),
+              : exception.message!,
+      duration: const Duration(seconds: 5),
       backgroundColor: ColorRes.red,
       colorText: ColorRes.white,
-      icon: Icon(
+      icon: const Icon(
         Icons.cancel,
         color: ColorRes.white,
         size: 32,
@@ -56,10 +56,10 @@ void handleException(exception) {
     Get.snackbar(
       "Failed",
       exception.toString(),
-      duration: Duration(seconds: 5),
+      duration: const Duration(seconds: 5),
       backgroundColor: ColorRes.red,
       colorText: ColorRes.white,
-      icon: Icon(
+      icon: const Icon(
         Icons.cancel,
         color: ColorRes.white,
         size: 32,

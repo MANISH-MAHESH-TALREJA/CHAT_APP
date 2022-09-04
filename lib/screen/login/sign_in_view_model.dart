@@ -16,8 +16,8 @@ class SignInViewModel extends BaseViewModel {
   TextEditingController passwordController = TextEditingController();
 
   void submitButtonTap() async {
-    Get.focusScope.unfocus();
-    if (formKey.currentState.validate()) {
+    Get.focusScope!.unfocus();
+    if (formKey.currentState!.validate()) {
       setBusy(true);
       final fcmToken = await messagingService.getFcmToken();
       try {
@@ -34,8 +34,8 @@ class SignInViewModel extends BaseViewModel {
     }
   }
 
-  String emailValidation(String value) {
-    if (value.isEmpty)
+  String? emailValidation(String? value) {
+    if (value!.isEmpty)
       return AppRes.please_enter_email;
     else if (!isEmail(value))
       return AppRes.please_enter_valid_email;
@@ -43,8 +43,8 @@ class SignInViewModel extends BaseViewModel {
       return null;
   }
 
-  String passwordValidation(String value) {
-    if (value.isEmpty)
+  String? passwordValidation(String? value) {
+    if (value!.isEmpty)
       return AppRes.please_enter_password;
     else if (value.length < 6)
       return AppRes.please_enter_min_6_characters;

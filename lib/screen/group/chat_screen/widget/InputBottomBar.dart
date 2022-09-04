@@ -7,7 +7,7 @@ import 'package:flutter_web_chat_app/utils/styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class InputBottomBar extends StatelessWidget {
-  InputBottomBar({
+  const InputBottomBar({super.key,
     this.msgController,
     this.onTextFieldChange,
     this.onCameraTap,
@@ -19,31 +19,31 @@ class InputBottomBar extends StatelessWidget {
     this.clearReply,
   });
 
-  final TextEditingController msgController;
-  final VoidCallback onTextFieldChange;
-  final VoidCallback onCameraTap;
-  final VoidCallback onAttachment;
-  final Function(MMessage) onSend;
-  final FocusNode focusNode;
-  final bool isTyping;
-  final MMessage message;
-  final Function clearReply;
+  final TextEditingController? msgController;
+  final VoidCallback? onTextFieldChange;
+  final VoidCallback? onCameraTap;
+  final VoidCallback? onAttachment;
+  final Function(MMessage?)? onSend;
+  final FocusNode? focusNode;
+  final bool? isTyping;
+  final MMessage? message;
+  final Function? clearReply;
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: message == null
           ? Container(
-              padding: EdgeInsets.only(
+              padding: const EdgeInsets.only(
                 left: 5,
               ),
-              margin: EdgeInsets.only(left: 5, bottom: 5, right: 5),
+              margin: const EdgeInsets.only(left: 5, bottom: 5, right: 5),
               child: Row(
                 children: [
                   Expanded(
                     child: Container(
-                      margin: EdgeInsets.only(right: 5),
-                      padding: EdgeInsets.only(left: 5),
+                      margin: const EdgeInsets.only(right: 5),
+                      padding: const EdgeInsets.only(left: 5),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         color: ColorRes.green,
@@ -60,7 +60,7 @@ class InputBottomBar extends StatelessWidget {
                               textCapitalization: TextCapitalization.sentences,
                               minLines: 1,
                               onChanged: (_) {
-                                onTextFieldChange();
+                                onTextFieldChange!();
                               },
                               controller: msgController,
                               keyboardType: TextInputType.multiline,
@@ -77,17 +77,17 @@ class InputBottomBar extends StatelessWidget {
                               ),
                             ),
                           ),
-                          isTyping
+                          isTyping!
                               ? Container()
                               : Container(
-                                  padding: EdgeInsets.only(left: 13, right: 5),
+                                  padding: const EdgeInsets.only(left: 13, right: 5),
                                   child: RotationTransition(
-                                    turns: AlwaysStoppedAnimation(135 / 360),
+                                    turns: const AlwaysStoppedAnimation(135 / 360),
                                     child: InkWell(
                                       onTap: () {
-                                        onAttachment.call();
+                                        onAttachment!.call();
                                       },
-                                      child: Icon(
+                                      child: const Icon(
                                         Icons.attachment,
                                         size: 28,
                                         color: ColorRes.white,
@@ -95,13 +95,13 @@ class InputBottomBar extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                          isTyping
+                          isTyping!
                               ? Container()
                               : Container(
-                                  padding: EdgeInsets.only(left: 5, right: 11),
+                                  padding: const EdgeInsets.only(left: 5, right: 11),
                                   child: InkWell(
                                     onTap: onCameraTap,
-                                    child: Icon(
+                                    child: const Icon(
                                       Icons.camera_alt,
                                       color: ColorRes.white,
                                     ),
@@ -113,16 +113,16 @@ class InputBottomBar extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      onSend.call(message);
+                      onSend!.call(message);
                     },
                     child: Container(
                       height: 50,
-                      padding: EdgeInsets.only(left: 13, right: 11),
+                      padding: const EdgeInsets.only(left: 13, right: 11),
                       decoration: BoxDecoration(
                         color: ColorRes.green,
                         borderRadius: BorderRadius.circular(50),
                       ),
-                      child: Icon(
+                      child: const Icon(
                         Icons.send,
                         color: ColorRes.white,
                       ),
@@ -132,17 +132,17 @@ class InputBottomBar extends StatelessWidget {
               ),
             )
           : Container(
-              padding: EdgeInsets.only(
+              padding: const EdgeInsets.only(
                 left: 5,
               ),
-              margin: EdgeInsets.only(left: 5, bottom: 5, right: 5),
+              margin: const EdgeInsets.only(left: 5, bottom: 5, right: 5),
               child: Column(
                 children: [
                   Container(
                     padding: EdgeInsets.symmetric(
-                        horizontal: message.mDataType == "photo" ? 7 : 16,
+                        horizontal: message!.mDataType == "photo" ? 7 : 16,
                         vertical: 6),
-                    margin: EdgeInsets.only(bottom: 5),
+                    margin: const EdgeInsets.only(bottom: 5),
                     decoration: BoxDecoration(
                         border: Border.all(
                           color: ColorRes.green,
@@ -152,12 +152,12 @@ class InputBottomBar extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        ReplyMessage(message),
+                        ReplyMessage(message!),
                         InkWell(
                           onTap: () {
-                            clearReply.call();
+                            clearReply!.call();
                           },
-                          child: Icon(
+                          child: const Icon(
                             Icons.close_rounded,
                             color: ColorRes.green,
                           ),
@@ -169,8 +169,8 @@ class InputBottomBar extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Container(
-                          margin: EdgeInsets.only(right: 5),
-                          padding: EdgeInsets.only(left: 5),
+                          margin: const EdgeInsets.only(right: 5),
+                          padding: const EdgeInsets.only(left: 5),
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                             color: ColorRes.green,
@@ -188,7 +188,7 @@ class InputBottomBar extends StatelessWidget {
                                       TextCapitalization.sentences,
                                   minLines: 1,
                                   onChanged: (_) {
-                                    onTextFieldChange();
+                                    onTextFieldChange!();
                                   },
                                   controller: msgController,
                                   keyboardType: TextInputType.multiline,
@@ -205,22 +205,23 @@ class InputBottomBar extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              isTyping
+                              isTyping!
                                   ? Container()
                                   : Container(
                                       padding:
-                                          EdgeInsets.only(left: 13, right: 5),
+                                          const EdgeInsets.only(left: 13, right: 5),
                                       child: RotationTransition(
                                         turns:
-                                            AlwaysStoppedAnimation(135 / 360),
+                                            const AlwaysStoppedAnimation(135 / 360),
                                         child: InkWell(
                                           onTap: () {
-                                            if (message != null)
-                                              clearReply.call();
-                                            else
-                                              onAttachment.call();
+                                            if (message != null) {
+                                              clearReply!.call();
+                                            } else {
+                                              onAttachment!.call();
+                                            }
                                           },
-                                          child: Icon(
+                                          child: const Icon(
                                             Icons.attachment,
                                             size: 28,
                                             color: ColorRes.white,
@@ -228,19 +229,20 @@ class InputBottomBar extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                              isTyping
+                              isTyping!
                                   ? Container()
                                   : Container(
                                       padding:
-                                          EdgeInsets.only(left: 5, right: 11),
+                                          const EdgeInsets.only(left: 5, right: 11),
                                       child: InkWell(
                                         onTap: () {
-                                          if (message != null)
-                                            clearReply.call();
-                                          else
-                                            onCameraTap.call();
+                                          if (message != null) {
+                                            clearReply!.call();
+                                          } else {
+                                            onCameraTap!.call();
+                                          }
                                         },
-                                        child: Icon(
+                                        child: const Icon(
                                           Icons.camera_alt,
                                           color: ColorRes.white,
                                         ),
@@ -252,19 +254,19 @@ class InputBottomBar extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: () {
-                          if (msgController.text.trim().isNotEmpty) {
-                            clearReply.call();
-                            onSend.call(message);
+                          if (msgController!.text.trim().isNotEmpty) {
+                            clearReply!.call();
+                            onSend!.call(message);
                           }
                         },
                         child: Container(
                           height: 50,
-                          padding: EdgeInsets.only(left: 13, right: 11),
+                          padding: const EdgeInsets.only(left: 13, right: 11),
                           decoration: BoxDecoration(
                             color: ColorRes.green,
                             borderRadius: BorderRadius.circular(50),
                           ),
-                          child: Icon(
+                          child: const Icon(
                             Icons.send,
                             color: ColorRes.white,
                           ),

@@ -6,8 +6,8 @@ import 'package:stacked/stacked.dart';
 
 class PersonDetailsViewModel extends BaseViewModel {
   bool isExpanded = true;
-  UserModel userModel;
-  String roomId;
+  UserModel? userModel;
+  String? roomId;
 
   init(UserModel userModel, String roomId) async {
     this.userModel = userModel;
@@ -17,14 +17,14 @@ class PersonDetailsViewModel extends BaseViewModel {
   void blockTap() {
     Get.back();
     chatRoomService.updateLastMessage({
-      "blockBy": appState.currentUser.uid,
-    }, roomId);
+      "blockBy": appState.currentUser!.uid!,
+    }, roomId!);
   }
 
   void unBlockTap() {
     Get.back();
     chatRoomService.updateLastMessage({
       "blockBy": null,
-    }, roomId);
+    }, roomId!);
   }
 }

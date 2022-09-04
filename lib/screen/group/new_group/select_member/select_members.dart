@@ -85,13 +85,13 @@ class SelectMembers extends StatelessWidget {
                 : CircularProgressIndicator(),
           )
               : ListView.builder(
-            itemCount: model.users.length,
+            itemCount: model.users!.length,
             itemBuilder: (context, index) {
               return UserCard(
-                user: model.users[index],
+                user: model.users![index],
                 onTap: model.selectUserClick,
                 isSelected:
-                model.isSelected(model.users[index]),
+                model.isSelected(model.users![index]),
               );
             },
           ),

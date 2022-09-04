@@ -30,14 +30,14 @@ class HomeScreen extends StatelessWidget {
                 child: Center(child: CircularProgressIndicator()),
               )
             : WillPopScope(
-          onWillPop: () {
+          onWillPop: () async {
             showConfirmationDialog(
                   () {
                 SystemNavigator.pop();
               },
               'Are you sure you want to exit ?',
             );
-            return null;
+            return false;
           },
           child: Scaffold(
             backgroundColor: ColorRes.background,
@@ -96,7 +96,7 @@ class HomeScreen extends StatelessWidget {
               stream: chatRoomService.streamRooms(),
               builder: (context, roomSnapshot) {
                 if (roomSnapshot.hasData) {
-                  if (roomSnapshot.data.docs.isEmpty) {
+                  if (roomSnapshot.data!.docs.isEmpty) {
                     return Center(
                       child: Text(
                           AppRes.no_user_or_group_found),
@@ -104,19 +104,19 @@ class HomeScreen extends StatelessWidget {
                   } else {
                     return ListView.builder(
                       itemCount:
-                      roomSnapshot.data.docs.length,
+                      roomSnapshot.data!.docs.length,
                       itemBuilder: (BuildContext context,
                           int index) {
                         RoomModel roomModel =
                         RoomModel.fromMap(roomSnapshot
-                            .data.docs[index]
-                            .data());
-                        if (roomModel.isGroup) {
+                            .data!.docs[index]
+                            .data() as Map<String, dynamic>);
+                        if (roomModel.isGroup!) {
                           return StreamBuilder<
                               DocumentSnapshot>(
                             stream: groupService
                                 .getGroupStream(
-                                roomModel.id),
+                                roomModel.id!),
                             builder:
                                 (context, groupSnap) {
                               if (groupSnap
@@ -126,17 +126,17 @@ class HomeScreen extends StatelessWidget {
                                   groupSnap.hasData) {
                                 roomModel.groupModel =
                                     GroupModel.fromMap(
-                                        groupSnap.data
-                                            .data(),
+                                        groupSnap.data!
+                                            .data() as Map<String, dynamic>,
                                         groupSnap
-                                            .data.id);
+                                            .data!.id);
                                 return GroupCard(
                                   roomModel,
                                   model.groupClick,
                                   newBadge: roomSnapshot
-                                      .data.docs[index]
+                                      .data!.docs[index]
                                       .get(
-                                      "${appState.currentUser.uid}_newMessage"),
+                                      "${appState.currentUser!.uid}_newMessage"),
                                 );
                               } else {
                                 return Container();
@@ -148,7 +148,7 @@ class HomeScreen extends StatelessWidget {
                               DocumentSnapshot>(
                             stream: userService
                                 .getRoomUserStream(
-                                roomModel.membersId),
+                                roomModel.membersId!),
                             builder:
                                 (context, personSnap) {
                               if (personSnap
@@ -158,19 +158,19 @@ class HomeScreen extends StatelessWidget {
                                   personSnap.hasData) {
                                 roomModel.userModel =
                                     UserModel.fromMap(
-                                        personSnap.data
-                                            .data());
+                                        personSnap.data!
+                                            .data() as Map<String, dynamic>);
                                 return UserCard(
                                   roomModel,
                                   model.onUserCardTap,
                                   typing: roomSnapshot
-                                      .data.docs[index]
+                                      .data!.docs[index]
                                       .get(
-                                      "${personSnap.data.id}_typing"),
+                                      "${personSnap.data!.id}_typing"),
                                   newBadge: roomSnapshot
-                                      .data.docs[index]
+                                      .data!.docs[index]
                                       .get(
-                                      "${appState.currentUser.uid}_newMessage"),
+                                      "${appState.currentUser!.uid}_newMessage"),
                                 );
                               } else {
                                 return Container();

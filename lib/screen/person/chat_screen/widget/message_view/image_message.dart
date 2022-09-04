@@ -12,18 +12,47 @@ class ImageMessage extends StatelessWidget {
   final bool selectionMode;
   final bool sender;
 
-  ImageMessage(this.message, this.selectionMode, this.sender);
+  const ImageMessage(this.message, this.selectionMode, this.sender, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(
+        left: sender ? 10 : 0,
+        right: sender ? 0 : 10,
+        bottom: 10,
+      ),
+      height: 200.h,
+      width: 200.h,
       child: Stack(
         children: <Widget>[
           InkWell(
+            onTap: selectionMode
+                ? null
+                : () async {
+                    await Get.dialog(
+                      Dialog(
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            CachedNetworkImage(
+                              imageUrl: message.content!,
+                              progressIndicatorBuilder:
+                                  (context, url, downloadProgress) =>
+                                      CircularProgressIndicator(
+                                          value: downloadProgress.progress),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
             child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(8.0)),
+              borderRadius: const BorderRadius.all(Radius.circular(8.0)),
               child: CachedNetworkImage(
-                imageUrl: message.content,
+                imageUrl: message.content!,
                 width: 200.0.h,
                 height: 200.0.h,
                 fit: BoxFit.cover,
@@ -34,54 +63,25 @@ class ImageMessage extends StatelessWidget {
                         value: downloadProgress.progress),
                   );
                 },
-                errorWidget: (context, url, error) => Icon(Icons.error),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
             ),
-            onTap: selectionMode
-                ? null
-                : () async {
-                    await Get.dialog(
-                      Dialog(
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            CachedNetworkImage(
-                              imageUrl: message.content,
-                              progressIndicatorBuilder:
-                                  (context, url, downloadProgress) =>
-                                      CircularProgressIndicator(
-                                          value: downloadProgress.progress),
-                              errorWidget: (context, url, error) =>
-                                  Icon(Icons.error),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
           ),
           Align(
             alignment: Alignment.bottomRight,
             child: Container(
+              margin: const EdgeInsets.only(right: 10, bottom: 5),
               child: Text(
-                hFormat(DateTime.fromMillisecondsSinceEpoch(message.sendTime)),
+                hFormat(DateTime.fromMillisecondsSinceEpoch(message.sendTime!)),
                 style: AppTextStyle(
                   color: ColorRes.white.withOpacity(0.7),
                   fontSize: 12,
                 ),
               ),
-              margin: EdgeInsets.only(right: 10, bottom: 5),
             ),
           )
         ],
       ),
-      margin: EdgeInsets.only(
-        left: sender ? 10 : 0,
-        right: sender ? 0 : 10,
-        bottom: 10,
-      ),
-      height: 200.h,
-      width: 200.h,
     );
   }
 }

@@ -79,7 +79,7 @@ class VideoPickerScreen extends StatelessWidget {
                                     Positioned.fill(
                                       child: Image.memory(
                                         //model.videoAvatar[index],
-                                        snapshot.data,
+                                        snapshot.data!,
                                         fit: BoxFit.cover,
                                       ),
                                     ),

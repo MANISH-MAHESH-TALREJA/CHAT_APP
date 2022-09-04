@@ -11,28 +11,28 @@ import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TextMessage extends StatelessWidget {
-  final MessageModel message;
-  final bool sender;
+  final MessageModel? message;
+  final bool? sender;
 
-  TextMessage(this.message, this.sender);
+  const TextMessage(this.message, this.sender, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    return message.mMessage != null && message.mMessage.mType == Type.reply
+    return message!.mMessage != null && message!.mMessage!.mType == Type.reply
         ? Column(
             crossAxisAlignment:
-                sender ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                sender! ? CrossAxisAlignment.end : CrossAxisAlignment.start,
             children: [
-              sender
+              sender!
                   ? Container()
                   : Container(
                       constraints: BoxConstraints(
                         maxWidth: Get.width / 3,
                         minWidth: Get.width / 4,
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 8),
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: Text(
-                        message.senderName ?? "Unknown",
+                        message!.senderName ?? "Unknown",
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: AppTextStyle(
@@ -48,12 +48,15 @@ class TextMessage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 margin: EdgeInsets.only(
-                  left: sender ? 10 : 0,
-                  right: sender ? 0 : 10,
+                  left: sender! ? 10 : 0,
+                  right: sender! ? 0 : 10,
                   bottom: 10,
                 ),
+                constraints: BoxConstraints(
+                  maxWidth: Get.width / 1.3,
+                ),
                 child: Column(
-                  crossAxisAlignment: sender
+                  crossAxisAlignment: sender!
                       ? CrossAxisAlignment.end
                       : CrossAxisAlignment.start,
                   children: <Widget>[
@@ -64,17 +67,17 @@ class TextMessage extends StatelessWidget {
                       ),
                       decoration: BoxDecoration(
                         color: ColorRes.white.withOpacity(0.2),
-                        borderRadius: BorderRadius.only(
+                        borderRadius: const BorderRadius.only(
                           topRight: Radius.circular(8),
                           topLeft: Radius.circular(8),
                         ),
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      child: ReplyMessage(message.mMessage),
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      child: ReplyMessage(message!.mMessage!),
                     ),
                     Container(
                       width: 220.h,
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                         horizontal: 10.0,
                         vertical: 6,
                       ),
@@ -93,7 +96,7 @@ class TextMessage extends StatelessWidget {
                                   await launch(link.url);
                                 }
                               },
-                              text: message.content,
+                              text: message!.content!,
                               style: AppTextStyle(
                                 color: ColorRes.white,
                                 fontSize: 14,
@@ -105,10 +108,10 @@ class TextMessage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          SizedBox(width: 8.0),
+                          const SizedBox(width: 8.0),
                           Text(
                             hFormat(DateTime.fromMillisecondsSinceEpoch(
-                                message.sendTime)),
+                                message!.sendTime!)),
                             style: AppTextStyle(
                               color: ColorRes.white.withOpacity(0.7),
                               fontSize: 12,
@@ -119,32 +122,29 @@ class TextMessage extends StatelessWidget {
                     ),
                   ],
                 ),
-                constraints: BoxConstraints(
-                  maxWidth: Get.width / 1.3,
-                ),
               ),
             ],
           )
         : Column(
             crossAxisAlignment:
-                sender ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                sender! ? CrossAxisAlignment.end : CrossAxisAlignment.start,
             children: [
-              sender
+              sender!
                   ? Container()
                   : Container(
                       constraints: BoxConstraints(
                         maxWidth: Get.width / 3,
                         minWidth: Get.width / 4,
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 8),
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: StreamBuilder<DocumentSnapshot>(
-                          stream: userService.getUserStream(message.sender),
+                          stream: userService.getUserStream(message!.sender!),
                           builder: (context, snapshot) {
                             Map<String, dynamic> data = {};
                             if (snapshot.data != null) {
-                              data = snapshot.data.data();
+                              data = snapshot.data!.data() as Map<String, dynamic>;
                             }
-                            if (snapshot.hasData)
+                            if (snapshot.hasData) {
                               return Text(
                                 data['name'] ?? "Unknown",
                                 maxLines: 1,
@@ -155,7 +155,7 @@ class TextMessage extends StatelessWidget {
                                   fontSize: 14,
                                 ),
                               );
-                            else
+                            } else {
                               return Text(
                                 "Unknown",
                                 maxLines: 1,
@@ -166,10 +166,11 @@ class TextMessage extends StatelessWidget {
                                   fontSize: 14,
                                 ),
                               );
+                            }
                           }),
                     ),
               Container(
-                padding: EdgeInsets.symmetric(
+                padding: const EdgeInsets.symmetric(
                   horizontal: 10.0,
                   vertical: 6,
                 ),
@@ -181,8 +182,8 @@ class TextMessage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 margin: EdgeInsets.only(
-                  left: sender ? 10 : 0,
-                  right: sender ? 0 : 10,
+                  left: sender! ? 10 : 0,
+                  right: sender! ? 0 : 10,
                   bottom: 10,
                 ),
                 child: Row(
@@ -196,7 +197,7 @@ class TextMessage extends StatelessWidget {
                             await launch(link.url);
                           }
                         },
-                        text: message.content,
+                        text: message!.content!,
                         style: AppTextStyle(
                           color: ColorRes.white,
                           fontSize: 14,
@@ -208,17 +209,17 @@ class TextMessage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(width: 8.0),
+                    const SizedBox(width: 8.0),
                     Container(
+                      margin: const EdgeInsets.only(left: 10.0),
                       child: Text(
                         hFormat(DateTime.fromMillisecondsSinceEpoch(
-                            message.sendTime)),
+                            message!.sendTime!)),
                         style: AppTextStyle(
                           color: ColorRes.white.withOpacity(0.7),
                           fontSize: 12,
                         ),
                       ),
-                      margin: EdgeInsets.only(left: 10.0),
                     ),
                   ],
                 ),

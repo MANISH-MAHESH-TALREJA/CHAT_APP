@@ -4,10 +4,10 @@ import 'package:flutter_web_chat_app/utils/color_res.dart';
 import 'package:flutter_web_chat_app/utils/styles.dart';
 
 class UserCard extends StatelessWidget {
-  final UserModel user;
+  final UserModel? user;
 
   UserCard({
-    @required this.user,
+    this.user,
   });
 
   @override
@@ -25,14 +25,14 @@ class UserCard extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(60),
               child: Image.network(
-                user.profilePicture,
+                user!.profilePicture!,
                 height: 40,
                 width: 40,
               ),
             ),
           ),
           Text(
-            user.name.split(" ").first,
+            user!.name!.split(" ").first,
             textAlign: TextAlign.center,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,

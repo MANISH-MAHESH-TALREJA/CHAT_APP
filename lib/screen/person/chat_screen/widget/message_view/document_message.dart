@@ -8,10 +8,10 @@ import 'package:flutter_web_chat_app/utils/styles.dart';
 import 'package:open_file/open_file.dart';
 
 class DocumentMessage extends StatefulWidget {
-  final MessageModel message;
-  final Function(String, String) downloadDocument;
-  final bool sender;
-  final bool selectionMode;
+  final MessageModel? message;
+  final Function(String?, String?)? downloadDocument;
+  final bool? sender;
+  final bool? selectionMode;
 
   DocumentMessage(
     this.message,
@@ -33,38 +33,39 @@ class _DocumentMessageState extends State<DocumentMessage> {
         borderRadius: BorderRadius.circular(8),
       ),
       margin: EdgeInsets.only(
-        left: widget.sender ? 10 : 0,
-        right: widget.sender ? 0 : 10,
+        left: widget.sender! ? 10 : 0,
+        right: widget.sender! ? 0 : 10,
         bottom: 10,
       ),
       height: 70,
-      child: FutureBuilder<FullMetadata>(
-        future: storageService.getData(widget.message.content),
+      width: 220.h,
+      child: FutureBuilder<FullMetadata?>(
+        future: storageService.getData(widget.message!.content),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            FullMetadata document = snapshot.data;
+            FullMetadata document = snapshot.data!;
             return Column(
               children: <Widget>[
                 Expanded(
                   child: FutureBuilder<bool>(
-                    future: widget.sender
+                    future: widget.sender!
                         ? checkForSenderExist(
-                            document.name, widget.message.type)
-                        : checkForExist(document.name, widget.message.type),
+                            document.name, widget.message!.type!)
+                        : checkForExist(document.name, widget.message!.type!),
                     builder: (_, snapshot) {
                       if (snapshot.hasData) {
                         return InkWell(
-                          onTap: widget.selectionMode
+                          onTap: widget.selectionMode!
                               ? null
                               : () async {
-                                  if (snapshot.data) {
-                                    String filePath;
-                                    if (widget.sender) {
+                                  if (snapshot.data!) {
+                                    String? filePath;
+                                    if (widget.sender!) {
                                       filePath = await getUploadPath(
-                                          document.name, widget.message.type);
+                                          document.name, widget.message!.type!);
                                     } else {
                                       filePath = await getDownloadPath(
-                                          document.name, widget.message.type);
+                                          document.name, widget.message!.type!);
                                     }
                                     if (filePath != null) {
                                       OpenResult openRes =
@@ -76,33 +77,33 @@ class _DocumentMessageState extends State<DocumentMessage> {
                                     }
                                   } else {
                                     setState(() {
-                                      widget.message.isDownloading = true;
+                                      widget.message!.isDownloading = true;
                                     });
-                                    await widget.downloadDocument.call(
-                                        widget.message.content,
-                                        widget.sender
+                                    await widget.downloadDocument!.call(
+                                        widget.message!.content,
+                                        widget.sender!
                                             ? await getUploadPath(
                                                 document.name,
-                                                widget.message.type,
+                                                widget.message!.type!,
                                               )
                                             : await getDownloadPath(
                                                 document.name,
-                                                widget.message.type,
+                                                widget.message!.type!,
                                               ));
                                     setState(() {
-                                      widget.message.isDownloading = false;
+                                      widget.message!.isDownloading = false;
                                     });
                                   }
                                 },
                           child: Container(
                             decoration: BoxDecoration(
                               color: ColorRes.white.withOpacity(0.2),
-                              borderRadius: BorderRadius.only(
+                              borderRadius: const BorderRadius.only(
                                 topRight: Radius.circular(8),
                                 topLeft: Radius.circular(8),
                               ),
                             ),
-                            padding: EdgeInsets.symmetric(horizontal: 8),
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -117,13 +118,13 @@ class _DocumentMessageState extends State<DocumentMessage> {
                                     ),
                                   ),
                                 ),
-                                snapshot.data
+                                snapshot.data!
                                     ? Container()
-                                    : widget.message.isDownloading
-                                        ? Container(
+                                    : widget.message!.isDownloading!
+                                        ? SizedBox(
                                             height: 25.h,
                                             width: 25.h,
-                                            child: CircularProgressIndicator(),
+                                            child: const CircularProgressIndicator(),
                                           )
                                         : Icon(
                                             Icons.download_rounded,
@@ -140,11 +141,12 @@ class _DocumentMessageState extends State<DocumentMessage> {
                   ),
                 ),
                 Container(
+                  margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "${typeEmoji(widget.message.type)} ${convertSize(document.size)}",
+                        "${typeEmoji(widget.message!.type!)} ${convertSize(document.size!)}",
                         style: AppTextStyle(
                           color: ColorRes.white.withOpacity(0.7),
                           fontSize: 12,
@@ -152,7 +154,7 @@ class _DocumentMessageState extends State<DocumentMessage> {
                       ),
                       Text(
                         hFormat(DateTime.fromMillisecondsSinceEpoch(
-                            widget.message.sendTime)),
+                            widget.message!.sendTime!)),
                         style: AppTextStyle(
                           color: ColorRes.white.withOpacity(0.7),
                           fontSize: 12,
@@ -160,7 +162,6 @@ class _DocumentMessageState extends State<DocumentMessage> {
                       ),
                     ],
                   ),
-                  margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 )
               ],
             );
@@ -169,12 +170,11 @@ class _DocumentMessageState extends State<DocumentMessage> {
           }
         },
       ),
-      width: 220.h,
     );
   }
 
   // ignore: missing_return
-  String typeEmoji(String type) {
+  String? typeEmoji(String type) {
     switch (type) {
       case "photo":
         return "📷";

@@ -20,7 +20,7 @@ class VideoPickerScreenViewModel extends BaseViewModel {
   }
 
   int currentPage = 0;
-  int lastPage;
+  int? lastPage;
   int totalVideos = 0;
   List<AssetEntity> videoList = [];
   ScrollController scrollController = ScrollController();
@@ -54,7 +54,7 @@ class VideoPickerScreenViewModel extends BaseViewModel {
 
   handleScrollEvent(ScrollNotification scroll) {
     if (scroll.metrics.pixels / scroll.metrics.maxScrollExtent > 0.33) {
-      if (currentPage > lastPage) {
+      if (currentPage > lastPage!) {
         fetchNewVideos();
       }
     }

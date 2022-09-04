@@ -6,30 +6,30 @@ import 'package:flutter_web_chat_app/utils/color_res.dart';
 import 'package:flutter_web_chat_app/utils/styles.dart';
 
 class ReplyMessage extends StatelessWidget {
-  final MMessage message;
+  final MMessage? message;
 
-  ReplyMessage(this.message);
+  const ReplyMessage(this.message, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    if (message.mDataType == "text") {
-      return Text(message.mContent);
-    } else if (message.mDataType == "photo") {
+    if (message!.mDataType == "text") {
+      return Text(message!.mContent!);
+    } else if (message!.mDataType == "photo") {
       return ClipRRect(
         borderRadius: BorderRadius.circular(16),
         child: Image.network(
-          message.mContent,
+          message!.mContent!,
           height: 100,
           width: 100,
           fit: BoxFit.cover,
         ),
       );
     } else {
-      return FutureBuilder<FullMetadata>(
-        future: storageService.getData(message.mContent),
+      return FutureBuilder<FullMetadata?>(
+        future: storageService.getData(message!.mContent),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            FullMetadata document = snapshot.data;
+            FullMetadata document = snapshot.data!;
             return Text(
               document.name,
               maxLines: 1,
@@ -40,7 +40,7 @@ class ReplyMessage extends StatelessWidget {
               ),
             );
           } else {
-            return SizedBox(
+            return const SizedBox(
               height: 30,
             );
           }

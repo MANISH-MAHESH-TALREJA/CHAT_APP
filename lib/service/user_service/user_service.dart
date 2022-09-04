@@ -23,7 +23,7 @@ class UserService {
   Stream<QuerySnapshot> getUsersStream() {
     try {
       return users
-          .where("uid", isNotEqualTo: firebaseAuth.currentUser.uid)
+          .where("uid", isNotEqualTo: firebaseAuth.currentUser!.uid)
           .snapshots();
     } catch (e) {
       handleException(e);
@@ -34,7 +34,7 @@ class UserService {
   CombineLatestStream<QuerySnapshot, List<QuerySnapshot>> roomStream() {
     try {
       Stream<QuerySnapshot> s1 = users
-          .where("uid", isNotEqualTo: firebaseAuth.currentUser.uid)
+          .where("uid", isNotEqualTo: firebaseAuth.currentUser!.uid)
           .snapshots();
       Stream<QuerySnapshot> s2 = groupService.streamGroup();
       return CombineLatestStream.list<QuerySnapshot>([s1, s2]);
@@ -65,7 +65,7 @@ class UserService {
   Stream<DocumentSnapshot> getRoomUserStream(List<String> membersId) {
     try {
       String id = membersId
-          .firstWhere((element) => element != appState.currentUser.uid);
+          .firstWhere((element) => element != appState.currentUser!.uid);
       return users.doc(id).snapshots();
     } catch (e) {
       handleException(e);
@@ -76,7 +76,7 @@ class UserService {
   Future<QuerySnapshot> getUsers() async {
     try {
       return await users
-          .where("uid", isNotEqualTo: firebaseAuth.currentUser.uid)
+          .where("uid", isNotEqualTo: firebaseAuth.currentUser!.uid)
           .get();
     } catch (e) {
       handleException(e);
@@ -96,7 +96,7 @@ class UserService {
   Future<UserModel> getUserModel(String uid) async {
     try {
       DocumentSnapshot doc = await users.doc(uid).get();
-      return UserModel.fromMap(doc.data());
+      return UserModel.fromMap(doc.data() as Map<String, dynamic>);
     } catch (e) {
       handleException(e);
       throw e;

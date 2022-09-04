@@ -17,10 +17,10 @@ class HomeViewModel extends BaseViewModel {
   void init() async {
     setBusy(true);
     appState.currentUser =
-        await userService.getUserModel(firebaseAuth.currentUser.uid);
+        await userService.getUserModel(firebaseAuth.currentUser!.uid);
     final fcmToken = await messagingService.getFcmToken();
     await userService
-        .updateUser(appState.currentUser.uid, {"fcmToken": fcmToken});
+        .updateUser(appState.currentUser!.uid!, {"fcmToken": fcmToken});
     setBusy(false);
   }
 

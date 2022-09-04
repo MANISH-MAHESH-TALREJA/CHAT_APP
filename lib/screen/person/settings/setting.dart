@@ -40,7 +40,7 @@ class SettingDetails extends StatelessWidget {
                         )
                             : InkWell(
                           onTap: model.imageClick,
-                          child: appState.currentUser
+                          child: appState.currentUser!
                               .profilePicture ==
                               null
                               ? Icon(
@@ -49,8 +49,8 @@ class SettingDetails extends StatelessWidget {
                           )
                               : FadeInImage(
                             image: NetworkImage(appState
-                                .currentUser
-                                .profilePicture),
+                                .currentUser!
+                                .profilePicture!),
                             fit: BoxFit.cover,
                             placeholder: AssetImage(
                                 AssetsRes.profileImage),
@@ -92,7 +92,7 @@ class SettingDetails extends StatelessWidget {
                             CrossAxisAlignment.start,
                             children: [
                               Text(
-                                appState.currentUser.name,
+                                appState.currentUser!.name!,
                                 style: AppTextStyle(
                                   fontSize: 18,
                                   color: ColorRes.black,

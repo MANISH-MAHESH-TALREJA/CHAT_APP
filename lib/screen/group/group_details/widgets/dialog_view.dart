@@ -13,7 +13,7 @@ class GroupMemberDialog extends StatelessWidget {
   final GroupModel groupModel;
   final GroupDetailsViewModel model;
 
-  GroupMemberDialog(this.member, this.isAdmin, this.groupModel, this.model);
+  const GroupMemberDialog(this.member, this.isAdmin, this.groupModel, this.model, {super.key});
 
   get divider => Container(
         height: 0.5,
@@ -52,7 +52,7 @@ class GroupMemberDialog extends StatelessWidget {
       child: Container(
         height: 45,
         alignment: Alignment.center,
-        padding: EdgeInsets.symmetric(horizontal: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 12),
         child: Text(
           title,
           style: AppTextStyle(
@@ -67,11 +67,11 @@ class GroupMemberDialog extends StatelessWidget {
 
 // ignore: must_be_immutable
 class GroupInfoDialog extends StatelessWidget {
-  final String title;
-  final String description;
-  final Function(String, String) doneTap;
+  final String? title;
+  final String? description;
+  final Function(String, String)? doneTap;
 
-  GroupInfoDialog(this.title, this.description, this.doneTap) {
+  GroupInfoDialog(this.title, this.description, this.doneTap, {super.key}) {
     titleController = TextEditingController(text: title);
     descController = TextEditingController(text: description);
   }
@@ -82,8 +82,8 @@ class GroupInfoDialog extends StatelessWidget {
         color: ColorRes.dimGray.withOpacity(0.3),
       );
 
-  TextEditingController titleController;
-  TextEditingController descController;
+  TextEditingController? titleController;
+  TextEditingController? descController;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -98,11 +98,11 @@ class GroupInfoDialog extends StatelessWidget {
           children: [
             TextFormField(
               controller: titleController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: AppRes.type_group_title_here,
               ),
               validator: (s) {
-                if (s.isEmpty) {
+                if (s!.isEmpty) {
                   return AppRes.can_not_be_empty;
                 } else {
                   return null;
@@ -114,18 +114,18 @@ class GroupInfoDialog extends StatelessWidget {
               controller: descController,
               minLines: 4,
               maxLines: 4,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: AppRes.type_group_title_here,
               ),
             ),
             verticalSpaceSmall,
             EvolveButton(
               onTap: () {
-                if (_formKey.currentState.validate()) {
+                if (_formKey.currentState!.validate()) {
                   Get.back();
-                  doneTap.call(
-                    titleController.text.trim(),
-                    descController.text.trim(),
+                  doneTap!.call(
+                    titleController!.text.trim(),
+                    descController!.text.trim(),
                   );
                 }
               },
@@ -143,7 +143,7 @@ class GroupInfoDialog extends StatelessWidget {
       child: Container(
         height: 45,
         alignment: Alignment.center,
-        padding: EdgeInsets.symmetric(horizontal: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 12),
         child: Text(
           title,
           style: AppTextStyle(

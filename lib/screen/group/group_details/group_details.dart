@@ -15,7 +15,7 @@ import 'dart:io';
 class GroupDetails extends StatelessWidget {
   final GroupModel groupModel;
 
-  GroupDetails(this.groupModel);
+  const GroupDetails(this.groupModel, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +40,8 @@ class GroupDetails extends StatelessWidget {
                         background: model.imageLoader
                             ? Center(
                                 child: Platform.isIOS
-                                    ? CupertinoActivityIndicator()
-                                    : CircularProgressIndicator(),
+                                    ? const CupertinoActivityIndicator()
+                                    : const CircularProgressIndicator(),
                               )
                             : InkWell(
                                 onTap: model.imageClick,
@@ -52,7 +52,7 @@ class GroupDetails extends StatelessWidget {
                                       )
                                     : FadeInImage(
                                         image:
-                                            NetworkImage(groupModel.groupImage),
+                                            NetworkImage(groupModel.groupImage!),
                                         fit: BoxFit.cover,
                                         placeholder:
                                             AssetImage(AssetsRes.groupImage),
@@ -84,7 +84,7 @@ class GroupDetails extends StatelessWidget {
                   Container(
                     color: ColorRes.white,
                     width: Get.width,
-                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                     child: Row(
                       children: [
                         Expanded(
@@ -93,14 +93,14 @@ class GroupDetails extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                groupModel.name,
+                                groupModel.name!,
                                 style: AppTextStyle(
                                   fontSize: 18,
                                   color: ColorRes.black,
                                 ),
                               ),
                               Text(
-                                groupModel.description,
+                                groupModel.description!,
                                 style: AppTextStyle(
                                   fontSize: 15,
                                   color: ColorRes.black,
@@ -109,14 +109,14 @@ class GroupDetails extends StatelessWidget {
                             ],
                           ),
                         ),
-                        groupModel.members
+                        groupModel.members!
                                 .firstWhere((element) =>
                                     element.memberId ==
-                                    appState.currentUser.uid)
+                                    appState.currentUser!.uid)
                                 .isAdmin
                             ? GestureDetector(
                                 onTap: model.editTap,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.edit,
                                   color: ColorRes.green,
                                   size: 25,
@@ -134,12 +134,12 @@ class GroupDetails extends StatelessWidget {
                             color: ColorRes.white,
                             height: 50,
                             width: Get.width,
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 horizontal: 12, vertical: 8),
                             child: Row(
                               children: [
                                 horizontalSpaceSmall,
-                                Icon(
+                                const Icon(
                                   Icons.person_add,
                                   color: ColorRes.green,
                                   size: 22,
@@ -160,9 +160,9 @@ class GroupDetails extends StatelessWidget {
                   model.isAdmin ? verticalSpaceSmall : Container(),
                   Container(
                     color: ColorRes.white,
-                    padding: EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+                    padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
                     child: MembersCard(
-                      groupModel.members,
+                      groupModel.members!,
                       model,
                     ),
                   ),
@@ -179,11 +179,11 @@ class GroupDetails extends StatelessWidget {
                       height: 50,
                       width: Get.width,
                       padding:
-                          EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                          const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                       child: Row(
                         children: [
                           horizontalSpaceSmall,
-                          Icon(
+                          const Icon(
                             Icons.exit_to_app_rounded,
                             color: ColorRes.red,
                             size: 22,
@@ -201,7 +201,7 @@ class GroupDetails extends StatelessWidget {
                     ),
                   ),
                   verticalSpaceSmall,
-                  groupModel.createdBy == appState.currentUser.uid
+                  groupModel.createdBy == appState.currentUser!.uid
                       ? InkWell(
                           onTap: () {
                             showConfirmationDialog(
@@ -213,12 +213,12 @@ class GroupDetails extends StatelessWidget {
                             color: ColorRes.white,
                             height: 50,
                             width: Get.width,
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 horizontal: 12, vertical: 8),
                             child: Row(
                               children: [
                                 horizontalSpaceSmall,
-                                Icon(
+                                const Icon(
                                   Icons.delete_rounded,
                                   color: ColorRes.red,
                                   size: 22,

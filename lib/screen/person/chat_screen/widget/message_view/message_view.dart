@@ -8,16 +8,16 @@ import 'package:flutter_web_chat_app/utils/app_state.dart';
 import 'package:flutter_web_chat_app/utils/color_res.dart';
 
 class MessageView extends StatelessWidget {
-  final int index;
-  final MessageModel message;
-  final Function(String, String) downloadDocument;
-  final Function(MessageModel, bool) onLongPress;
-  final Function(MessageModel) onTapPress;
-  final List<MessageModel> selectedMessages;
-  final bool forwardMode;
-  final bool deleteMode;
+  final int? index;
+  final MessageModel? message;
+  final Function(String?, String?)? downloadDocument;
+  final Function(MessageModel, bool)? onLongPress;
+  final Function(MessageModel)? onTapPress;
+  final List<MessageModel>? selectedMessages;
+  final bool? forwardMode;
+  final bool? deleteMode;
 
-  MessageView(
+  const MessageView(
     this.index,
     this.message,
     this.downloadDocument,
@@ -25,57 +25,57 @@ class MessageView extends StatelessWidget {
     this.onTapPress,
     this.onLongPress,
     this.deleteMode,
-    this.forwardMode,
+    this.forwardMode, {super.key}
   );
 
   @override
   Widget build(BuildContext context) {
-    final bool contains = selectedMessages
-        .where((element) => element.id == message.id)
+    final bool contains = selectedMessages!
+        .where((element) => element.id == message!.id)
         .isNotEmpty;
-    final bool sender = message.sender == appState.currentUser.uid;
+    final bool sender = message!.sender == appState.currentUser!.uid;
     return GestureDetector(
-      onLongPress: forwardMode || deleteMode
+      onLongPress: forwardMode! || deleteMode!
           ? null
           : () {
-              onLongPress.call(message, sender);
+              onLongPress!.call(message!, sender);
             },
       onTap: () {
-        if (forwardMode) {
-          onTapPress.call(message);
-        } else if (deleteMode) {
+        if (forwardMode!) {
+          onTapPress!.call(message!);
+        } else if (deleteMode!) {
           if (sender) {
-            onTapPress.call(message);
+            onTapPress!.call(message!);
           }
         }
       },
       child: Stack(
         alignment: sender ? Alignment.centerRight : Alignment.centerLeft,
         children: [
-          message.type == "text"
-              ? TextMessage(message, sender)
-              : message.type == "photo"
-                  ? ImageMessage(message, forwardMode || deleteMode, sender)
+          message!.type == "text"
+              ? TextMessage(message!, sender)
+              : message!.type == "photo"
+                  ? ImageMessage(message!, forwardMode! || deleteMode!, sender)
                   : DocumentMessage(
-                      message,
-                      downloadDocument,
+                      message!,
+                      downloadDocument!,
                       sender,
-                      forwardMode || deleteMode,
+                      forwardMode! || deleteMode!,
                     ),
           contains
               ? Positioned.fill(
                   child: Container(
                     width: Get.width,
-                    constraints: BoxConstraints(
+                    constraints: const BoxConstraints(
                       minHeight: 30,
                     ),
-                    margin: EdgeInsets.only(bottom: 10),
+                    margin: const EdgeInsets.only(bottom: 10),
                     decoration: BoxDecoration(
                       borderRadius: sender
-                          ? BorderRadius.only(
+                          ? const BorderRadius.only(
                               topRight: Radius.circular(12),
                               bottomRight: Radius.circular(12))
-                          : BorderRadius.only(
+                          : const BorderRadius.only(
                               topLeft: Radius.circular(12),
                               bottomLeft: Radius.circular(12)),
                       color: ColorRes.green.withOpacity(0.3),

@@ -3,9 +3,9 @@ import 'package:flutter_web_chat_app/utils/color_res.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ScrollDownButton extends StatelessWidget {
-  const ScrollDownButton({Key key, this.onTap}) : super(key: key);
+  const ScrollDownButton({Key? key, this.onTap}) : super(key: key);
 
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -22,13 +22,13 @@ class ScrollDownButton extends StatelessWidget {
                 color: Colors.black.withOpacity(0.3),
                 spreadRadius: 1,
                 blurRadius: 2,
-                offset: Offset(0, 3), // changes position of shadow
+                offset: const Offset(0, 3), // changes position of shadow
               ),
             ],
           ),
           height: 28.h,
           width: 28.h,
-          margin: EdgeInsets.symmetric(horizontal: 16),
+          margin: const EdgeInsets.symmetric(horizontal: 16),
           child: Icon(
             Icons.arrow_circle_down,
             size: 25.h,

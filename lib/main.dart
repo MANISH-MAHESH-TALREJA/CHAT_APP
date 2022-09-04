@@ -44,8 +44,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: Size(360, 690),
-      builder: () {
+      designSize: const Size(360, 690),
+      builder: (context, widget) {
         SystemChrome.setPreferredOrientations([
           DeviceOrientation.portraitUp,
           DeviceOrientation.portraitDown,
@@ -66,7 +66,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             builder: (context, child) {
               return MediaQuery(
-                child: child,
+                child: child!,
                 data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
               );
             },
@@ -80,8 +80,8 @@ class MyApp extends StatelessWidget {
 }
 
 /// firebase messaging integration
-FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
-AndroidNotificationChannel channel;
+FlutterLocalNotificationsPlugin? flutterLocalNotificationsPlugin;
+AndroidNotificationChannel? channel;
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print('Handling a background message ${message.messageId}');
@@ -106,8 +106,8 @@ Future<void> firebaseMessaging() async {
           onDidReceiveLocalNotification: onDidReceiveLocalNotification);
   final InitializationSettings initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
-  flutterLocalNotificationsPlugin.initialize(initializationSettings,
-      onSelectNotification: (String payload) async {
+  flutterLocalNotificationsPlugin!.initialize(initializationSettings,
+      onSelectNotification: (String? payload) async {
     print("onSelectNotification Called");
     if (payload != null) {
       final newPay = jsonDecode(payload);
@@ -121,12 +121,13 @@ Future<void> firebaseMessaging() async {
             () => new Person.ChatScreen(userModel, false, newPay['roomId']));
       }
     }
+
   });
 
-  await flutterLocalNotificationsPlugin
+  await flutterLocalNotificationsPlugin!
       .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>()
-      ?.createNotificationChannel(channel);
+      ?.createNotificationChannel(channel!);
 
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
     alert: true,
@@ -136,20 +137,20 @@ Future<void> firebaseMessaging() async {
 
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     print("onMessage Called");
-    RemoteNotification notification = message.notification;
-    AndroidNotification android = message.notification?.android;
+    RemoteNotification notification = message.notification!;
+    AndroidNotification android = message.notification!.android!;
     Map<String, dynamic> payload = message.data;
     if (appState.currentActiveRoom != message.data['roomId']) {
       if (notification != null && android != null) {
-        flutterLocalNotificationsPlugin.show(
+        flutterLocalNotificationsPlugin!.show(
             notification.hashCode,
             notification.title,
             notification.body,
             NotificationDetails(
               android: AndroidNotificationDetails(
-                channel.id,
-                channel.name,
-                channel.description,
+                channel!.id,
+                channel!.name,
+                channel!.description,
                 icon: 'launch_background',
               ),
             ),
@@ -174,7 +175,7 @@ Future<void> firebaseMessaging() async {
 
   FirebaseMessaging.instance
       .getInitialMessage()
-      .then((RemoteMessage message) async {
+      .then((RemoteMessage? message) async {
     print("getInitialMessage Called ");
     if (message != null) {
       await Firebase.initializeApp();
@@ -194,9 +195,9 @@ Future<void> firebaseMessaging() async {
 
 Future onDidReceiveLocalNotification(
   int id,
-  String title,
-  String body,
-  String payload,
+  String? title,
+  String? body,
+  String? payload,
 ) async {
   print("iOS notification $title $body $payload");
 }

@@ -17,7 +17,7 @@ class UserCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        onTap.call(user.userModel, user.id);
+        onTap.call(user.userModel!, user.id!);
       },
       child: Card(
         margin: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
@@ -32,7 +32,7 @@ class UserCard extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(60),
                   child: FadeInImage(
-                    image: NetworkImage(user.userModel.profilePicture),
+                    image: NetworkImage(user.userModel!.profilePicture!),
                     height: 40,
                     width: 40,
                     fit: BoxFit.cover,
@@ -48,7 +48,7 @@ class UserCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        user.userModel.name,
+                        user.userModel!.name!,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: AppTextStyle(
@@ -66,7 +66,7 @@ class UserCard extends StatelessWidget {
                               ),
                             )
                           : Text(
-                              user.lastMessage,
+                              user.lastMessage!,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: AppTextStyle(
@@ -82,7 +82,7 @@ class UserCard extends StatelessWidget {
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(hFormat(user.lastMessageTime)),
+                  Text(hFormat(user.lastMessageTime!)),
                   newBadge == 0
                       ? Container()
                       : Container(

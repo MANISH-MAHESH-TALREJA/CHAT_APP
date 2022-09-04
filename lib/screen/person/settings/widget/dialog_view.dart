@@ -6,10 +6,10 @@ import 'package:flutter_web_chat_app/utils/common_widgets.dart';
 
 // ignore: must_be_immutable
 class PersonInfoDialog extends StatelessWidget {
-  final String title;
+  final String? title;
   final Function(String) doneTap;
 
-  PersonInfoDialog(this.title, this.doneTap) {
+  PersonInfoDialog(this.title, this.doneTap, {super.key}) {
     nameController = TextEditingController(text: title);
   }
 
@@ -19,7 +19,7 @@ class PersonInfoDialog extends StatelessWidget {
         color: ColorRes.dimGray.withOpacity(0.3),
       );
 
-  TextEditingController nameController;
+  TextEditingController? nameController;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -34,11 +34,11 @@ class PersonInfoDialog extends StatelessWidget {
           children: [
             TextFormField(
               controller: nameController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: AppRes.type_your_name_here,
               ),
               validator: (s) {
-                if (s.isEmpty) {
+                if (s!.isEmpty) {
                   return AppRes.can_not_be_empty;
                 } else {
                   return null;
@@ -48,10 +48,10 @@ class PersonInfoDialog extends StatelessWidget {
             verticalSpaceMedium,
             EvolveButton(
               onTap: () {
-                if (_formKey.currentState.validate()) {
+                if (_formKey.currentState!.validate()) {
                   Get.back();
                   doneTap.call(
-                    nameController.text.trim(),
+                    nameController!.text.trim(),
                   );
                 }
               },

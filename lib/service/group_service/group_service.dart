@@ -94,7 +94,7 @@ class GroupService {
   Future<GroupModel> getGroupModel(String id) async {
     try {
       DocumentSnapshot doc = await group.doc(id).get();
-      return GroupModel.fromMap(doc.data(), doc.id);
+      return GroupModel.fromMap(doc.data() as Map<String, dynamic>, doc.id);
     } catch (e) {
       print(e);
       handleException(e);

@@ -9,9 +9,9 @@ class AppState {
 
   AppState._internal();
 
-  UserModel currentUser;
+  UserModel? currentUser;
 
-  String currentActiveRoom;
+  String? currentActiveRoom;
 }
 
 AppState appState = AppState();

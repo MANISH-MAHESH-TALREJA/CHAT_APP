@@ -56,7 +56,7 @@ class ChatRoomService {
   Stream<QuerySnapshot> streamRooms() {
     try {
       return chatRoom
-          .where("membersId", arrayContains: appState.currentUser.uid)
+          .where("membersId", arrayContains: appState.currentUser!.uid)
           .orderBy("lastMessageTime", descending: true)
           .snapshots();
     } catch (e) {
@@ -69,7 +69,7 @@ class ChatRoomService {
   Future<QuerySnapshot> getAllRooms() async {
     try {
       return await chatRoom
-          .where("membersId", arrayContains: appState.currentUser.uid)
+          .where("membersId", arrayContains: appState.currentUser!.uid)
           .orderBy("lastMessageTime", descending: true)
           .get();
     } catch (e) {
@@ -83,7 +83,7 @@ class ChatRoomService {
     try {
       return chatRoom
           .where("isGroup", isEqualTo: false)
-          .where("membersId", arrayContains: appState.currentUser.uid)
+          .where("membersId", arrayContains: appState.currentUser!.uid)
           .snapshots();
     } catch (e) {
       print(e);

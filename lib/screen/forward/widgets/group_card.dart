@@ -4,41 +4,41 @@ import 'package:flutter_web_chat_app/utils/color_res.dart';
 import 'package:flutter_web_chat_app/utils/styles.dart';
 
 class GroupCard extends StatelessWidget {
-  final RoomModel groupModel;
-  final bool isSelected;
-  final Function(RoomModel) onTap;
+  final RoomModel? groupModel;
+  final bool? isSelected;
+  final Function(RoomModel)? onTap;
 
-  GroupCard(
+  const GroupCard(
     this.groupModel,
     this.onTap,
-    this.isSelected,
+    this.isSelected, {super.key}
   );
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        onTap.call(groupModel);
+        onTap!.call(groupModel!);
       },
       child: Card(
-        margin: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+        margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
         child: Padding(
           padding: const EdgeInsets.all(6),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
+              SizedBox(
                 height: 40,
                 width: 40,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(60),
-                  child: groupModel.groupModel.groupImage == null
+                  child: groupModel!.groupModel!.groupImage == null
                       ? Icon(
                           Icons.group,
                           color: ColorRes.dimGray,
                         )
                       : Image.network(
-                          groupModel.groupModel.groupImage,
+                          groupModel!.groupModel!.groupImage!,
                           height: 40,
                           width: 40,
                           fit: BoxFit.cover,
@@ -49,7 +49,7 @@ class GroupCard extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
-                    groupModel.groupModel.name,
+                    groupModel!.groupModel!.name!,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: AppTextStyle(
@@ -60,8 +60,8 @@ class GroupCard extends StatelessWidget {
                   ),
                 ),
               ),
-              isSelected
-                  ? Icon(
+              isSelected!
+                  ? const Icon(
                       Icons.check_circle,
                       color: ColorRes.green,
                     )

@@ -9,9 +9,9 @@ import 'package:flutter_web_chat_app/utils/app_state.dart';
 import 'package:stacked/stacked.dart';
 
 class ForwardViewModel extends BaseViewModel {
-  List<RoomModel> rooms = [];
-  List<RoomModel> selectedMembers = [];
-  List<MessageModel> messages;
+  List<RoomModel>? rooms = [];
+  List<RoomModel>? selectedMembers = [];
+  List<MessageModel>? messages;
 
   init(List<MessageModel> messages) async {
     this.messages = messages;
@@ -20,18 +20,18 @@ class ForwardViewModel extends BaseViewModel {
     QuerySnapshot querySnapshot = await chatRoomService.getAllRooms();
     if (querySnapshot.docs.isNotEmpty) {
       rooms =
-          querySnapshot.docs.map((e) => RoomModel.fromMap(e.data())).toList();
+          querySnapshot.docs.map((e) => RoomModel.fromMap(e.data() as Map<String, dynamic>)).toList();
     }
     setBusy(false);
   }
 
   Future<void> nextClick() async {
-    if (selectedMembers.isEmpty) {
+    if (selectedMembers!.isEmpty) {
       showErrorToast(AppRes.select_at_least_one_person);
     } else {
       setBusy(true);
-      for (var member in selectedMembers) {
-        for (var message in messages) {
+      for (var member in selectedMembers!) {
+        for (var message in messages!) {
           await sendMessage(message, member);
         }
       }
@@ -41,14 +41,15 @@ class ForwardViewModel extends BaseViewModel {
   }
 
   bool isSelected(RoomModel userModel) {
-    return selectedMembers.contains(userModel);
+    return selectedMembers!.contains(userModel);
   }
 
   void selectUserClick(RoomModel user) async {
-    if (selectedMembers.contains(user))
-      selectedMembers.remove(user);
-    else
-      selectedMembers.add(user);
+    if (selectedMembers!.contains(user)) {
+      selectedMembers!.remove(user);
+    } else {
+      selectedMembers!.add(user);
+    }
 
     notifyListeners();
   }
@@ -57,10 +58,10 @@ class ForwardViewModel extends BaseViewModel {
       MessageModel messageModel, RoomModel roomModel) async {
     DateTime messageTime = DateTime.now();
     messageModel.sendTime = messageTime.millisecondsSinceEpoch;
-    messageModel.sender = appState.currentUser.uid;
-    messageModel.senderName = appState.currentUser.name;
+    messageModel.sender = appState.currentUser!.uid;
+    messageModel.senderName = appState.currentUser!.name;
     messageModel.mMessage = MMessage(mType: Type.forward);
-    String notificationBody;
+    String? notificationBody;
     switch (messageModel.type) {
       case "text":
         notificationBody = messageModel.content;
@@ -81,45 +82,45 @@ class ForwardViewModel extends BaseViewModel {
 
     SendNotificationModel notificationModel;
 
-    if (roomModel.isGroup) {
+    if (roomModel.isGroup!) {
       List<String> fcms = [];
-      for (var value in roomModel.groupModel.members) {
-        if (value.memberId != appState.currentUser.uid) {
+      for (var value in roomModel.groupModel!.members!) {
+        if (value.memberId != appState.currentUser!.uid) {
           UserModel doc = await userService.getUserModel(value.memberId);
-          fcms.add(doc.fcmToken);
+          fcms.add(doc.fcmToken!);
         }
       }
-      fcms.removeWhere((element) => (element == appState.currentUser.fcmToken));
+      fcms.removeWhere((element) => (element == appState.currentUser!.fcmToken));
       notificationModel = SendNotificationModel(
         isGroup: false,
-        title: appState.currentUser.name,
+        title: appState.currentUser!.name,
         body: notificationBody,
         fcmTokens: fcms,
         roomId: roomModel.id,
-        id: appState.currentUser.uid,
+        id: appState.currentUser!.uid,
       );
     } else {
       notificationModel = SendNotificationModel(
         isGroup: false,
-        title: appState.currentUser.name,
+        title: appState.currentUser!.name,
         body: notificationBody,
-        fcmToken: roomModel.userModel.fcmToken,
+        fcmToken: roomModel.userModel!.fcmToken,
         roomId: roomModel.id,
-        id: appState.currentUser.uid,
+        id: appState.currentUser!.uid,
       );
     }
 
-    chatRoomService.sendMessage(messageModel, roomModel.id);
+    chatRoomService.sendMessage(messageModel, roomModel.id!);
     chatRoomService.updateLastMessage(
       {"lastMessage": notificationBody, "lastMessageTime": messageTime},
-      roomModel.id,
+      roomModel.id!,
     );
 
-    if(roomModel.isGroup){
+    if(roomModel.isGroup!){
       messagingService.sendNotification(notificationModel);
     }else{
       // ignore: unnecessary_statements
-      (roomModel.userModel.fcmToken != appState.currentUser.fcmToken) ? messagingService.sendNotification(notificationModel) : null;
+      (roomModel.userModel!.fcmToken != appState.currentUser!.fcmToken) ? messagingService.sendNotification(notificationModel) : null;
     }
   }
 }

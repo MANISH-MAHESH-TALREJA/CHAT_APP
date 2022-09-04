@@ -22,7 +22,7 @@ import 'package:stacked/stacked.dart';
 class GroupDetailsViewModel extends BaseViewModel {
   bool isExpanded = true;
   bool isAdmin = false;
-  GroupModel groupModel;
+  GroupModel? groupModel;
   List<UserModel> members = [];
   List<String> membersId = [];
 
@@ -32,7 +32,7 @@ class GroupDetailsViewModel extends BaseViewModel {
 
   init(GroupModel groupModel) async {
     this.groupModel = groupModel;
-    for (var value in groupModel.members) {
+    for (var value in groupModel.members!) {
       UserModel doc = await userService.getUserModel(value.memberId);
       members.add(doc);
     }
@@ -41,37 +41,37 @@ class GroupDetailsViewModel extends BaseViewModel {
   }
 
   void getMembersId() {
-    membersId = groupModel.members.map((element) {
+    membersId = groupModel!.members!.map((element) {
       return element.memberId;
     }).toList();
   }
 
   void chackCurrentUserIsAdmin() {
-    groupModel.members.forEach((element) {
-      if (element.memberId == appState.currentUser.uid) {
+    for (var element in groupModel!.members!) {
+      if (element.memberId == appState.currentUser!.uid) {
         isAdmin = element.isAdmin;
       }
-    });
+    }
     notifyListeners();
   }
 
-  void sendMessage(String type, String content, MMessage message) async {
+  void sendMessage(String type, String content, MMessage? message) async {
     DateTime messageTime = DateTime.now();
     DocumentSnapshot roomDocument;
 
     MessageModel messageModel = MessageModel(
       content: content,
-      sender: appState.currentUser.uid,
+      sender: appState.currentUser!.uid,
       sendTime: messageTime.millisecondsSinceEpoch,
       type: type,
-      receiver: groupModel.groupId,
+      receiver: groupModel!.groupId,
       mMessage: message,
-      senderName: appState.currentUser.name,
+      senderName: appState.currentUser!.name,
     );
 
-    roomDocument = await chatRoomService.getParticularRoom(groupModel.groupId);
+    roomDocument = await chatRoomService.getParticularRoom(groupModel!.groupId!);
 
-    String notificationBody;
+    String? notificationBody;
     switch (type) {
       case "text":
         notificationBody = content;
@@ -93,13 +93,13 @@ class GroupDetailsViewModel extends BaseViewModel {
         break;
     }
 
-    chatRoomService.sendMessage(messageModel, groupModel.groupId);
+    chatRoomService.sendMessage(messageModel, groupModel!.groupId!);
     Map<String, dynamic> updateData = {};
     List<int> count = [];
 
-    membersId.forEach((element) {
+    for (var element in membersId) {
       count.add(roomDocument.get("${element}_newMessage"));
-    });
+    }
 
     for (int i = 0; i < count.length; i++) {
       updateData['${membersId[i]}_newMessage'] = (count[i].toInt()) + 1;
@@ -110,50 +110,50 @@ class GroupDetailsViewModel extends BaseViewModel {
 
     chatRoomService.updateLastMessage(
       updateData,
-      groupModel.groupId,
+      groupModel!.groupId!,
     );
   }
 
   Future<void> leftGroupTap() async {
     List<String> adminId = [];
-    groupModel.members.forEach((element) {
+    for (var element in groupModel!.members!) {
       if (element.isAdmin) {
         adminId.add(element.memberId);
       }
-    });
+    }
 
     if (adminId.length == 1 && isAdmin == true) {
       Get.back();
       Get.snackbar(
         "Alert",
         "Please! create admin of another group-member for left the group",
-        duration: Duration(seconds: 5),
+        duration: const Duration(seconds: 5),
         backgroundColor: ColorRes.red,
         colorText: ColorRes.white,
-        icon: Icon(
+        icon: const Icon(
           Icons.cancel,
           color: ColorRes.white,
           size: 32,
         ),
       );
     } else {
-      groupModel.members.remove(groupModel.members.firstWhere(
-          (element) => element.memberId == appState.currentUser.uid));
-      members.removeWhere((element) => element.uid == appState.currentUser.uid);
-      if (groupModel.members.isEmpty) {
+      groupModel!.members!.remove(groupModel!.members!.firstWhere(
+          (element) => element.memberId == appState.currentUser!.uid));
+      members.removeWhere((element) => element.uid == appState.currentUser!.uid);
+      if (groupModel!.members!.isEmpty) {
         deleteGroupTap();
         return;
       }
       List<String> membersId =
-          groupModel.members.map((e) => e.memberId).toList();
+          groupModel!.members!.map((e) => e.memberId).toList();
       this.membersId = membersId;
-      groupService.updateGroupMember(groupModel.groupId,
-          List<dynamic>.from(groupModel.members.map((x) => x.toMap())));
-      chatRoomService.updateGroupMembers(groupModel.groupId, membersId);
+      groupService.updateGroupMember(groupModel!.groupId!,
+          List<dynamic>.from(groupModel!.members!.map((x) => x.toMap())));
+      chatRoomService.updateGroupMembers(groupModel!.groupId!, membersId);
 
-      await removeNewMessageStr(appState.currentUser.uid).then((value) async {
+      await removeNewMessageStr(appState.currentUser!.uid!).then((value) async {
         UserModel user =
-            await userService.getUserModel(appState.currentUser.uid);
+            await userService.getUserModel(appState.currentUser!.uid!);
         sendMessage('alert', "${user.name} left", null);
       });
       Get.offAll(() => HomeScreen());
@@ -161,8 +161,8 @@ class GroupDetailsViewModel extends BaseViewModel {
   }
 
   void deleteGroupTap() {
-    groupService.deleteGroup(groupModel.groupId);
-    chatRoomService.deleteChatRoom(groupModel.groupId);
+    groupService.deleteGroup(groupModel!.groupId!);
+    chatRoomService.deleteChatRoom(groupModel!.groupId!);
     Get.offAll(() => HomeScreen());
   }
 
@@ -170,38 +170,38 @@ class GroupDetailsViewModel extends BaseViewModel {
     UserModel userModel = await userService.getUserModel(member.memberId);
     appState.currentActiveRoom = null;
     await Get.to(() => PersonDetails(userModel, null));
-    appState.currentActiveRoom = groupModel.groupId;
+    appState.currentActiveRoom = groupModel!.groupId;
   }
 
   void makeAdminTap(GroupMember member) {
-    int index = groupModel.members.indexOf(member);
-    groupModel.members[index].isAdmin = true;
-    groupService.updateGroupMember(groupModel.groupId,
-        List<dynamic>.from(groupModel.members.map((x) => x.toMap())));
+    int index = groupModel!.members!.indexOf(member);
+    groupModel!.members![index].isAdmin = true;
+    groupService.updateGroupMember(groupModel!.groupId!,
+        List<dynamic>.from(groupModel!.members!.map((x) => x.toMap())));
     notifyListeners();
   }
 
   void removeAdminTap(GroupMember member) {
-    int index = groupModel.members.indexOf(member);
-    groupModel.members[index].isAdmin = false;
-    groupService.updateGroupMember(groupModel.groupId,
-        List<dynamic>.from(groupModel.members.map((x) => x.toMap())));
+    int index = groupModel!.members!.indexOf(member);
+    groupModel!.members![index].isAdmin = false;
+    groupService.updateGroupMember(groupModel!.groupId!,
+        List<dynamic>.from(groupModel!.members!.map((x) => x.toMap())));
     notifyListeners();
   }
 
   Future<void> removeFromGroupTap(GroupMember member) async {
-    groupModel.members.remove(member);
+    groupModel!.members!.remove(member);
     members.removeWhere((element) => element.uid == member.memberId);
-    List<String> membersId = groupModel.members.map((e) => e.memberId).toList();
+    List<String> membersId = groupModel!.members!.map((e) => e.memberId).toList();
     this.membersId = membersId;
-    groupService.updateGroupMember(groupModel.groupId,
-        List<dynamic>.from(groupModel.members.map((x) => x.toMap())));
+    groupService.updateGroupMember(groupModel!.groupId!,
+        List<dynamic>.from(groupModel!.members!.map((x) => x.toMap())));
     chatRoomService
-        .updateGroupMembers(groupModel.groupId, membersId)
+        .updateGroupMembers(groupModel!.groupId!, membersId)
         .then((value) async {
       await removeNewMessageStr(member.memberId).then((value) async {
         UserModel user1 =
-            await userService.getUserModel(appState.currentUser.uid);
+            await userService.getUserModel(appState.currentUser!.uid!);
         UserModel user2 = await userService.getUserModel(member.memberId);
         sendMessage('alert', "${user1.name} removed ${user2.name}", null);
       });
@@ -214,7 +214,7 @@ class GroupDetailsViewModel extends BaseViewModel {
         FirebaseFirestore.instance.collection(FireStoreCollections.chatRoom);
 
     await chatRoom
-        .doc(groupModel.groupId)
+        .doc(groupModel!.groupId)
         .update({'${userId}_newMessage': FieldValue.delete()});
   }
 
@@ -222,30 +222,30 @@ class GroupDetailsViewModel extends BaseViewModel {
     try {
       UserModel userModel = await userService.getUserModel(member.memberId);
       String chatId = '';
-      if (userModel.uid.hashCode <= appState.currentUser.uid.hashCode) {
-        chatId = '${userModel.uid}-${appState.currentUser.uid}';
+      if (userModel.uid.hashCode <= appState.currentUser!.uid.hashCode) {
+        chatId = '${userModel.uid}-${appState.currentUser!.uid}';
       } else {
-        chatId = '${appState.currentUser.uid}-${userModel.uid}';
+        chatId = '${appState.currentUser!.uid}-${userModel.uid}';
       }
       DocumentSnapshot doc = await chatRoomService.isRoomAvailable(chatId);
       appState.currentActiveRoom = chatId;
       await Get.to(
           () => ChatScreen(userModel, true, doc.exists ? chatId : null));
-      appState.currentActiveRoom = groupModel.groupId;
+      appState.currentActiveRoom = groupModel!.groupId;
     } catch (e) {}
   }
 
   void updateGroupTap(String title, String desc) async {
-    groupModel.name = title;
-    groupModel.description = desc;
+    groupModel!.name = title;
+    groupModel!.description = desc;
 
-    await groupService.getGroup(groupModel.groupId).then((value) async {
-      Map<String, dynamic> data = value.data();
+    await groupService.getGroup(groupModel!.groupId!).then((value) async {
+      Map<String, dynamic> data = value.data() as Map<String, dynamic>;
       String oldGroupName = data['name'];
 
       if (oldGroupName != title) {
         UserModel user =
-            await userService.getUserModel(appState.currentUser.uid);
+            await userService.getUserModel(appState.currentUser!.uid!);
         sendMessage(
             'alert',
             "${user.name} changed the subject from $oldGroupName to $title",
@@ -253,7 +253,7 @@ class GroupDetailsViewModel extends BaseViewModel {
       }
     });
 
-    groupService.updateGroupDesc(groupModel.groupId, title, desc);
+    groupService.updateGroupDesc(groupModel!.groupId!, title, desc);
     notifyListeners();
   }
 
@@ -261,8 +261,8 @@ class GroupDetailsViewModel extends BaseViewModel {
     Get.dialog(
       Dialog(
         child: GroupInfoDialog(
-          groupModel.name,
-          groupModel.description,
+          groupModel!.name,
+          groupModel!.description,
           updateGroupTap,
         ),
       ),
@@ -279,7 +279,7 @@ class GroupDetailsViewModel extends BaseViewModel {
         child: GroupMemberDialog(
           member,
           isAdmin,
-          groupModel,
+          groupModel!,
           model,
         ),
       ),
@@ -287,7 +287,7 @@ class GroupDetailsViewModel extends BaseViewModel {
   }
 
   void addParticipants() async {
-    final data = await Get.to(() => AddMembers(groupModel));
+    final data = await Get.to(() => AddMembers(groupModel!));
     if (data != null) {
       groupModel = data as GroupModel;
       notifyListeners();
@@ -301,12 +301,12 @@ class GroupDetailsViewModel extends BaseViewModel {
       if (pickedFile != null) {
         imageLoader = true;
         notifyListeners();
-        String imageUrl =
+        String? imageUrl =
             await storageService.uploadGroupIcon(File(pickedFile.path));
         if (imageUrl != null) {
-          groupModel.groupImage = imageUrl;
+          groupModel!.groupImage = imageUrl;
           groupService.updateGroup(
-            groupModel.groupId,
+            groupModel!.groupId!,
             {"groupImage": imageUrl},
           );
         }

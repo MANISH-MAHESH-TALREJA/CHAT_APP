@@ -4,37 +4,37 @@ import 'package:flutter_web_chat_app/utils/color_res.dart';
 import 'package:flutter_web_chat_app/utils/styles.dart';
 
 class UserCard extends StatelessWidget {
-  final UserModel user;
-  final Function(UserModel) onTap;
+  final UserModel? user;
+  final Function(UserModel)? onTap;
 
-  UserCard({
-    @required this.user,
-    @required this.onTap,
-    @required this.isSelected,
+  const UserCard({super.key,
+    this.user,
+    this.onTap,
+    this.isSelected,
   });
 
-  final bool isSelected;
+  final bool? isSelected;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        onTap.call(user);
+        onTap!.call(user!);
       },
       child: Card(
-        margin: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+        margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
         child: Padding(
           padding: const EdgeInsets.all(6),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
+              SizedBox(
                 height: 40,
                 width: 40,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(60),
                   child: Image.network(
-                    user.profilePicture,
+                    user!.profilePicture!,
                     height: 40,
                     width: 40,
                   ),
@@ -48,7 +48,7 @@ class UserCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        user.name,
+                        user!.name!,
                         style: AppTextStyle(
                           color: ColorRes.black,
                           fontSize: 16,
@@ -56,7 +56,7 @@ class UserCard extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        user.email,
+                        user!.email!,
                         style: AppTextStyle(
                           color: ColorRes.grey.withOpacity(0.5),
                           fontSize: 14,
@@ -66,8 +66,8 @@ class UserCard extends StatelessWidget {
                   ),
                 ),
               ),
-              isSelected
-                  ? Icon(
+              isSelected!
+                  ? const Icon(
                       Icons.check_circle,
                       color: ColorRes.green,
                     )

@@ -17,7 +17,7 @@ class TextMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return message.mMessage != null && message.mMessage.mType == Type.reply
+    return message.mMessage != null && message.mMessage!.mType == Type.reply
         ? Container(
             decoration: BoxDecoration(
               color: ColorRes.green,
@@ -27,6 +27,9 @@ class TextMessage extends StatelessWidget {
               left: sender ? 10 : 0,
               right: sender ? 0 : 10,
               bottom: 10,
+            ),
+            constraints: BoxConstraints(
+              maxWidth: Get.width / 1.3,
             ),
             child: Column(
               crossAxisAlignment:
@@ -39,16 +42,16 @@ class TextMessage extends StatelessWidget {
                   ),
                   decoration: BoxDecoration(
                     color: ColorRes.white.withOpacity(0.2),
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                       topRight: Radius.circular(8),
                       topLeft: Radius.circular(8),
                     ),
                   ),
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  child: ReplyMessage(message.mMessage),
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  child: ReplyMessage(message.mMessage!),
                 ),
                 Container(
-                  padding: EdgeInsets.symmetric(
+                  padding: const EdgeInsets.symmetric(
                     horizontal: 10.0,
                     vertical: 6,
                   ),
@@ -67,7 +70,7 @@ class TextMessage extends StatelessWidget {
                               await launch(link.url);
                             }
                           },
-                          text: message.content,
+                          text: message.content!,
                           style: AppTextStyle(
                             color: ColorRes.white,
                             fontSize: 14,
@@ -78,10 +81,10 @@ class TextMessage extends StatelessWidget {
                               fontSize: 14),
                         ),
                       ),
-                      SizedBox(width: 8.0),
+                      const SizedBox(width: 8.0),
                       Text(
                         hFormat(DateTime.fromMillisecondsSinceEpoch(
-                            message.sendTime)),
+                            message.sendTime!)),
                         style: AppTextStyle(
                           color: ColorRes.white.withOpacity(0.7),
                           fontSize: 12,
@@ -92,12 +95,9 @@ class TextMessage extends StatelessWidget {
                 ),
               ],
             ),
-            constraints: BoxConstraints(
-              maxWidth: Get.width / 1.3,
-            ),
           )
         : Container(
-            padding: EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
               horizontal: 10.0,
               vertical: 6,
             ),
@@ -124,7 +124,7 @@ class TextMessage extends StatelessWidget {
                         await launch(link.url);
                       }
                     },
-                    text: message.content,
+                    text: message.content!,
                     style: AppTextStyle(
                       color: ColorRes.white,
                       fontSize: 14,
@@ -135,17 +135,17 @@ class TextMessage extends StatelessWidget {
                         fontSize: 14),
                   ),
                 ),
-                SizedBox(width: 8.0),
+                const SizedBox(width: 8.0),
                 Container(
+                  margin: const EdgeInsets.only(left: 10.0),
                   child: Text(
                     hFormat(
-                        DateTime.fromMillisecondsSinceEpoch(message.sendTime)),
+                        DateTime.fromMillisecondsSinceEpoch(message.sendTime!)),
                     style: AppTextStyle(
                       color: ColorRes.white.withOpacity(0.7),
                       fontSize: 12,
                     ),
                   ),
-                  margin: EdgeInsets.only(left: 10.0),
                 )
               ],
             ),

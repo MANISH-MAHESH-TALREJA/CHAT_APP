@@ -27,13 +27,13 @@ class ChatScreenViewModel extends BaseViewModel {
   TextEditingController controller = TextEditingController();
   FocusNode focusNode = FocusNode();
 
-  UserModel receiver;
-  bool isFromHome;
-  bool isAttachment = false;
-  bool isTyping = false;
-  String roomId;
-  int chatLimit = 20;
-  MMessage message;
+  UserModel? receiver;
+  bool? isFromHome;
+  bool? isAttachment = false;
+  bool? isTyping = false;
+  String? roomId;
+  int? chatLimit = 20;
+  MMessage? message;
 
   final ScrollController listScrollController = ScrollController();
 
@@ -50,7 +50,7 @@ class ChatScreenViewModel extends BaseViewModel {
   bool isForwardMode = false;
   bool isReply = false;
 
-  DocumentSnapshot roomDocument;
+  DocumentSnapshot? roomDocument;
 
   void init(UserModel receiver, bool isFromHome, String roomId) async {
     setBusy(true);
@@ -83,16 +83,17 @@ class ChatScreenViewModel extends BaseViewModel {
   void onBack() {
     appState.currentActiveRoom = null;
     updateTyping(false);
-    if (isFromHome)
+    if (isFromHome!)
       Get.back();
-    else
+    else {
       Get.offAll(() => HomeScreen());
+    }
   }
 
   void headerClick() {
     updateTyping(false);
     focusNode.unfocus();
-    Get.to(() => PersonDetails(receiver, roomId));
+    Get.to(() => PersonDetails(receiver!, roomId!));
   }
 
   void onTextFieldChange() {
@@ -103,7 +104,7 @@ class ChatScreenViewModel extends BaseViewModel {
         notifyListeners();
       } else {
         updateTyping(true);
-        if (!isTyping) {
+        if (!isTyping!) {
           isTyping = true;
           notifyListeners();
         }
@@ -113,8 +114,8 @@ class ChatScreenViewModel extends BaseViewModel {
 
   updateTyping(bool data) async {
     chatRoomService.updateLastMessage(
-      {"${appState.currentUser.uid}_typing": data},
-      roomId,
+      {"${appState.currentUser!.uid}_typing": data},
+      roomId!,
     );
   }
 
@@ -122,7 +123,7 @@ class ChatScreenViewModel extends BaseViewModel {
     Get.back();
     chatRoomService.updateLastMessage({
       "blockBy": null,
-    }, roomId);
+    }, roomId!);
   }
 
   void onSend(MMessage message) async {
@@ -148,42 +149,42 @@ class ChatScreenViewModel extends BaseViewModel {
     }
   }
 
-  void sendMessage(String type, String content, MMessage message) async {
+  void sendMessage(String? type, String? content, MMessage? message) async {
     DateTime messageTime = DateTime.now();
     if (roomId == null) {
       String chatId = '';
-      if (receiver.uid.hashCode <= appState.currentUser.uid.hashCode) {
-        chatId = '${receiver.uid}-${appState.currentUser.uid}';
+      if (receiver!.uid.hashCode <= appState.currentUser!.uid.hashCode) {
+        chatId = '${receiver!.uid}-${appState.currentUser!.uid}';
       } else {
-        chatId = '${appState.currentUser.uid}-${receiver.uid}';
+        chatId = '${appState.currentUser!.uid}-${receiver!.uid}';
       }
       roomId = chatId;
       await chatRoomService.createChatRoom({
         "isGroup": false,
         "id": chatId,
-        "membersId": [appState.currentUser.uid, receiver.uid],
+        "membersId": [appState.currentUser!.uid, receiver!.uid],
         "lastMessage": "Tap here",
-        "${appState.currentUser.uid}_typing": false,
-        "${receiver.uid}_typing": false,
-        "${appState.currentUser.uid}_newMessage": 0,
-        "${receiver.uid}_newMessage": 0,
+        "${appState.currentUser!.uid}_typing": false,
+        "${receiver!.uid}_typing": false,
+        "${appState.currentUser!.uid}_newMessage": 0,
+        "${receiver!.uid}_newMessage": 0,
         "newMessage": 0,
         "lastMessageTime": messageTime,
         "blockBy": null,
       });
-      roomDocument = await chatRoomService.getParticularRoom(roomId);
+      roomDocument = await chatRoomService.getParticularRoom(roomId!);
     }
 
     MessageModel messageModel = MessageModel(
       content: content,
-      sender: appState.currentUser.uid,
+      sender: appState.currentUser!.uid,
       sendTime: messageTime.millisecondsSinceEpoch,
       type: type,
-      receiver: receiver.uid,
+      receiver: receiver!.uid,
       mMessage: message,
     );
 
-    String notificationBody;
+    String? notificationBody;
     switch (type) {
       case "text":
         notificationBody = content;
@@ -204,27 +205,27 @@ class ChatScreenViewModel extends BaseViewModel {
 
     SendNotificationModel notificationModel = SendNotificationModel(
       isGroup: false,
-      title: appState.currentUser.name,
+      title: appState.currentUser!.name,
       body: notificationBody,
-      fcmToken: receiver.fcmToken,
+      fcmToken: receiver!.fcmToken!,
       roomId: roomId,
-      id: appState.currentUser.uid,
+      id: appState.currentUser!.uid!,
     );
 
-    chatRoomService.sendMessage(messageModel, roomId);
-    int newMessage = roomDocument.get("${receiver.uid}_newMessage");
+    chatRoomService.sendMessage(messageModel, roomId!);
+    int newMessage = roomDocument!.get("${receiver!.uid!}_newMessage");
     newMessage++;
     chatRoomService.updateLastMessage(
       {
         "lastMessage": notificationBody,
         "lastMessageTime": messageTime,
-        "${receiver.uid}_newMessage": newMessage
+        "${receiver!.uid}_newMessage": newMessage
       },
-      roomId,
+      roomId!,
     );
 
     // ignore: unnecessary_statements
-    receiver.fcmToken != appState.currentUser.fcmToken
+    receiver!.fcmToken != appState.currentUser!.fcmToken
         ? messagingService.sendNotification(notificationModel)
         // ignore: unnecessary_statements
         : null;
@@ -238,8 +239,8 @@ class ChatScreenViewModel extends BaseViewModel {
 
   void clearNewMessage() async {
     chatRoomService.updateLastMessage(
-      {"${appState.currentUser.uid}_newMessage": 0},
-      roomId,
+      {"${appState.currentUser!.uid}_newMessage": 0},
+      roomId!,
     );
   }
 
@@ -252,8 +253,8 @@ class ChatScreenViewModel extends BaseViewModel {
     if (imagePath != null) {
       uploadingMedia = true;
       notifyListeners();
-      String imageUrl =
-          await storageService.uploadImage(File(imagePath.path), roomId);
+      String? imageUrl =
+          await storageService.uploadImage(File(imagePath.path), roomId!);
       if (imageUrl != null) {
         sendMessage("photo", imageUrl, null);
       }
@@ -276,13 +277,13 @@ class ChatScreenViewModel extends BaseViewModel {
       File imagePath = File(filePath);
 
       String imageUrl = await storageService
-          .uploadImage(File(imagePath.path), roomId)
+          .uploadImage(File(imagePath.path), roomId!)
           .then((imageUrl) {
         if (value == result.last) {
           uploadingMedia = false;
           notifyListeners();
         }
-        return imageUrl;
+        return imageUrl!;
       });
       if (imageUrl != null) {
         sendMessage("photo", imageUrl, null);
@@ -297,7 +298,7 @@ class ChatScreenViewModel extends BaseViewModel {
     }
     isAttachment = false;
     notifyListeners();
-    FilePickerResult result = await FilePicker.platform.pickFiles(
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowMultiple: true,
       allowedExtensions: [
@@ -332,14 +333,14 @@ class ChatScreenViewModel extends BaseViewModel {
           } else {
             print(file.path);
 
-            String imageUrl =
-                await storageService.uploadDocument(File(file.path), roomId);
+            String? imageUrl =
+                await storageService.uploadDocument(File(file.path!), roomId!);
             sendMessage("document", imageUrl, null);
             await getUploadPath(file.name, "document")
                 .then((filePath) async {
-              await File(filePath).create(recursive: true);
+              await File(filePath!).create(recursive: true);
               await File(filePath)
-                  .writeAsBytes(await File(file.path).readAsBytes())
+                  .writeAsBytes(await File(file.path!).readAsBytes())
                   .then((value) {
                 if (file == fileList.last) {
                   uploadingMedia = false;
@@ -395,7 +396,7 @@ class ChatScreenViewModel extends BaseViewModel {
 
     uploadingMedia = true;
     notifyListeners();
-    await Get.to(() => VideoPickerScreen()).then((value){
+    await Get.to(() => VideoPickerScreen())!.then((value){
 
       if(value == null){
         uploadingMedia = false;
@@ -411,12 +412,12 @@ class ChatScreenViewModel extends BaseViewModel {
             notifyListeners();
           }
         } else {
-          String imageUrl =
-          await storageService.uploadVideo(File(file.path), roomId);
+          String? imageUrl =
+          await storageService.uploadVideo(File(file.path), roomId!);
           if (imageUrl != null) {
             sendMessage("video", imageUrl, null);
-            String filePath = await getUploadPath(file.path.split('/').last, "video");
-            await File(filePath).create(recursive: true);
+            String? filePath = await getUploadPath(file.path.split('/').last, "video");
+            await File(filePath!).create(recursive: true);
             await File(filePath)
                 .writeAsBytes(await File(file.path).readAsBytes())
                 .then((value) {
@@ -434,7 +435,7 @@ class ChatScreenViewModel extends BaseViewModel {
   void onAudioTap() async {
     isAttachment = false;
     notifyListeners();
-    FilePickerResult result = await FilePicker.platform.pickFiles(
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.audio,
       allowMultiple: false,
     );
@@ -452,14 +453,14 @@ class ChatScreenViewModel extends BaseViewModel {
             notifyListeners();
           }
         } else {
-          String imageUrl =
-              await storageService.uploadMusic(File(file.path), roomId);
+          String? imageUrl =
+              await storageService.uploadMusic(File(file.path!), roomId!);
           if (imageUrl != null) {
             sendMessage("music", imageUrl, null);
-            String filePath = await getUploadPath(file.name, "music");
-            await File(filePath).create(recursive: true);
+            String? filePath = await getUploadPath(file.name, "music");
+            await File(filePath!).create(recursive: true);
             await File(filePath)
-                .writeAsBytes(await File(file.path).readAsBytes())
+                .writeAsBytes(await File(file.path!).readAsBytes())
                 .then((value) {
               if (file == fileList.last) {
                 uploadingMedia = false;
@@ -474,13 +475,13 @@ class ChatScreenViewModel extends BaseViewModel {
 
   void onAttachmentTap() {
     focusNode.unfocus();
-    isAttachment = !isAttachment;
+    isAttachment = !isAttachment!;
     notifyListeners();
   }
 
-  void downloadDocument(String url, String filePath) async {
-    await File(filePath).create(recursive: true);
-    await storageService.downloadMedia(url, filePath);
+  void downloadDocument(String? url, String? filePath) async {
+    await File(filePath!).create(recursive: true);
+    await storageService.downloadMedia(url!, filePath);
   }
 
   void enableForwardSelectionMode(MessageModel messageModel) {
@@ -512,7 +513,7 @@ class ChatScreenViewModel extends BaseViewModel {
         sender: sender,
         message: messageModel,
         onDeleteTap: () {
-          chatRoomService.deleteMessage(messageModel.id, roomId);
+          chatRoomService.deleteMessage(messageModel.id!, roomId!);
           Get.back();
         },
         onReplyTap: () {
@@ -577,7 +578,7 @@ class ChatScreenViewModel extends BaseViewModel {
         print("Confirmation");
         Get.back();
         for (var value in selectedMessages) {
-          chatRoomService.deleteMessage(value.id, roomId);
+          chatRoomService.deleteMessage(value.id!, roomId!);
         }
         selectedMessages.clear();
         isDeleteMode = false;

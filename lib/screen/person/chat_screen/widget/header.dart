@@ -7,22 +7,22 @@ import 'package:flutter_web_chat_app/utils/color_res.dart';
 import 'package:flutter_web_chat_app/utils/styles.dart';
 
 class Header extends StatelessWidget {
-  final VoidCallback onBack;
-  final VoidCallback headerClick;
-  final UserModel userModel;
-  final UserModel sender;
-  final bool isForwardMode;
-  final bool isDeleteMode;
-  final VoidCallback deleteClick;
-  final VoidCallback forwardClick;
-  final VoidCallback clearClick;
-  final bool typing;
+  final VoidCallback? onBack;
+  final VoidCallback? headerClick;
+  final UserModel? userModel;
+  final UserModel? sender;
+  final bool? isForwardMode;
+  final bool? isDeleteMode;
+  final VoidCallback? deleteClick;
+  final VoidCallback? forwardClick;
+  final VoidCallback? clearClick;
+  final bool? typing;
 
   Header({
-    @required this.onBack,
-    @required this.headerClick,
-    @required this.userModel,
-    @required this.sender,
+    this.onBack,
+    this.headerClick,
+    this.userModel,
+    this.sender,
     this.isDeleteMode,
     this.isForwardMode,
     this.deleteClick,
@@ -41,7 +41,7 @@ class Header extends StatelessWidget {
         height: 60,
         child: Row(
           children: [
-            isDeleteMode || isForwardMode
+            isDeleteMode! || isForwardMode!
                 ? Container(
                     margin: EdgeInsets.symmetric(horizontal: 13),
                     child: InkWell(
@@ -67,7 +67,7 @@ class Header extends StatelessWidget {
             Expanded(
               child: InkWell(
                 onTap: () {
-                  headerClick.call();
+                  headerClick!.call();
                 },
                 child: Container(
                   height: 60,
@@ -80,7 +80,7 @@ class Header extends StatelessWidget {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(60),
                           child: FadeInImage(
-                            image: NetworkImage(userModel.profilePicture),
+                            image: NetworkImage(userModel!.profilePicture!),
                             height: 30,
                             width: 30,
                             fit: BoxFit.cover,
@@ -95,13 +95,13 @@ class Header extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              userModel.name,
+                              userModel!.name!,
                               style: AppTextStyle(
                                 color: ColorRes.dimGray,
                                 fontSize: 16,
                               ),
                             ),
-                            if (typing != null && typing)
+                            if (typing != null && typing!)
                               Text(
                                 "typing...",
                                 style: AppTextStyle(
@@ -119,7 +119,7 @@ class Header extends StatelessWidget {
                 ),
               ),
             ),
-            isDeleteMode
+            isDeleteMode!
                 ? IconButton(
                     onPressed: deleteClick,
                     icon: Icon(
@@ -127,7 +127,7 @@ class Header extends StatelessWidget {
                       color: ColorRes.green,
                     ),
                   )
-                : isForwardMode
+                : isForwardMode!
                     ? IconButton(
                         onPressed: forwardClick,
                         icon: Icon(

@@ -3,9 +3,9 @@ import 'package:flutter_web_chat_app/utils/color_res.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ScrollDownButton extends StatelessWidget {
-  const ScrollDownButton({Key key, this.onTap}) : super(key: key);
+  const ScrollDownButton({Key? key, this.onTap}) : super(key: key);
 
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {

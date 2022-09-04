@@ -11,16 +11,16 @@ class AuthService {
     try {
       UserCredential userCredential =
           await firebaseAuth.createUserWithEmailAndPassword(
-        email: userModel.email,
-        password: userModel.password,
+        email: userModel.email!,
+        password: userModel.password!,
       );
-      userModel.uid = userCredential.user.uid;
-      await firebaseAuth.currentUser.updateDisplayName(userModel.name);
-      await firebaseAuth.currentUser.updatePhotoURL(userModel.profilePicture);
+      userModel.uid = userCredential.user!.uid;
+      await firebaseAuth.currentUser!.updateDisplayName(userModel.name);
+      await firebaseAuth.currentUser!.updatePhotoURL(userModel.profilePicture);
       await userService.createUser(userModel);
     } catch (e) {
       handleException(e);
-      throw e;
+      rethrow;
     }
   }
 
@@ -28,11 +28,11 @@ class AuthService {
     try {
       UserCredential userCredential =
           await firebaseAuth.signInWithEmailAndPassword(
-        email: userModel.email,
-        password: userModel.password,
+        email: userModel.email!,
+        password: userModel.password!,
       );
-      await userService.getUser(userCredential.user.uid).then((value){
-        appState.currentUser = UserModel.fromMap(value.data());
+      await userService.getUser(userCredential.user!.uid).then((value){
+        appState.currentUser = UserModel.fromMap(value.data() as Map<String, dynamic>);
       });
     } catch (e) {
       handleException(e);
@@ -58,7 +58,7 @@ class AuthService {
       await firebaseAuth.sendPasswordResetEmail(email: email);
     } catch (e) {
       handleException(e);
-      throw e;
+      rethrow;
     }
   }
 }

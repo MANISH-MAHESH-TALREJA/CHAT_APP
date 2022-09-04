@@ -6,14 +6,14 @@ import 'package:flutter_web_chat_app/utils/styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class EvolveButton extends StatelessWidget {
-  final String title;
-  final VoidCallback onTap;
-  final double width;
-  final double height;
+  final String? title;
+  final VoidCallback? onTap;
+  final double? width;
+  final double? height;
 
-  EvolveButton({
-    @required this.title,
-    @required this.onTap,
+  const EvolveButton({super.key,
+    this.title,
+    this.onTap,
     this.width,
     this.height,
   });
@@ -30,11 +30,9 @@ class EvolveButton extends StatelessWidget {
           color: ColorRes.green,
         ),
         alignment: Alignment.center,
-        child: Container(
-          child: Text(
-            title,
-            style: AppTextStyle(weight: FontWeight.bold),
-          ),
+        child: Text(
+          title!,
+          style: AppTextStyle(weight: FontWeight.bold),
         ),
       ),
     );
@@ -43,32 +41,32 @@ class EvolveButton extends StatelessWidget {
 
 // ignore: must_be_immutable
 class TextFieldWidget extends StatelessWidget {
-  final TextEditingController controller;
-  final String title;
-  final String Function(String) validation;
-  bool obs;
-  final bool readOnly;
+  final TextEditingController? controller;
+  final String? title;
+  final String? Function(String?)? validation;
+  bool? obs;
+  final bool? readOnly;
 
-  TextFieldWidget({
-    @required this.controller,
-    @required this.title,
-    @required this.validation,
+  TextFieldWidget({super.key,
+    this.controller,
+    this.title,
+    this.validation,
     this.obs = false,
-    @required this.readOnly,
+    this.readOnly,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 7),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
       child: TextFormField(
-        readOnly: readOnly,
-        obscureText: obs,
+        readOnly: readOnly!,
+        obscureText: obs!,
         controller: controller,
         validator: validation,
-        keyboardType: title.toLowerCase() == "email"
+        keyboardType: title!.toLowerCase() == "email"
             ? TextInputType.emailAddress
-            : title.toLowerCase() == "password"
+            : title!.toLowerCase() == "password"
                 ? TextInputType.visiblePassword
                 : TextInputType.text,
         decoration: InputDecoration(
@@ -89,16 +87,16 @@ class TextFieldWidget extends StatelessWidget {
 }
 
 class AttachmentView extends StatelessWidget {
-  final Function onDocumentTap;
-  final Function onVideoTap;
-  final Function onGalleryTap;
-  final Function onAudioTap;
+  final Function? onDocumentTap;
+  final Function? onVideoTap;
+  final Function? onGalleryTap;
+  final Function? onAudioTap;
 
-  AttachmentView({
-    @required this.onDocumentTap,
-    @required this.onVideoTap,
-    @required this.onGalleryTap,
-    @required this.onAudioTap,
+  const AttachmentView({super.key,
+    this.onDocumentTap,
+    this.onVideoTap,
+    this.onGalleryTap,
+    this.onAudioTap,
   });
 
   @override
@@ -107,7 +105,7 @@ class AttachmentView extends StatelessWidget {
       color: ColorRes.creamColor,
       height: 90.h,
       width: Get.width,
-      margin: EdgeInsets.only(
+      margin: const EdgeInsets.only(
         bottom: 60,
         left: 16,
         right: 16,
@@ -120,22 +118,22 @@ class AttachmentView extends StatelessWidget {
           iconTile(
             text: AppRes.document,
             icon: Icons.insert_drive_file,
-            onTap: onDocumentTap,
+            onTap: onDocumentTap!(),
           ),
           iconTile(
             text: AppRes.video,
             icon: Icons.videocam_rounded,
-            onTap: onVideoTap,
+            onTap: onVideoTap!(),
           ),
           iconTile(
             text: AppRes.gallery,
             icon: Icons.image_rounded,
-            onTap: onGalleryTap,
+            onTap: onGalleryTap!(),
           ),
           iconTile(
             text: AppRes.audio,
             icon: Icons.headset_mic_rounded,
-            onTap: onAudioTap,
+            onTap: onAudioTap!(),
           ),
         ],
       ),
@@ -143,9 +141,9 @@ class AttachmentView extends StatelessWidget {
   }
 
   Widget iconTile({
-    IconData icon,
-    String text,
-    VoidCallback onTap,
+    IconData? icon,
+    String? text,
+    VoidCallback? onTap,
   }) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -164,7 +162,7 @@ class AttachmentView extends StatelessWidget {
         ),
         verticalSpaceTiny,
         Text(
-          text,
+          text!,
           style: AppTextStyle(
             fontSize: 14.h,
             color: ColorRes.black,

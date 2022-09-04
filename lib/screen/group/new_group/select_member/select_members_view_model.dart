@@ -11,9 +11,9 @@ import 'package:flutter_web_chat_app/utils/app_state.dart';
 import 'package:stacked/stacked.dart';
 
 class SelectMembersViewModel extends BaseViewModel {
-  List<UserModel> users = [];
-  List<UserModel> selectedMembers = [];
-  bool isGroup;
+  List<UserModel>? users = [];
+  List<UserModel>? selectedMembers = [];
+  bool? isGroup;
 
   init(bool isGroup) async {
     this.isGroup = isGroup;
@@ -28,26 +28,26 @@ class SelectMembersViewModel extends BaseViewModel {
     QuerySnapshot querySnapshot = await userService.getUsers();
     if (querySnapshot.docs.isNotEmpty) {
       List<UserModel> totalUsers =
-          querySnapshot.docs.map((e) => UserModel.fromMap(e.data())).toList();
+          querySnapshot.docs.map((e) => UserModel.fromMap(e.data() as Map<String, dynamic>)).toList();
 
-      if (isGroup) {
+      if (isGroup!) {
         users = totalUsers;
       } else {
         List<RoomModel> filterUserList = [];
         ChatRoomService().getCurrentUserRooms().listen((event) {
           event.docs.forEach((element) {
-            filterUserList.add(RoomModel.fromMap(element.data()));
+            filterUserList.add(RoomModel.fromMap(element.data() as Map<String, dynamic>));
           });
           totalUsers.forEach((element) {
             bool flag = false;
             for (int i = 0; i < filterUserList.length; i++) {
-              if (filterUserList[i].membersId.contains(element.uid)) {
+              if (filterUserList[i].membersId!.contains(element.uid)) {
                 flag = true;
                 break;
               }
             }
             if (flag == false) {
-              users.add(element);
+              users!.add(element);
             }
           });
           notifyListeners();
@@ -59,41 +59,41 @@ class SelectMembersViewModel extends BaseViewModel {
   }
 
   void nextClick() {
-    if (selectedMembers.isEmpty) {
+    if (selectedMembers!.isEmpty) {
       showErrorToast(AppRes.select_at_least_one_member);
     } else {
-      Get.to(() => AddDescription(selectedMembers));
+      Get.to(() => AddDescription(selectedMembers!));
     }
   }
 
   bool isSelected(UserModel userModel) {
-    return selectedMembers.contains(userModel);
+    return selectedMembers!.contains(userModel);
   }
 
   void selectUserClick(UserModel user) async {
-    if (isGroup) {
-      if (selectedMembers.contains(user))
-        selectedMembers.remove(user);
+    if (isGroup!) {
+      if (selectedMembers!.contains(user))
+        selectedMembers!.remove(user);
       else
-        selectedMembers.add(user);
+        selectedMembers!.add(user);
 
       notifyListeners();
     } else {
       setBusy(true);
       String chatId = '';
-      if (user.uid.hashCode <= appState.currentUser.uid.hashCode) {
-        chatId = '${user.uid}-${appState.currentUser.uid}';
+      if (user.uid.hashCode <= appState.currentUser!.uid.hashCode) {
+        chatId = '${user.uid}-${appState.currentUser!.uid}';
       } else {
-        chatId = '${appState.currentUser.uid}-${user.uid}';
+        chatId = '${appState.currentUser!.uid}-${user.uid}';
       }
       await chatRoomService.createChatRoom({
         "isGroup": false,
         "id": chatId,
-        "membersId": [appState.currentUser.uid, user.uid],
+        "membersId": [appState.currentUser!.uid, user.uid],
         "lastMessage": "Tap here",
-        "${appState.currentUser.uid}_typing": false,
+        "${appState.currentUser!.uid}_typing": false,
         "${user.uid}_typing": false,
-        "${appState.currentUser.uid}_newMessage": 0,
+        "${appState.currentUser!.uid}_newMessage": 0,
         "${user.uid}_newMessage": 1,
         "lastMessageTime": DateTime.now(),
         "blockBy": null,
@@ -101,13 +101,13 @@ class SelectMembersViewModel extends BaseViewModel {
       SendNotificationModel sendNotificationModel = SendNotificationModel(
         fcmToken: user.fcmToken,
         roomId: chatId,
-        id: appState.currentUser.uid,
+        id: appState.currentUser!.uid,
         body: "Tap here to chat",
-        title: "${appState.currentUser.name} send you a message",
+        title: "${appState.currentUser!.name} send you a message",
         isGroup: false,
       );
       // ignore: unnecessary_statements
-      (user.fcmToken != appState.currentUser.fcmToken)
+      (user.fcmToken != appState.currentUser!.fcmToken)
           ? messagingService.sendNotification(sendNotificationModel)
           // ignore: unnecessary_statements
           : null;

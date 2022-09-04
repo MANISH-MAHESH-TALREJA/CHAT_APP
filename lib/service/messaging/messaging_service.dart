@@ -10,7 +10,7 @@ class MessagingService {
   static const String serverToken =
       'AAAAO8fJfiE:APA91bHCn_2_9WnpIiocxMcUKdJgGv9PIpnBGyf15-qS7C5tYxJa8Yvpp8mxGUqzzCw36RoqMP_QzimqRYWrK81Cpn30r2RQhOK441vuj6teLwGB1U9KoroLj0YYnBRi7Kymgy54T2vr';
 
-  Future<String> getFcmToken() async {
+  Future<String?> getFcmToken() async {
     return await message.getToken();
   }
 

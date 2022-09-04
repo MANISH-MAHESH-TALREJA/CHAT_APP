@@ -15,7 +15,7 @@ import 'package:stacked/stacked.dart';
 class SettingViewModel extends BaseViewModel {
   bool isExpanded = true;
 
-  GroupModel groupModel;
+  GroupModel? groupModel;
 
   final ImagePicker picker = ImagePicker();
 
@@ -23,13 +23,13 @@ class SettingViewModel extends BaseViewModel {
 
   init() async {
     appState.currentUser =
-        await userService.getUserModel(firebaseAuth.currentUser.uid);
+        await userService.getUserModel(firebaseAuth.currentUser!.uid);
   }
 
   void updateNameTap(String name) async {
-    appState.currentUser.name = name;
+    appState.currentUser!.name = name;
     userService.updateUser(
-      appState.currentUser.uid,
+      appState.currentUser!.uid!,
       {"name": name},
     );
     notifyListeners();
@@ -39,7 +39,7 @@ class SettingViewModel extends BaseViewModel {
     Get.dialog(
       Dialog(
         child: PersonInfoDialog(
-          appState.currentUser.name,
+          appState.currentUser!.name!,
           updateNameTap,
         ),
       ),
@@ -65,12 +65,12 @@ class SettingViewModel extends BaseViewModel {
       if (pickedFile != null) {
         imageLoader = true;
         notifyListeners();
-        String imageUrl =
+        String? imageUrl =
             await storageService.uploadGroupIcon(File(pickedFile.path));
         if (imageUrl != null) {
-          appState.currentUser.profilePicture = imageUrl;
+          appState.currentUser!.profilePicture = imageUrl;
           userService.updateUser(
-            appState.currentUser.uid,
+            appState.currentUser!.uid!,
             {"profilePicture": imageUrl},
           );
         }

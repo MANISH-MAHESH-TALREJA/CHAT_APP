@@ -14,13 +14,13 @@ import 'package:flutter_web_chat_app/utils/exception.dart';
 import 'package:stacked/stacked.dart';
 
 class AddDescriptionViewModel extends BaseViewModel {
-  List<UserModel> members;
+  List<UserModel>? members;
 
   TextEditingController title = TextEditingController();
   TextEditingController description = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  File image;
+  File? image;
 
   final ImagePicker picker = ImagePicker();
 
@@ -31,8 +31,8 @@ class AddDescriptionViewModel extends BaseViewModel {
   }
 
   void doneClick() async {
-    Get.focusScope.unfocus();
-    if (formKey.currentState.validate()) {
+    Get.focusScope!.unfocus();
+    if (formKey.currentState!.validate()) {
       setBusy(true);
 
       GroupModel groupModel = GroupModel()..members = [];
@@ -42,27 +42,27 @@ class AddDescriptionViewModel extends BaseViewModel {
 
       List<String> membersId = [];
 
-      members.forEach((element) {
-        groupModel.members.add(GroupMember(
-          memberId: element.uid,
+      members!.forEach((element) {
+        groupModel.members!.add(GroupMember(
+          memberId: element.uid!,
           isAdmin: false,
         ));
-        membersId.add(element.uid);
+        membersId.add(element.uid!);
       });
 
-      membersId.add(appState.currentUser.uid);
+      membersId.add(appState.currentUser!.uid!);
 
-      groupModel.members.insert(
+      groupModel.members!.insert(
           0,
           GroupMember(
-            memberId: appState.currentUser.uid,
+            memberId: appState.currentUser!.uid!,
             isAdmin: true,
           ));
 
       if (image == null) {
         groupModel.groupImage = null;
       } else {
-        String imageUrl = await storageService.uploadGroupIcon(image);
+        String? imageUrl = await storageService.uploadGroupIcon(image!);
         if (imageUrl == null) {
           groupModel.groupImage = null;
         } else {
@@ -71,7 +71,7 @@ class AddDescriptionViewModel extends BaseViewModel {
       }
 
       groupModel.createdAt = DateTime.now();
-      groupModel.createdBy = appState.currentUser.uid;
+      groupModel.createdBy = appState.currentUser!.uid!;
 
       try {
         DocumentReference groupData =
@@ -88,11 +88,11 @@ class AddDescriptionViewModel extends BaseViewModel {
           data['${element}_newMessage'] = 1;
         });
 
-        List<String> tokenList = members.map((e) => e.fcmToken).toList();
-        tokenList.removeWhere((element) => (element == appState.currentUser.fcmToken));
+        List<String> tokenList = members!.map((e) => e.fcmToken!).toList();
+        tokenList.removeWhere((element) => (element == appState.currentUser!.fcmToken));
 
         await chatRoomService.createChatRoom(data);
-        membersId.remove(appState.currentUser.uid);
+        membersId.remove(appState.currentUser!.uid);
         messagingService.sendNotification(
           SendNotificationModel(
             fcmTokens: tokenList,
@@ -100,7 +100,7 @@ class AddDescriptionViewModel extends BaseViewModel {
             id: groupData.id,
             body: "Tap here to chat",
             title:
-                "${appState.currentUser.name} create a group ${groupModel.name}",
+                "${appState.currentUser!.name} create a group ${groupModel.name}",
             isGroup: true,
           ),
         );
@@ -111,7 +111,7 @@ class AddDescriptionViewModel extends BaseViewModel {
   }
 
   void imagePick() async {
-    Get.focusScope.unfocus();
+    Get.focusScope!.unfocus();
     try {
       // ignore: deprecated_member_use
       final pickedFile = await picker.getImage(source: ImageSource.gallery);

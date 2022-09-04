@@ -2,13 +2,13 @@ import 'package:flutter_web_chat_app/model/group_model.dart';
 import 'package:flutter_web_chat_app/model/user_model.dart';
 
 class RoomModel {
-  String id;
-  String lastMessage;
-  List<String> membersId;
-  DateTime lastMessageTime;
-  bool isGroup;
-  GroupModel groupModel;
-  UserModel userModel;
+  String? id;
+  String? lastMessage;
+  List<String>? membersId;
+  DateTime? lastMessageTime;
+  bool? isGroup;
+  GroupModel? groupModel;
+  UserModel? userModel;
 
   RoomModel({
     this.id,

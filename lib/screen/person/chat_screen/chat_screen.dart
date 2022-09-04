@@ -19,13 +19,13 @@ import 'package:flutter_web_chat_app/utils/common_widgets.dart';
 import 'package:flutter_web_chat_app/utils/styles.dart';
 import 'package:stacked/stacked.dart';
 
-AppLifecycleState appLifeState;
+AppLifecycleState? appLifeState;
 
 // ignore: must_be_immutable
 class ChatScreen extends StatefulWidget {
   final UserModel receiver;
   final bool isFromHome;
-  String roomId;
+  String? roomId;
 
   ChatScreen(
     this.receiver,
@@ -59,8 +59,8 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
       print(widget.roomId);
       if (widget.roomId != null) {
         chatRoomService.updateLastMessage(
-          {"${appState.currentUser.uid}_typing": false},
-          widget.roomId,
+          {"${appState.currentUser!.uid}_typing": false},
+          widget.roomId!,
         );
       }
     }
@@ -70,10 +70,10 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return ViewModelBuilder<ChatScreenViewModel>.reactive(
       onModelReady: (model) async {
-        model.init(widget.receiver, widget.isFromHome, widget.roomId);
+        model.init(widget.receiver, widget.isFromHome, widget.roomId!);
       },
       builder: (context, model, child) {
-        widget.roomId = model.roomId;
+        widget.roomId = model.roomId!;
         return WillPopScope(
           onWillPop: () async {
             if (model.isForwardMode || model.isDeleteMode) {
@@ -85,7 +85,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
           },
           child: GestureDetector(
             onTap: () {
-              if (model.isAttachment) {
+              if (model.isAttachment!) {
                 model.isAttachment = false;
                 model.notifyListeners();
               }
@@ -97,7 +97,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                 child: model.roomId == null
                     ? Header(
                   userModel: widget.receiver,
-                  sender: appState.currentUser,
+                  sender: appState.currentUser!,
                   onBack: model.onBack,
                   headerClick: model.headerClick,
                   isDeleteMode: model.isDeleteMode,
@@ -108,14 +108,14 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                 )
                     : StreamBuilder<DocumentSnapshot>(
                   stream: chatRoomService
-                      .streamParticularRoom(model.roomId),
+                      .streamParticularRoom(model.roomId!),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       model.roomDocument = snapshot.data;
                       model.clearNewMessage();
                       return Header(
                         userModel: widget.receiver,
-                        sender: appState.currentUser,
+                        sender: appState.currentUser!,
                         onBack: model.onBack,
                         headerClick: model.headerClick,
                         isDeleteMode: model.isDeleteMode,
@@ -124,14 +124,14 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                         forwardClick:
                         model.forwardClickMessages,
                         clearClick: model.clearClick,
-                        typing: snapshot.data.get(
+                        typing: snapshot.data!.get(
                           "${widget.receiver.uid}_typing",
                         ),
                       );
                     } else {
                       return Header(
                         userModel: widget.receiver,
-                        sender: appState.currentUser,
+                        sender: appState.currentUser!,
                         onBack: model.onBack,
                         headerClick: model.headerClick,
                         isDeleteMode: model.isDeleteMode,
@@ -156,7 +156,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                 alignment: Alignment.bottomCenter,
                 children: [
                   AbsorbPointer(
-                    absorbing: model.isAttachment,
+                    absorbing: model.isAttachment!,
                     child: Column(
                       children: [
                         Expanded(
@@ -170,11 +170,11 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                           model.onTextFieldChange,
                           onCameraTap: model.onCameraTap,
                           onSend: model.onSend,
-                          message: model.message,
+                          message: model.message!,
                           focusNode: model.focusNode,
                           onAttachment:
                           model.onAttachmentTap,
-                          isTyping: model.isTyping,
+                          isTyping: model.isTyping!,
                           clearReply: model.clearReply,
                         ),
                       ],
@@ -182,9 +182,9 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                   ),
                   SafeArea(
                     child: AnimatedOpacity(
-                      opacity: model.isAttachment ? 1 : 0,
+                      opacity: model.isAttachment! ? 1 : 0,
                       duration: Duration(milliseconds: 500),
-                      child: model.isAttachment
+                      child: model.isAttachment!
                           ? AttachmentView(
                         onGalleryTap: (){
                           model.onGalleryTap(context);
@@ -222,14 +222,14 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                 alignment: Alignment.bottomCenter,
                 children: [
                   AbsorbPointer(
-                    absorbing: model.isAttachment,
+                    absorbing: model.isAttachment!,
                     child: Column(
                       children: [
                         Expanded(
                           child: PaginateFirestore(
                             padding: EdgeInsets.all(10.0),
                             query: chatRoomService.getMessages(
-                                model.roomId, model.chatLimit),
+                                model.roomId!, model.chatLimit!),
                             itemBuilderType:
                             PaginateBuilderType.listView,
                             isLive: true,
@@ -246,7 +246,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                               return MessageView(
                                 index,
                                 MessageModel.fromMap(
-                                  documentSnapshot.data(),
+                                  documentSnapshot.data()  as Map<String, dynamic>,
                                   documentSnapshot.id,
                                 ),
                                 model.downloadDocument,
@@ -266,10 +266,10 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                         StreamBuilder<DocumentSnapshot>(
                           stream: chatRoomService
                               .streamParticularRoom(
-                              model.roomId),
+                              model.roomId!),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
-                              return snapshot.data
+                              return snapshot.data!
                                   .get("blockBy") ==
                                   null
                                   ? InputBottomBar(
@@ -280,19 +280,19 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                                 onCameraTap:
                                 model.onCameraTap,
                                 onSend: model.onSend,
-                                message: model.message,
+                                message: model.message!,
                                 focusNode:
                                 model.focusNode,
                                 onAttachment:
                                 model.onAttachmentTap,
-                                isTyping: model.isTyping,
+                                isTyping: model.isTyping!,
                                 clearReply:
                                 model.clearReply,
                               )
-                                  : snapshot.data
+                                  : snapshot.data!
                                   .get("blockBy") ==
                                   appState
-                                      .currentUser.uid
+                                      .currentUser!.uid
                                   ? InkWell(
                                 onTap: () {
                                   showConfirmationDialog(
@@ -418,9 +418,9 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                   ),
                   SafeArea(
                     child: AnimatedOpacity(
-                      opacity: model.isAttachment ? 1 : 0,
+                      opacity: model.isAttachment! ? 1 : 0,
                       duration: Duration(milliseconds: 500),
-                      child: model.isAttachment
+                      child: model.isAttachment!
                           ? AttachmentView(
                         onGalleryTap: (){
                           model.onGalleryTap(context);

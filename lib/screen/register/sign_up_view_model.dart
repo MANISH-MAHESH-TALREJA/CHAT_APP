@@ -16,8 +16,8 @@ class SignUpViewModel extends BaseViewModel {
   TextEditingController passwordController = TextEditingController();
 
   void submitButtonTap() async {
-    Get.focusScope.unfocus();
-    if (formKey.currentState.validate()) {
+    Get.focusScope!.unfocus();
+    if (formKey.currentState!.validate()) {
       setBusy(true);
       String profilePicture =
           "https://eu.ui-avatars.com/api/?name=${nameController.text.trim()}&background=2BC289&color=fff&size=256";
@@ -38,8 +38,8 @@ class SignUpViewModel extends BaseViewModel {
     }
   }
 
-  String nameValidation(String value) {
-    if (value.trim().isEmpty)
+  String? nameValidation(String? value) {
+    if (value!.trim().isEmpty)
       return AppRes.please_enter_full_name;
     else if (!value.trim().contains(" "))
       return AppRes.please_enter_valid_full_name;
@@ -47,8 +47,8 @@ class SignUpViewModel extends BaseViewModel {
       return null;
   }
 
-  String emailValidation(String value) {
-    if (value.isEmpty)
+  String? emailValidation(String? value) {
+    if (value!.isEmpty)
       return AppRes.please_enter_email;
     else if (!isEmail(value))
       return AppRes.please_enter_valid_email;
@@ -56,8 +56,8 @@ class SignUpViewModel extends BaseViewModel {
       return null;
   }
 
-  String passwordValidation(String value) {
-    if (value.isEmpty)
+  String? passwordValidation(String? value) {
+    if (value!.isEmpty)
       return AppRes.please_enter_password;
     else if (value.length < 6)
       return AppRes.please_enter_min_6_characters;

@@ -19,31 +19,31 @@ class InputBottomBar extends StatelessWidget {
     this.clearReply,
   });
 
-  final TextEditingController msgController;
-  final VoidCallback onTextFieldChange;
-  final VoidCallback onCameraTap;
-  final VoidCallback onAttachment;
-  final Function(MMessage) onSend;
-  final FocusNode focusNode;
-  final bool isTyping;
-  final MMessage message;
-  final Function clearReply;
+  final TextEditingController? msgController;
+  final VoidCallback? onTextFieldChange;
+  final VoidCallback? onCameraTap;
+  final VoidCallback? onAttachment;
+  final Function(MMessage)? onSend;
+  final FocusNode? focusNode;
+  final bool? isTyping;
+  final MMessage? message;
+  final Function? clearReply;
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: message == null
           ? Container(
-              padding: EdgeInsets.only(
+              padding: const EdgeInsets.only(
                 left: 5,
               ),
-              margin: EdgeInsets.only(left: 5, bottom: 5, right: 5),
+              margin: const EdgeInsets.only(left: 5, bottom: 5, right: 5),
               child: Row(
                 children: [
                   Expanded(
                     child: Container(
-                      margin: EdgeInsets.only(right: 5),
-                      padding: EdgeInsets.only(left: 5),
+                      margin: const EdgeInsets.only(right: 5),
+                      padding: const EdgeInsets.only(left: 5),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         color: ColorRes.green,
@@ -60,7 +60,7 @@ class InputBottomBar extends StatelessWidget {
                               textCapitalization: TextCapitalization.sentences,
                               minLines: 1,
                               onChanged: (_) {
-                                onTextFieldChange();
+                                onTextFieldChange!();
                               },
                               controller: msgController,
                               keyboardType: TextInputType.multiline,
@@ -77,7 +77,7 @@ class InputBottomBar extends StatelessWidget {
                               ),
                             ),
                           ),
-                          isTyping
+                          isTyping!
                               ? Container()
                               : Container(
                                   padding: EdgeInsets.only(left: 13, right: 5),
@@ -85,9 +85,9 @@ class InputBottomBar extends StatelessWidget {
                                     turns: AlwaysStoppedAnimation(135 / 360),
                                     child: InkWell(
                                       onTap: () {
-                                        onAttachment.call();
+                                        onAttachment!.call();
                                       },
-                                      child: Icon(
+                                      child: const Icon(
                                         Icons.attachment,
                                         size: 28,
                                         color: ColorRes.white,
@@ -95,7 +95,7 @@ class InputBottomBar extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                          isTyping
+                          isTyping!
                               ? Container()
                               : Container(
                                   padding: EdgeInsets.only(left: 5, right: 11),
@@ -113,7 +113,7 @@ class InputBottomBar extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      onSend.call(message);
+                      onSend!.call(message!);
                     },
                     child: Container(
                       height: 50,
@@ -140,7 +140,7 @@ class InputBottomBar extends StatelessWidget {
                 children: [
                   Container(
                     padding: EdgeInsets.symmetric(
-                        horizontal: message.mDataType == "photo" ? 7 : 16,
+                        horizontal: message!.mDataType == "photo" ? 7 : 16,
                         vertical: 6),
                     margin: EdgeInsets.only(bottom: 5),
                     decoration: BoxDecoration(
@@ -152,10 +152,10 @@ class InputBottomBar extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        ReplyMessage(message),
+                        ReplyMessage(message!),
                         InkWell(
                           onTap: () {
-                            clearReply.call();
+                            clearReply!.call();
                           },
                           child: Icon(
                             Icons.close_rounded,
@@ -188,7 +188,7 @@ class InputBottomBar extends StatelessWidget {
                                       TextCapitalization.sentences,
                                   minLines: 1,
                                   onChanged: (_) {
-                                    onTextFieldChange();
+                                    onTextFieldChange!();
                                   },
                                   controller: msgController,
                                   keyboardType: TextInputType.multiline,
@@ -205,7 +205,7 @@ class InputBottomBar extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              isTyping
+                              isTyping!
                                   ? Container()
                                   : Container(
                                       padding:
@@ -216,9 +216,9 @@ class InputBottomBar extends StatelessWidget {
                                         child: InkWell(
                                           onTap: () {
                                             if (message != null)
-                                              clearReply.call();
+                                              clearReply!.call();
                                             else
-                                              onAttachment.call();
+                                              onAttachment!.call();
                                           },
                                           child: Icon(
                                             Icons.attachment,
@@ -228,7 +228,7 @@ class InputBottomBar extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                              isTyping
+                              isTyping!
                                   ? Container()
                                   : Container(
                                       padding:
@@ -236,9 +236,9 @@ class InputBottomBar extends StatelessWidget {
                                       child: InkWell(
                                         onTap: () {
                                           if (message != null)
-                                            clearReply.call();
+                                            clearReply!.call();
                                           else
-                                            onCameraTap.call();
+                                            onCameraTap!.call();
                                         },
                                         child: Icon(
                                           Icons.camera_alt,
@@ -252,9 +252,9 @@ class InputBottomBar extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: () {
-                          if (msgController.text.trim().isNotEmpty) {
-                            clearReply.call();
-                            onSend.call(message);
+                          if (msgController!.text.trim().isNotEmpty) {
+                            clearReply!.call();
+                            onSend!.call(message!);
                           }
                         },
                         child: Container(

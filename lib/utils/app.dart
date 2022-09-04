@@ -105,12 +105,12 @@ class AssetsRes {
   static String galleryImage = AppRes.images + "gallery_image" + ".png";
 }
 
-showErrorToast(String message, {String title}) {
+showErrorToast(String message, {String? title}) {
   Get.snackbar(title ?? "Error", message,
       backgroundColor: ColorRes.red, colorText: ColorRes.white);
 }
 
-showSuccessToast(String message, {String title}) {
+showSuccessToast(String message, {String? title}) {
   Get.snackbar(title ?? "Successful", message,
       backgroundColor: ColorRes.green, colorText: ColorRes.white);
 }
@@ -208,7 +208,7 @@ Future<bool> checkForSenderExist(String name, String type) async {
   }
 }
 
-Future<String> getDownloadPath(String name, String type) async {
+Future<String?> getDownloadPath(String name, String type) async {
   Directory directory;
   if (Platform.isIOS) {
     directory = await getApplicationDocumentsDirectory();
@@ -287,7 +287,7 @@ Future<String> getDownloadPath(String name, String type) async {
   }
 }
 
-Future<String> getUploadPath(String name, String type) async {
+Future<String?> getUploadPath(String name, String type) async {
   Directory directory;
   if (Platform.isIOS) {
     directory = await getApplicationDocumentsDirectory();
@@ -377,7 +377,7 @@ Future<String> getUploadPath(String name, String type) async {
   }
 }
 
-showConfirmationDialog(Function call, String title) {
+showConfirmationDialog(Function? call, String? title) {
   return Get.dialog(
     Dialog(
       child: Column(
@@ -394,7 +394,7 @@ showConfirmationDialog(Function call, String title) {
           verticalSpaceSmall,
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12),
-            child: Text(title),
+            child: Text(title!),
           ),
           verticalSpaceMedium,
           Row(
@@ -415,7 +415,7 @@ showConfirmationDialog(Function call, String title) {
               ),
               horizontalSpaceSmall,
               InkWell(
-                onTap: call,
+                onTap: call!(),
                 child: Container(
                   padding: EdgeInsets.all(8),
                   color: ColorRes.green,

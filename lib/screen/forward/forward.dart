@@ -16,15 +16,15 @@ import 'package:flutter_web_chat_app/utils/styles.dart';
 import 'package:stacked/stacked.dart';
 
 class Forward extends StatelessWidget {
-  final List<MessageModel> messages;
+  final List<MessageModel>? messages;
 
-  Forward(this.messages);
+  const Forward(this.messages, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<ForwardViewModel>.reactive(
       onModelReady: (model) async {
-        model.init(messages);
+        model.init(messages!);
       },
       viewModelBuilder: () => ForwardViewModel(),
       builder: (context, model, child) {
@@ -69,22 +69,22 @@ class Forward extends StatelessWidget {
             body: model.isBusy
                 ? Center(
                     child: Platform.isIOS
-                        ? CupertinoActivityIndicator()
-                        : CircularProgressIndicator(),
+                        ? const CupertinoActivityIndicator()
+                        : const CircularProgressIndicator(),
                   )
                 : ListView.builder(
-                    itemCount: model.rooms.length,
+                    itemCount: model.rooms!.length,
                     itemBuilder: (context, index) {
-                      final roomModel = model.rooms[index];
-                      if (roomModel.isGroup) {
+                      final roomModel = model.rooms![index];
+                      if (roomModel.isGroup!) {
                         return StreamBuilder<DocumentSnapshot>(
-                          stream: groupService.getGroupStream(roomModel.id),
+                          stream: groupService.getGroupStream(roomModel.id!),
                           builder: (context, groupSnap) {
                             if (groupSnap.connectionState ==
                                     ConnectionState.active &&
                                 groupSnap.hasData) {
                               roomModel.groupModel = GroupModel.fromMap(
-                                  groupSnap.data.data(), groupSnap.data.id);
+                                  groupSnap.data!.data() as Map<String, dynamic>, groupSnap.data!.id);
                               return GroupCard(
                                 roomModel,
                                 model.selectUserClick,
@@ -98,13 +98,13 @@ class Forward extends StatelessWidget {
                       } else {
                         return StreamBuilder<DocumentSnapshot>(
                           stream: userService
-                              .getRoomUserStream(roomModel.membersId),
+                              .getRoomUserStream(roomModel.membersId!),
                           builder: (context, personSnap) {
                             if (personSnap.connectionState ==
                                     ConnectionState.active &&
                                 personSnap.hasData) {
                               roomModel.userModel =
-                                  UserModel.fromMap(personSnap.data.data());
+                                  UserModel.fromMap(personSnap.data!.data() as Map<String, dynamic>);
                               return UserCard(
                                 roomModel,
                                 model.selectUserClick,
@@ -120,11 +120,11 @@ class Forward extends StatelessWidget {
                   ),
             floatingActionButton: FloatingActionButton(
               onPressed: model.nextClick,
-              child: Icon(
+              backgroundColor: ColorRes.green,
+              child: const Icon(
                 Icons.navigate_next_rounded,
                 color: ColorRes.white,
               ),
-              backgroundColor: ColorRes.green,
             ),
           ),
         );

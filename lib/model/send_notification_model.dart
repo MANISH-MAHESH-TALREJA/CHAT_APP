@@ -1,11 +1,11 @@
 class SendNotificationModel{
-  String id;
-  String roomId;
-  String title;
-  String body;
-  String fcmToken;
-  bool isGroup;
-  List<String> fcmTokens;
+  String? id;
+  String? roomId;
+  String? title;
+  String? body;
+  String? fcmToken;
+  bool? isGroup;
+  List<String>? fcmTokens;
 
   SendNotificationModel({
     this.roomId,
@@ -18,7 +18,7 @@ class SendNotificationModel{
   });
 
   Map<String,dynamic> toMap() => {
-    "${fcmToken == null ? "registration_ids": "to"}" : fcmToken == null ? fcmTokens : fcmToken,
+    fcmToken == null ? "registration_ids": "to" : fcmToken ?? fcmTokens,
     "data" : {
       "id": id,
       "roomId": roomId,

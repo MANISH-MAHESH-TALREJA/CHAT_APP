@@ -12,8 +12,8 @@ class ForgotPasswordViewModel extends BaseViewModel {
   TextEditingController passwordController = TextEditingController();
 
   void submitButtonTap() async {
-    Get.focusScope.unfocus();
-    if (formKey.currentState.validate()) {
+    Get.focusScope!.unfocus();
+    if (formKey.currentState!.validate()) {
       setBusy(true);
       try {
         await authService.forgotPassword(emailController.text.trim());
@@ -26,12 +26,13 @@ class ForgotPasswordViewModel extends BaseViewModel {
     }
   }
 
-  String emailValidation(String value) {
-    if (value.isEmpty)
+  String? emailValidation(String? value) {
+    if (value!.isEmpty) {
       return AppRes.please_enter_email;
-    else if (!isEmail(value))
+    } else if (!isEmail(value)) {
       return AppRes.please_enter_valid_email;
-    else
+    } else {
       return null;
+    }
   }
 }

@@ -17,7 +17,7 @@ class GroupCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        onTap.call(groupModel.groupModel);
+        onTap.call(groupModel.groupModel!);
       },
       child: Card(
         margin: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
@@ -31,14 +31,14 @@ class GroupCard extends StatelessWidget {
                 width: 40,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(60),
-                  child: groupModel.groupModel.groupImage == null
+                  child: groupModel.groupModel!.groupImage == null
                       ? Icon(
                           Icons.group,
                           color: ColorRes.dimGray,
                         )
                       : FadeInImage(
                           image: NetworkImage(
-                            groupModel.groupModel.groupImage,
+                            groupModel.groupModel!.groupImage!,
                           ),
                           height: 40,
                           width: 40,
@@ -55,7 +55,7 @@ class GroupCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        groupModel.groupModel.name,
+                        groupModel.groupModel!.name!,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: AppTextStyle(
@@ -66,22 +66,22 @@ class GroupCard extends StatelessWidget {
                       ),
                       StreamBuilder<DocumentSnapshot>(
                           stream: chatRoomService
-                              .streamParticularRoom(groupModel.id),
+                              .streamParticularRoom(groupModel.id!),
                           builder: (context, snapshot) {
                             Map<String, dynamic> data = {};
                             if (snapshot.data != null) {
-                              data = snapshot.data.data();
+                              data = snapshot.data!.data() as Map<String, dynamic>;
                             }
                             String typingId = data['typing_id'];
-                            if (snapshot.hasData && typingId != null)
+                            if (snapshot.hasData && typingId != null) {
                               return StreamBuilder<DocumentSnapshot>(
                                   stream: userService.getUserStream(typingId),
                                   builder: (context, childSnap) {
                                     Map<String, dynamic> data = {};
                                     if (childSnap.data != null) {
-                                      data = childSnap.data.data();
+                                      data = childSnap.data!.data() as Map<String, dynamic>;
                                     }
-                                    if (snapshot.hasData)
+                                    if (snapshot.hasData) {
                                       return Text(
                                         "${data['name']} typing...",
                                         style: AppTextStyle(
@@ -89,9 +89,9 @@ class GroupCard extends StatelessWidget {
                                           fontSize: 14,
                                         ),
                                       );
-                                    else
+                                    } else {
                                       return Text(
-                                        groupModel.lastMessage,
+                                        groupModel.lastMessage!,
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: AppTextStyle(
@@ -100,10 +100,11 @@ class GroupCard extends StatelessWidget {
                                           weight: FontWeight.w600,
                                         ),
                                       );
+                                    }
                                   });
-                            else
+                            } else {
                               return Text(
-                                groupModel.lastMessage,
+                                groupModel.lastMessage!,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: AppTextStyle(
@@ -112,6 +113,7 @@ class GroupCard extends StatelessWidget {
                                   weight: FontWeight.w600,
                                 ),
                               );
+                            }
                           }),
                     ],
                   ),
@@ -120,7 +122,7 @@ class GroupCard extends StatelessWidget {
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(hFormat(groupModel.lastMessageTime)),
+                  Text(hFormat(groupModel.lastMessageTime!)),
                   newBadge == 0
                       ? Container()
                       // ignore: dead_code

@@ -1,11 +1,11 @@
 class GroupModel{
-  String groupId;
-  String createdBy;
-  String name;
-  String description;
-  String groupImage;
-  List<GroupMember> members;
-  DateTime createdAt;
+  String? groupId;
+  String? createdBy;
+  String? name;
+  String? description;
+  String? groupImage;
+  List<GroupMember>? members;
+  DateTime? createdAt;
 
   GroupModel({
     this.groupId,
@@ -46,7 +46,7 @@ class GroupModel{
     "createdBy" : createdBy,
     "description" : description,
     "groupImage" : groupImage,
-    "members" : List<dynamic>.from(members.map((x) => x.toMap())),
+    "members" : List<dynamic>.from(members!.map((x) => x.toMap())),
     "createdAt" : createdAt,
   };
 }
@@ -55,7 +55,7 @@ class GroupMember{
   String memberId;
   bool isAdmin;
 
-  GroupMember({this.memberId, this.isAdmin});
+  GroupMember({required this.memberId, required this.isAdmin});
 
   factory GroupMember.fromMap(Map<String, dynamic> data) => GroupMember(
     memberId: data['memberId'],

@@ -1,13 +1,13 @@
 class MessageModel {
-  String id;
-  String content;
-  String type;
-  int sendTime;
-  String sender;
-  String senderName;
-  bool isDownloading;
-  String receiver;
-  MMessage mMessage;
+  String? id;
+  String? content;
+  String? type;
+  int? sendTime;
+  String? sender;
+  String? senderName;
+  bool? isDownloading;
+  String? receiver;
+  MMessage? mMessage;
 
   MessageModel({
     this.id,
@@ -47,10 +47,10 @@ class MessageModel {
 }
 
 class MMessage {
-  Type mType;
-  String mContent;
-  String mDataType;
-  String mSender;
+  Type? mType;
+  String? mContent;
+  String? mDataType;
+  String? mSender;
 
   MMessage({
     this.mType,
@@ -63,14 +63,14 @@ class MMessage {
         mContent: data['mContent'],
         mSender: data['mSender'],
         mDataType: data['mDataType'],
-        mType: mTypeValues.map[data["mType"]],
+        mType: mTypeValues.map![data["mType"]],
       );
 
   Map<String, dynamic> toMap() => {
         "mContent": mContent,
         "mDataType": mDataType,
         "mSender": mSender,
-        "mType": mTypeValues.reverse[mType],
+        "mType": mTypeValues.reverse![mType],
       };
 }
 
@@ -82,15 +82,13 @@ final mTypeValues = EnumValues({
 });
 
 class EnumValues<T> {
-  Map<String, T> map;
-  Map<T, String> reverseMap;
+  Map<String, T>? map;
+  Map<T, String>? reverseMap;
 
   EnumValues(this.map);
 
-  Map<T, String> get reverse {
-    if (reverseMap == null) {
-      reverseMap = map.map((k, v) => new MapEntry(v, k));
-    }
+  Map<T, String>? get reverse {
+    reverseMap ??= map!.map((k, v) => MapEntry(v, k));
     return reverseMap;
   }
 }

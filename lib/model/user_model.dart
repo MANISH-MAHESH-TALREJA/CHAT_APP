@@ -1,10 +1,10 @@
 class UserModel {
-  String name;
-  String email;
-  String password;
-  String fcmToken;
-  String profilePicture;
-  String uid;
+  String? name;
+  String? email;
+  String? password;
+  String? fcmToken;
+  String? profilePicture;
+  String? uid;
 
   UserModel({
     this.name,

@@ -82,7 +82,7 @@ class AddDescription extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.only(left: 20),
                             child: Text(
-                              "${AppRes.participants}: ${model.members.length}",
+                              "${AppRes.participants}: ${model.members!.length}",
                               style: AppTextStyle(
                                 color: ColorRes.dimGray,
                                 fontSize: 14,
@@ -91,12 +91,12 @@ class AddDescription extends StatelessWidget {
                           ),
                           verticalSpaceTiny,
                           GridView.builder(
-                            itemCount: model.members.length,
+                            itemCount: model.members!.length,
                             physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
                               return UserCard(
-                                user: model.members[index],
+                                user: model.members![index],
                               );
                             },
                             gridDelegate:

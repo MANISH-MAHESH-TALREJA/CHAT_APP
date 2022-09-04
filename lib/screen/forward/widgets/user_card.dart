@@ -8,10 +8,10 @@ class UserCard extends StatelessWidget {
   final bool isSelected;
   final Function(RoomModel) onTap;
 
-  UserCard(
+  const UserCard(
     this.user,
     this.onTap,
-    this.isSelected,
+    this.isSelected, {super.key}
   );
 
   @override
@@ -21,19 +21,19 @@ class UserCard extends StatelessWidget {
         onTap.call(user);
       },
       child: Card(
-        margin: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+        margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
         child: Padding(
           padding: const EdgeInsets.all(6),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
+              SizedBox(
                 height: 40,
                 width: 40,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(60),
                   child: Image.network(
-                    user.userModel.profilePicture,
+                    user.userModel!.profilePicture!,
                     height: 40,
                     width: 40,
                     fit: BoxFit.cover,
@@ -44,7 +44,7 @@ class UserCard extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
-                    user.userModel.name,
+                    user.userModel!.name!,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: AppTextStyle(
@@ -56,7 +56,7 @@ class UserCard extends StatelessWidget {
                 ),
               ),
               isSelected
-                  ? Icon(
+                  ? const Icon(
                       Icons.check_circle,
                       color: ColorRes.green,
                     )

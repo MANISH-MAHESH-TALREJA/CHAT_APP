@@ -5,8 +5,8 @@ class CachedImage extends StatelessWidget {
   final String imageUrl;
   final bool isRound;
   final double radius;
-  final double height;
-  final double width;
+  final double? height;
+  final double? width;
 
   final BoxFit fit;
 

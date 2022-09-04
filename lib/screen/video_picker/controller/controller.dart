@@ -24,7 +24,7 @@ class VideoController extends GetxController{
     List<File> fileList = [];
     selectedVideoList.forEach((element) async {
       await element.file.then((file){
-        fileList.add(file);
+        fileList.add(file!);
         if(element == selectedVideoList.last){
           Get.back(result: fileList);
         }

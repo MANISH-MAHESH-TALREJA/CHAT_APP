@@ -13,7 +13,7 @@ import 'dart:io';
 
 class PersonDetails extends StatelessWidget {
   final UserModel userModel;
-  final String roomId;
+  final String? roomId;
 
   PersonDetails(this.userModel, this.roomId);
 
@@ -21,7 +21,7 @@ class PersonDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<PersonDetailsViewModel>.reactive(
       onModelReady: (model) async {
-        model.init(userModel, roomId);
+        model.init(userModel, roomId!);
       },
       builder: (context, model, child) {
         return Scaffold(
@@ -39,7 +39,7 @@ class PersonDetails extends StatelessWidget {
                         constraints.biggest.height != 80;
                     return FlexibleSpaceBar(
                       background: FadeInImage(
-                        image: NetworkImage(userModel.profilePicture),
+                        image: NetworkImage(userModel.profilePicture!),
                         fit: BoxFit.cover,
                         placeholder:
                         AssetImage(AssetsRes.profileImage),
@@ -70,7 +70,7 @@ class PersonDetails extends StatelessWidget {
                     padding: EdgeInsets.symmetric(
                         horizontal: 12, vertical: 5),
                     child: Text(
-                      userModel.name,
+                      userModel.name!,
                       style: AppTextStyle(
                         fontSize: 18,
                         color: ColorRes.black,
@@ -99,7 +99,7 @@ class PersonDetails extends StatelessWidget {
                               ),
                               SizedBox(height: 5),
                               Text(
-                                userModel.email,
+                                userModel.email!,
                                 style: AppTextStyle(
                                   fontSize: 14,
                                   color: ColorRes.black,
@@ -120,10 +120,10 @@ class PersonDetails extends StatelessWidget {
                   roomId != null
                       ? StreamBuilder<DocumentSnapshot>(
                     stream: chatRoomService
-                        .streamParticularRoom(roomId),
+                        .streamParticularRoom(roomId!),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        return snapshot.data.get("blockBy") ==
+                        return snapshot.data!.get("blockBy") ==
                             null
                             ? InkWell(
                           onTap: () {
@@ -158,8 +158,8 @@ class PersonDetails extends StatelessWidget {
                             ),
                           ),
                         )
-                            : snapshot.data.get("blockBy") ==
-                            appState.currentUser.uid
+                            : snapshot.data!.get("blockBy") ==
+                            appState.currentUser!.uid
                             ? InkWell(
                           onTap: () {
                             showConfirmationDialog(

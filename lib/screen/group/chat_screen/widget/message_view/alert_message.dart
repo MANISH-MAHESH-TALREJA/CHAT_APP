@@ -5,20 +5,20 @@ import 'package:flutter_web_chat_app/utils/styles.dart';
 
 // ignore: must_be_immutable
 class AlertMessage extends StatelessWidget {
-  String message;
+  String? message;
 
-  AlertMessage(this.message);
+  AlertMessage(this.message, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 3, horizontal: 8),
-        margin: EdgeInsets.only(bottom: 10),
+        padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 8),
+        margin: const EdgeInsets.only(bottom: 10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
           color: ColorRes.lightGray,
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
               color: ColorRes.black,
               offset: Offset(0, 0.5),
@@ -30,7 +30,7 @@ class AlertMessage extends StatelessWidget {
           maxWidth: Get.width / 1.2,
         ),
         child: Text(
-          message,
+          message!,
           style: AppTextStyle(
             color: ColorRes.black,
             fontSize: 11.5,
