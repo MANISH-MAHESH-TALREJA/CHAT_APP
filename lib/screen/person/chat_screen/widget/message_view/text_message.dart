@@ -13,7 +13,7 @@ class TextMessage extends StatelessWidget {
   final MessageModel message;
   final bool sender;
 
-  TextMessage(this.message, this.sender);
+  const TextMessage(this.message, this.sender, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -66,8 +66,8 @@ class TextMessage extends StatelessWidget {
                       Flexible(
                         child: Linkify(
                           onOpen: (link) async {
-                            if (await canLaunch(link.url)) {
-                              await launch(link.url);
+                            if (await canLaunchUrl(Uri.parse(link.url))) {
+                              await launchUrl(Uri.parse(link.url));
                             }
                           },
                           text: message.content!,
@@ -120,8 +120,8 @@ class TextMessage extends StatelessWidget {
                 Flexible(
                   child: Linkify(
                     onOpen: (link) async {
-                      if (await canLaunch(link.url)) {
-                        await launch(link.url);
+                      if (await canLaunchUrl(Uri.parse(link.url))) {
+                        await launchUrl(Uri.parse(link.url));
                       }
                     },
                     text: message.content!,

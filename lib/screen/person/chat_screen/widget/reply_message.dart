@@ -8,7 +8,7 @@ import 'package:flutter_web_chat_app/utils/styles.dart';
 class ReplyMessage extends StatelessWidget {
   final MMessage message;
 
-  const ReplyMessage(this.message);
+  const ReplyMessage(this.message, {super.key});
 
   @override
   Widget build(BuildContext context) {

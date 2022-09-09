@@ -11,7 +11,7 @@ class GroupCard extends StatelessWidget {
   final Function(GroupModel) onTap;
   final int newBadge;
 
-  GroupCard(this.groupModel, this.onTap, {this.newBadge = 0});
+  const GroupCard(this.groupModel, this.onTap, {super.key, this.newBadge = 0});
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +20,13 @@ class GroupCard extends StatelessWidget {
         onTap.call(groupModel.groupModel!);
       },
       child: Card(
-        margin: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+        margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
         child: Padding(
           padding: const EdgeInsets.all(6),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
+              SizedBox(
                 height: 40,
                 width: 40,
                 child: ClipRRect(
@@ -73,6 +73,7 @@ class GroupCard extends StatelessWidget {
                               data = snapshot.data!.data() as Map<String, dynamic>;
                             }
                             String typingId = data['typing_id'];
+                            // ignore: unnecessary_null_comparison
                             if (snapshot.hasData && typingId != null) {
                               return StreamBuilder<DocumentSnapshot>(
                                   stream: userService.getUserStream(typingId),

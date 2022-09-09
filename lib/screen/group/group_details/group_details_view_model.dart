@@ -156,14 +156,14 @@ class GroupDetailsViewModel extends BaseViewModel {
             await userService.getUserModel(appState.currentUser!.uid!);
         sendMessage('alert', "${user.name} left", null);
       });
-      Get.offAll(() => HomeScreen());
+      Get.offAll(() => const HomeScreen());
     }
   }
 
   void deleteGroupTap() {
     groupService.deleteGroup(groupModel!.groupId!);
     chatRoomService.deleteChatRoom(groupModel!.groupId!);
-    Get.offAll(() => HomeScreen());
+    Get.offAll(() => const HomeScreen());
   }
 
   void infoTap(GroupMember member) async {
@@ -232,7 +232,10 @@ class GroupDetailsViewModel extends BaseViewModel {
       await Get.to(
           () => ChatScreen(userModel, true, doc.exists ? chatId : null));
       appState.currentActiveRoom = groupModel!.groupId;
-    } catch (e) {}
+    } catch (e)
+    {
+      debugPrint(e.toString());
+    }
   }
 
   void updateGroupTap(String title, String desc) async {

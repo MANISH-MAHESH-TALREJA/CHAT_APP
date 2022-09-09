@@ -9,6 +9,8 @@ import 'package:flutter_web_chat_app/utils/styles.dart';
 class LandingScreen extends StatelessWidget {
   final LandingViewModel model = LandingViewModel();
 
+  LandingScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

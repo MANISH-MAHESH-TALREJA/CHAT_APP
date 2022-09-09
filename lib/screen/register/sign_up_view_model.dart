@@ -31,7 +31,7 @@ class SignUpViewModel extends BaseViewModel {
       userModel.fcmToken = fcmToken;
       try {
         await authService.signUp(userModel);
-        Get.offAll(() => HomeScreen());
+        Get.offAll(() => const HomeScreen());
       } catch (e) {
         setBusy(false);
       }
@@ -39,33 +39,36 @@ class SignUpViewModel extends BaseViewModel {
   }
 
   String? nameValidation(String? value) {
-    if (value!.trim().isEmpty)
+    if (value!.trim().isEmpty) {
       return AppRes.please_enter_full_name;
-    else if (!value.trim().contains(" "))
+    } else if (!value.trim().contains(" ")) {
       return AppRes.please_enter_valid_full_name;
-    else
+    } else {
       return null;
+    }
   }
 
   String? emailValidation(String? value) {
-    if (value!.isEmpty)
+    if (value!.isEmpty) {
       return AppRes.please_enter_email;
-    else if (!isEmail(value))
+    } else if (!isEmail(value)) {
       return AppRes.please_enter_valid_email;
-    else
+    } else {
       return null;
+    }
   }
 
   String? passwordValidation(String? value) {
-    if (value!.isEmpty)
+    if (value!.isEmpty) {
       return AppRes.please_enter_password;
-    else if (value.length < 6)
+    } else if (value.length < 6) {
       return AppRes.please_enter_min_6_characters;
-    else
+    } else {
       return null;
+    }
   }
 
   void signInClick() {
-    Get.off(() => SignInScreen());
+    Get.off(() => const SignInScreen());
   }
 }

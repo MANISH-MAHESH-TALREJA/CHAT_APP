@@ -10,7 +10,7 @@ class VideoPickerScreenViewModel extends BaseViewModel {
         double position = scrollController.position.pixels;
         if(videoList.length < totalVideos){
           await fetchNewVideos().then((value){
-            Future.delayed(Duration(milliseconds: 100),(){
+            Future.delayed(const Duration(milliseconds: 100),(){
               scrollController.jumpTo(position + 200);
             });
           });
@@ -32,11 +32,11 @@ class VideoPickerScreenViewModel extends BaseViewModel {
     List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(
         onlyAll: true, type: RequestType.video);
 
-    totalVideos = albums[0].assetCount;
+    totalVideos = albums[0].assetCountAsync as int;
     List<AssetEntity> media =
-        await albums[0].getAssetListPaged(currentPage, 60);
+        await albums[0].getAssetListPaged(page: currentPage, size: 60);
 
-    media.forEach((element) {
+    for (var element in media) {
       if(element.size > Offset.zero){
         videoList.add(
           AssetEntity(
@@ -46,7 +46,7 @@ class VideoPickerScreenViewModel extends BaseViewModel {
               height: element.height),
         );
       }
-    });
+    }
     currentPage++;
     setBusy(false);
     notifyListeners();

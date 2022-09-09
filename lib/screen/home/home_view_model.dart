@@ -2,9 +2,9 @@ import 'package:get/get.dart';
 import 'package:flutter_web_chat_app/model/group_model.dart';
 import 'package:flutter_web_chat_app/model/user_model.dart';
 import 'package:flutter_web_chat_app/screen/person/chat_screen/chat_screen.dart'
-    as Person;
+    as person;
 import 'package:flutter_web_chat_app/screen/group/chat_screen/chat_screen.dart'
-    as Group;
+    as group;
 import 'package:flutter_web_chat_app/screen/group/new_group/select_member/select_members.dart';
 import 'package:flutter_web_chat_app/screen/person/settings/setting.dart';
 import 'package:flutter_web_chat_app/service/auth_service/auth_service.dart';
@@ -25,22 +25,22 @@ class HomeViewModel extends BaseViewModel {
   }
 
   gotoSettingPage() {
-    Get.to(() => SettingDetails());
+    Get.to(() => const SettingDetails());
   }
 
   onUserCardTap(UserModel userModel, String roomId) {
-    Get.to(() => Person.ChatScreen(userModel, true, roomId));
+    Get.to(() => person.ChatScreen(userModel, true, roomId));
   }
 
   void createGroupClick() {
-    Get.to(() => SelectMembers(true));
+    Get.to(() => const SelectMembers(true));
   }
 
   void personalChatClick() {
-    Get.to(() => SelectMembers(false));
+    Get.to(() => const SelectMembers(false));
   }
 
   void groupClick(GroupModel groupModel) {
-    Get.to(() => Group.ChatScreen(groupModel, true));
+    Get.to(() => group.ChatScreen(groupModel, true));
   }
 }

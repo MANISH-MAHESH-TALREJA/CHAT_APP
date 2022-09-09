@@ -13,18 +13,18 @@ class DocumentMessage extends StatefulWidget {
   final bool? sender;
   final bool? selectionMode;
 
-  DocumentMessage(
+  const DocumentMessage(
     this.message,
     this.downloadDocument,
     this.sender,
-    this.selectionMode,
+    this.selectionMode, {super.key}
   );
 
   @override
-  _DocumentMessageState createState() => _DocumentMessageState();
+  DocumentMessageState createState() => DocumentMessageState();
 }
 
-class _DocumentMessageState extends State<DocumentMessage> {
+class DocumentMessageState extends State<DocumentMessage> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -135,13 +135,13 @@ class _DocumentMessageState extends State<DocumentMessage> {
                           ),
                         );
                       } else {
-                        return SizedBox(height: 30);
+                        return const SizedBox(height: 30);
                       }
                     },
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -166,7 +166,7 @@ class _DocumentMessageState extends State<DocumentMessage> {
               ],
             );
           } else {
-            return SizedBox(height: 30);
+            return const SizedBox(height: 30);
           }
         },
       ),
@@ -178,16 +178,13 @@ class _DocumentMessageState extends State<DocumentMessage> {
     switch (type) {
       case "photo":
         return "📷";
-        break;
       case "document":
         return "📄";
-        break;
       case "music":
         return "🎵";
-        break;
       case "video":
         return "🎥";
-        break;
     }
+    return null;
   }
 }

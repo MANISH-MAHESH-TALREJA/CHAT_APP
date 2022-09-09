@@ -5,12 +5,12 @@ import 'package:flutter_web_chat_app/utils/app_state.dart';
 
 class UserProvider with ChangeNotifier {
   UserModel? _user;
-  UserService? _userService = UserService();
+  final UserService _userService = UserService();
 
   UserModel get getUser => _user!;
 
   Future<void> refreshUser() async {
-    UserModel user =  _userService!.getUserModel(appState.currentUser!.uid!) as UserModel;
+    UserModel user =  _userService.getUserModel(appState.currentUser!.uid!) as UserModel;
     _user = user;
     notifyListeners();
   }

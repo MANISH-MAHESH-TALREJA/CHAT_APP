@@ -2,12 +2,11 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_absolute_path/flutter_absolute_path.dart';
+//import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:media_picker/media_picker.dart';
+//import 'package:media_picker/media_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_web_chat_app/model/message_model.dart';
 import 'package:flutter_web_chat_app/model/send_notification_model.dart';
@@ -33,7 +32,7 @@ class ChatScreenViewModel extends BaseViewModel {
   bool? isTyping = false;
   String? roomId;
   int? chatLimit = 20;
-  MMessage? message;
+  MMessage? mMessage;
 
   final ScrollController listScrollController = ScrollController();
 
@@ -83,10 +82,10 @@ class ChatScreenViewModel extends BaseViewModel {
   void onBack() {
     appState.currentActiveRoom = null;
     updateTyping(false);
-    if (isFromHome!)
+    if (isFromHome!) {
       Get.back();
-    else {
-      Get.offAll(() => HomeScreen());
+    } else {
+      Get.offAll(() => const HomeScreen());
     }
   }
 
@@ -137,10 +136,10 @@ class ChatScreenViewModel extends BaseViewModel {
       Get.snackbar(
         "Alert",
         "Please! type message",
-        duration: Duration(seconds: 5),
+        duration: const Duration(seconds: 5),
         backgroundColor: ColorRes.red,
         colorText: ColorRes.white,
-        icon: Icon(
+        icon: const Icon(
           Icons.cancel,
           color: ColorRes.white,
           size: 32,
@@ -233,7 +232,7 @@ class ChatScreenViewModel extends BaseViewModel {
     // ignore: invalid_use_of_protected_member
     if (listScrollController.positions.isNotEmpty) {
       listScrollController.animateTo(0.0,
-          duration: Duration(milliseconds: 300), curve: Curves.easeOut);
+          duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
     }
   }
 
@@ -264,7 +263,7 @@ class ChatScreenViewModel extends BaseViewModel {
   }
 
   void onGalleryTap(BuildContext context) async {
-    isAttachment = false;
+    /*isAttachment = false;
     notifyListeners();
 
     List<String> result = await MediaPicker.pickImages(quantity: 10,withCamera: false);
@@ -288,7 +287,7 @@ class ChatScreenViewModel extends BaseViewModel {
       if (imageUrl != null) {
         sendMessage("photo", imageUrl, null);
       }
-    });
+    });*/
   }
 
   void onDocumentTap() async {
@@ -322,8 +321,9 @@ class ChatScreenViewModel extends BaseViewModel {
       uploadingMedia = true;
       notifyListeners();
 
+      // ignore: unnecessary_null_comparison
       if (fileList != null) {
-        fileList.forEach((file) async {
+        for (var file in fileList) {
           if (file.size > 67108864) {
             showErrorToast("Can not upload more than 64MB");
             if (file == fileList.last) {
@@ -331,7 +331,7 @@ class ChatScreenViewModel extends BaseViewModel {
               notifyListeners();
             }
           } else {
-            print(file.path);
+            debugPrint(file.path);
 
             String? imageUrl =
                 await storageService.uploadDocument(File(file.path!), roomId!);
@@ -347,10 +347,9 @@ class ChatScreenViewModel extends BaseViewModel {
                   notifyListeners();
                 }
               });
-              return filePath;
             });
           }
-        });
+        }
       }
     }
   }
@@ -396,7 +395,7 @@ class ChatScreenViewModel extends BaseViewModel {
 
     uploadingMedia = true;
     notifyListeners();
-    await Get.to(() => VideoPickerScreen())!.then((value){
+    await Get.to(() => VideoPickerScreen())!.then((value) async {
 
       if(value == null){
         uploadingMedia = false;
@@ -404,7 +403,7 @@ class ChatScreenViewModel extends BaseViewModel {
         return null;
       }
       List<File> fileList = value;
-      fileList.forEach((file) async {
+      for (var file in fileList) {
         if (file.lengthSync() > 67108864) {
           showErrorToast("Can not upload more than 64MB");
           if (file == fileList.last) {
@@ -428,7 +427,7 @@ class ChatScreenViewModel extends BaseViewModel {
             });
           }
         }
-      });
+      }
     });
   }
 
@@ -445,7 +444,7 @@ class ChatScreenViewModel extends BaseViewModel {
       uploadingMedia = true;
       notifyListeners();
 
-      fileList.forEach((file) async {
+      for (var file in fileList) {
         if (file.size > 67108864) {
           showErrorToast("Can not upload more than 64MB");
           if (file == fileList.last) {
@@ -469,7 +468,7 @@ class ChatScreenViewModel extends BaseViewModel {
             });
           }
         }
-      });
+      }
     }
   }
 
@@ -502,7 +501,7 @@ class ChatScreenViewModel extends BaseViewModel {
 
   void clearReply() {
     isReply = false;
-    message = null;
+    mMessage = null;
     notifyListeners();
   }
 
@@ -518,7 +517,7 @@ class ChatScreenViewModel extends BaseViewModel {
         },
         onReplyTap: () {
           isReply = true;
-          message = MMessage(
+          mMessage = MMessage(
             mContent: messageModel.content,
             mDataType: messageModel.type,
             mType: Type.reply,
@@ -575,7 +574,7 @@ class ChatScreenViewModel extends BaseViewModel {
   void deleteClickMessages() async {
     showConfirmationDialog(
       () async {
-        print("Confirmation");
+        debugPrint("Confirmation");
         Get.back();
         for (var value in selectedMessages) {
           chatRoomService.deleteMessage(value.id!, roomId!);

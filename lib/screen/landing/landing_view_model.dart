@@ -6,10 +6,10 @@ class LandingViewModel {
   LandingViewModel();
 
   void registerClick() {
-    Get.to(() => SignUpScreen());
+    Get.to(() => const SignUpScreen());
   }
 
   void loginClick() {
-    Get.to(() => SignInScreen());
+    Get.to(() => const SignInScreen());
   }
 }

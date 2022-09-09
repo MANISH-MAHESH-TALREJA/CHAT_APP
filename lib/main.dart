@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'dart:convert';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -11,9 +13,9 @@ import 'package:get/get.dart';
 import 'package:flutter_web_chat_app/model/group_model.dart';
 import 'package:flutter_web_chat_app/model/user_model.dart';
 import 'package:flutter_web_chat_app/screen/person/chat_screen/chat_screen.dart'
-    as Person;
+    as person;
 import 'package:flutter_web_chat_app/screen/group/chat_screen/chat_screen.dart'
-    as Group;
+    as group;
 import 'package:flutter_web_chat_app/screen/home/home_screen.dart';
 import 'package:flutter_web_chat_app/screen/landing/landing_screen.dart';
 import 'package:flutter_web_chat_app/service/auth_service/auth_service.dart';
@@ -29,7 +31,7 @@ void main() async {
   await Firebase.initializeApp();
   await firebaseMessaging();
 
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.white,
     statusBarIconBrightness: Brightness.dark,
   ));
@@ -37,10 +39,12 @@ void main() async {
   // set development mode true or false
   Debug.isDevelopment = true;
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
@@ -59,19 +63,19 @@ class MyApp extends StatelessWidget {
             title: 'Planty Connect',
             theme: ThemeData(
               fontFamily: 'Nunito',
-              cupertinoOverrideTheme: CupertinoThemeData(
+              cupertinoOverrideTheme: const CupertinoThemeData(
                 brightness: Brightness.dark,
               ),
             ),
             debugShowCheckedModeBanner: false,
             builder: (context, child) {
               return MediaQuery(
-                child: child!,
                 data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                child: child!,
               );
             },
             home:
-                firebaseAuth.currentUser != null ? HomeScreen() : LandingScreen(),
+                firebaseAuth.currentUser != null ? const HomeScreen() : LandingScreen(),
           ),
         );
       },
@@ -84,7 +88,7 @@ FlutterLocalNotificationsPlugin? flutterLocalNotificationsPlugin;
 AndroidNotificationChannel? channel;
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  print('Handling a background message ${message.messageId}');
+  debugPrint('Handling a background message ${message.messageId}');
 }
 
 Future<void> firebaseMessaging() async {
@@ -93,7 +97,7 @@ Future<void> firebaseMessaging() async {
   channel = const AndroidNotificationChannel(
     'high_importance_channel', // id
     'High Importance Notifications', // title
-    'This channel is used for important notifications.', // description
+    description: 'This channel is used for important notifications.', // description
     importance: Importance.high,
   );
 
@@ -101,24 +105,24 @@ Future<void> firebaseMessaging() async {
 
   const AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings('@mipmap/ic_launcher');
-  final IOSInitializationSettings initializationSettingsIOS =
+  const IOSInitializationSettings initializationSettingsIOS =
       IOSInitializationSettings(
           onDidReceiveLocalNotification: onDidReceiveLocalNotification);
-  final InitializationSettings initializationSettings = InitializationSettings(
+  const InitializationSettings initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
   flutterLocalNotificationsPlugin!.initialize(initializationSettings,
       onSelectNotification: (String? payload) async {
-    print("onSelectNotification Called");
+        debugPrint("onSelectNotification Called");
     if (payload != null) {
       final newPay = jsonDecode(payload);
       if (newPay['isGroup'] == "true") {
         GroupModel groupModel =
             await groupService.getGroupModel(newPay['roomId']);
-        Get.offAll(() => new Group.ChatScreen(groupModel, false));
+        Get.offAll(() => group.ChatScreen(groupModel, false));
       } else {
         UserModel userModel = await userService.getUserModel(newPay['id']);
         Get.offAll(
-            () => new Person.ChatScreen(userModel, false, newPay['roomId']));
+            () => person.ChatScreen(userModel, false, newPay['roomId']));
       }
     }
 
@@ -136,7 +140,7 @@ Future<void> firebaseMessaging() async {
   );
 
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    print("onMessage Called");
+    debugPrint("onMessage Called");
     RemoteNotification notification = message.notification!;
     AndroidNotification android = message.notification!.android!;
     Map<String, dynamic> payload = message.data;
@@ -150,7 +154,7 @@ Future<void> firebaseMessaging() async {
               android: AndroidNotificationDetails(
                 channel!.id,
                 channel!.name,
-                channel!.description,
+                channelDescription: channel!.description,
                 icon: 'launch_background',
               ),
             ),
@@ -160,34 +164,34 @@ Future<void> firebaseMessaging() async {
   });
 
   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
-    print("onMessageOpenedApp Called ");
+    debugPrint("onMessageOpenedApp Called ");
     await Firebase.initializeApp();
     if (message.data['isGroup'] == "true") {
       appState.currentActiveRoom = message.data['roomId'];
       GroupModel groupModel =
           await groupService.getGroupModel(message.data['roomId']);
-      Get.to(() => Group.ChatScreen(groupModel, false));
+      Get.to(() => group.ChatScreen(groupModel, false));
     } else {
       UserModel userModel = await userService.getUserModel(message.data['id']);
-      Get.to(() => Person.ChatScreen(userModel, false, message.data['roomId']));
+      Get.to(() => person.ChatScreen(userModel, false, message.data['roomId']));
     }
   });
 
   FirebaseMessaging.instance
       .getInitialMessage()
       .then((RemoteMessage? message) async {
-    print("getInitialMessage Called ");
+    debugPrint("getInitialMessage Called ");
     if (message != null) {
       await Firebase.initializeApp();
       if (message.data['isGroup'] == "true") {
         GroupModel groupModel =
             await groupService.getGroupModel(message.data['roomId']);
-        Get.to(() => Group.ChatScreen(groupModel, false));
+        Get.to(() => group.ChatScreen(groupModel, false));
       } else {
         UserModel userModel =
             await userService.getUserModel(message.data['id']);
         Get.to(
-            () => Person.ChatScreen(userModel, false, message.data['roomId']));
+            () => person.ChatScreen(userModel, false, message.data['roomId']));
       }
     }
   });
@@ -199,5 +203,5 @@ Future onDidReceiveLocalNotification(
   String? body,
   String? payload,
 ) async {
-  print("iOS notification $title $body $payload");
+  debugPrint("iOS notification $title $body $payload");
 }

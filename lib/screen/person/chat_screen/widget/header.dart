@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_web_chat_app/model/user_model.dart';
 import 'package:flutter_web_chat_app/utils/app.dart';
@@ -18,7 +17,7 @@ class Header extends StatelessWidget {
   final VoidCallback? clearClick;
   final bool? typing;
 
-  Header({
+  const Header({super.key,
     this.onBack,
     this.headerClick,
     this.userModel,
@@ -35,7 +34,7 @@ class Header extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: ColorRes.white,
         ),
         height: 60,
@@ -43,7 +42,7 @@ class Header extends StatelessWidget {
           children: [
             isDeleteMode! || isForwardMode!
                 ? Container(
-                    margin: EdgeInsets.symmetric(horizontal: 13),
+                    margin: const EdgeInsets.symmetric(horizontal: 13),
                     child: InkWell(
                       onTap: clearClick,
                       child: Icon(
@@ -53,7 +52,7 @@ class Header extends StatelessWidget {
                     ),
                   )
                 : Container(
-                    margin: EdgeInsets.symmetric(horizontal: 13),
+                    margin: const EdgeInsets.symmetric(horizontal: 13),
                     child: InkWell(
                       onTap: onBack,
                       child: Icon(
@@ -69,12 +68,12 @@ class Header extends StatelessWidget {
                 onTap: () {
                   headerClick!.call();
                 },
-                child: Container(
+                child: SizedBox(
                   height: 60,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Container(
+                      SizedBox(
                         height: 30,
                         width: 30,
                         child: ClipRRect(
@@ -122,7 +121,7 @@ class Header extends StatelessWidget {
             isDeleteMode!
                 ? IconButton(
                     onPressed: deleteClick,
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.delete_rounded,
                       color: ColorRes.green,
                     ),
@@ -130,12 +129,12 @@ class Header extends StatelessWidget {
                 : isForwardMode!
                     ? IconButton(
                         onPressed: forwardClick,
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.fast_forward_rounded,
                           color: ColorRes.green,
                         ),
                       )
-                    : SizedBox(),
+                    : const SizedBox(),
           ],
         ),
       ),

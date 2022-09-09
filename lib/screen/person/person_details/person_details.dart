@@ -15,7 +15,7 @@ class PersonDetails extends StatelessWidget {
   final UserModel userModel;
   final String? roomId;
 
-  PersonDetails(this.userModel, this.roomId);
+  const PersonDetails(this.userModel, this.roomId, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +67,7 @@ class PersonDetails extends StatelessWidget {
                   Container(
                     color: ColorRes.white,
                     width: Get.width,
-                    padding: EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                         horizontal: 12, vertical: 5),
                     child: Text(
                       userModel.name!,
@@ -81,7 +81,7 @@ class PersonDetails extends StatelessWidget {
                   Container(
                     color: ColorRes.white,
                     width: Get.width,
-                    padding: EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                         horizontal: 12, vertical: 8),
                     child: Row(
                       children: [
@@ -97,7 +97,7 @@ class PersonDetails extends StatelessWidget {
                                   color: ColorRes.green,
                                 ),
                               ),
-                              SizedBox(height: 5),
+                              const SizedBox(height: 5),
                               Text(
                                 userModel.email!,
                                 style: AppTextStyle(
@@ -108,7 +108,7 @@ class PersonDetails extends StatelessWidget {
                             ],
                           ),
                         ),
-                        Icon(
+                        const Icon(
                           Icons.message_rounded,
                           color: ColorRes.green,
                           size: 25,
@@ -135,13 +135,13 @@ class PersonDetails extends StatelessWidget {
                             color: ColorRes.white,
                             height: 50,
                             width: Get.width,
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 horizontal: 12,
                                 vertical: 8),
                             child: Row(
                               children: [
                                 horizontalSpaceSmall,
-                                Icon(
+                                const Icon(
                                   Icons.block,
                                   color: ColorRes.red,
                                   size: 22,
@@ -171,13 +171,13 @@ class PersonDetails extends StatelessWidget {
                             height: 50,
                             width: Get.width,
                             padding:
-                            EdgeInsets.symmetric(
+                            const EdgeInsets.symmetric(
                                 horizontal: 12,
                                 vertical: 8),
                             child: Row(
                               children: [
                                 horizontalSpaceSmall,
-                                Icon(
+                                const Icon(
                                   Icons.block,
                                   color: ColorRes.red,
                                   size: 22,

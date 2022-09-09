@@ -22,13 +22,13 @@ class ScrollDownButton extends StatelessWidget {
                 color: Colors.black.withOpacity(0.3),
                 spreadRadius: 1,
                 blurRadius: 2,
-                offset: Offset(0, 3), // changes position of shadow
+                offset: const Offset(0, 3), // changes position of shadow
               ),
             ],
           ),
           height: 28.h,
           width: 28.h,
-          margin: EdgeInsets.symmetric(horizontal: 16),
+          margin: const EdgeInsets.symmetric(horizontal: 16),
           child: Icon(
             Icons.arrow_circle_down,
             size: 25.h,

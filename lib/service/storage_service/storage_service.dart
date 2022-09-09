@@ -1,9 +1,10 @@
 import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 
 class StorageService {
-  FirebaseStorage _storage = FirebaseStorage.instance;
+  final FirebaseStorage _storage = FirebaseStorage.instance;
 
   Future<String?> uploadGroupIcon(File image) async {
     try {
@@ -13,7 +14,9 @@ class StorageService {
       TaskSnapshot location = await uploadTask;
       return await location.ref.getDownloadURL();
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       return null;
     }
   }
@@ -26,7 +29,9 @@ class StorageService {
       TaskSnapshot location = await uploadTask;
       return await location.ref.getDownloadURL();
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       return null;
     }
   }
@@ -39,7 +44,9 @@ class StorageService {
       TaskSnapshot location = await uploadTask;
       return await location.ref.getDownloadURL();
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       return null;
     }
   }
@@ -52,7 +59,9 @@ class StorageService {
       TaskSnapshot location = await uploadTask;
       return await location.ref.getDownloadURL();
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       return null;
     }
   }
@@ -65,7 +74,9 @@ class StorageService {
       TaskSnapshot location = await uploadTask;
       return await location.ref.getDownloadURL();
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       return null;
     }
   }
@@ -75,7 +86,9 @@ class StorageService {
       Reference reference = _storage.refFromURL(document!);
       return await reference.getMetadata();
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       return null;
     }
   }
@@ -85,7 +98,9 @@ class StorageService {
       await _storage.refFromURL(document).writeToFile(File(filePath));
       return true;
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       return false;
     }
   }

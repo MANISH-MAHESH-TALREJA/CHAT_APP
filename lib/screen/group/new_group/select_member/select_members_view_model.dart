@@ -35,10 +35,10 @@ class SelectMembersViewModel extends BaseViewModel {
       } else {
         List<RoomModel> filterUserList = [];
         ChatRoomService().getCurrentUserRooms().listen((event) {
-          event.docs.forEach((element) {
+          for (var element in event.docs) {
             filterUserList.add(RoomModel.fromMap(element.data() as Map<String, dynamic>));
-          });
-          totalUsers.forEach((element) {
+          }
+          for (var element in totalUsers) {
             bool flag = false;
             for (int i = 0; i < filterUserList.length; i++) {
               if (filterUserList[i].membersId!.contains(element.uid)) {
@@ -49,7 +49,7 @@ class SelectMembersViewModel extends BaseViewModel {
             if (flag == false) {
               users!.add(element);
             }
-          });
+          }
           notifyListeners();
         });
       }
@@ -72,10 +72,11 @@ class SelectMembersViewModel extends BaseViewModel {
 
   void selectUserClick(UserModel user) async {
     if (isGroup!) {
-      if (selectedMembers!.contains(user))
+      if (selectedMembers!.contains(user)) {
         selectedMembers!.remove(user);
-      else
+      } else {
         selectedMembers!.add(user);
+      }
 
       notifyListeners();
     } else {
@@ -111,7 +112,7 @@ class SelectMembersViewModel extends BaseViewModel {
           ? messagingService.sendNotification(sendNotificationModel)
           // ignore: unnecessary_statements
           : null;
-      Get.offAll(() => HomeScreen());
+      Get.offAll(() => const HomeScreen());
     }
   }
 }

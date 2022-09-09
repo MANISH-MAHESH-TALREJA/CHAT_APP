@@ -11,6 +11,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:io';
 
 class SettingDetails extends StatelessWidget {
+  const SettingDetails({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<SettingViewModel>.reactive(
@@ -35,8 +37,8 @@ class SettingDetails extends StatelessWidget {
                         background: model.imageLoader
                             ? Center(
                           child: Platform.isIOS
-                              ? CupertinoActivityIndicator()
-                              : CircularProgressIndicator(),
+                              ? const CupertinoActivityIndicator()
+                              : const CircularProgressIndicator(),
                         )
                             : InkWell(
                           onTap: model.imageClick,
@@ -80,7 +82,7 @@ class SettingDetails extends StatelessWidget {
                   Container(
                     color: ColorRes.white,
                     width: Get.width,
-                    padding: EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                         horizontal: 12, vertical: 5),
                     child: Row(
                       children: [
@@ -111,7 +113,7 @@ class SettingDetails extends StatelessWidget {
                         ),
                         GestureDetector(
                           onTap: model.editTap,
-                          child: Icon(
+                          child: const Icon(
                             Icons.edit,
                             color: ColorRes.green,
                             size: 25,
@@ -126,11 +128,11 @@ class SettingDetails extends StatelessWidget {
                     child: Container(
                       color: ColorRes.white,
                       width: Get.width,
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                           horizontal: 12, vertical: 7),
                       child: Row(
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.exit_to_app_rounded,
                             color: ColorRes.green,
                             size: 25,

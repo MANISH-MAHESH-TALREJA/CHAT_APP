@@ -16,7 +16,7 @@ class UserService {
       await users.doc(userModel.uid).set(userModel.toMap());
     } catch (e) {
       handleException(e);
-      throw e;
+      rethrow;
     }
   }
 
@@ -27,7 +27,7 @@ class UserService {
           .snapshots();
     } catch (e) {
       handleException(e);
-      throw e;
+      rethrow;
     }
   }
 
@@ -40,7 +40,7 @@ class UserService {
       return CombineLatestStream.list<QuerySnapshot>([s1, s2]);
     } catch (e) {
       handleException(e);
-      throw e;
+      rethrow;
     }
   }
 
@@ -49,7 +49,7 @@ class UserService {
       return await users.doc(uid).get();
     } catch (e) {
       handleException(e);
-      throw e;
+      rethrow;
     }
   }
 
@@ -58,7 +58,7 @@ class UserService {
       return users.doc(uid).snapshots();
     } catch (e) {
       handleException(e);
-      throw e;
+      rethrow;
     }
   }
 
@@ -69,7 +69,7 @@ class UserService {
       return users.doc(id).snapshots();
     } catch (e) {
       handleException(e);
-      throw e;
+      rethrow;
     }
   }
 
@@ -80,7 +80,7 @@ class UserService {
           .get();
     } catch (e) {
       handleException(e);
-      throw e;
+      rethrow;
     }
   }
 
@@ -89,7 +89,7 @@ class UserService {
       await users.doc(uid).update(data);
     } catch (e) {
       handleException(e);
-      throw e;
+      rethrow;
     }
   }
 
@@ -99,7 +99,7 @@ class UserService {
       return UserModel.fromMap(doc.data() as Map<String, dynamic>);
     } catch (e) {
       handleException(e);
-      throw e;
+      rethrow;
     }
   }
 }

@@ -17,6 +17,8 @@ import 'package:flutter_web_chat_app/utils/styles.dart';
 import 'package:stacked/stacked.dart';
 
 class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<HomeViewModel>.reactive(
@@ -26,9 +28,7 @@ class HomeScreen extends StatelessWidget {
       viewModelBuilder: () => HomeViewModel(),
       builder: (context, model, child) {
         return appState.currentUser == null
-            ? Container(
-                child: Center(child: CircularProgressIndicator()),
-              )
+            ? const Center(child: CircularProgressIndicator())
             : WillPopScope(
           onWillPop: () async {
             showConfirmationDialog(
@@ -61,7 +61,7 @@ class HomeScreen extends StatelessWidget {
                       model.personalChatClick();
                     }
                   },
-                  child: Icon(
+                  child: const Icon(
                     Icons.add_circle_outline,
                     color: ColorRes.black,
                   ),
@@ -79,7 +79,7 @@ class HomeScreen extends StatelessWidget {
                 ),
                 IconButton(
                   onPressed: model.gotoSettingPage,
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.more_vert_outlined,
                     color: ColorRes.black,
                   ),
@@ -89,15 +89,15 @@ class HomeScreen extends StatelessWidget {
             body: model.isBusy
                 ? Center(
               child: Platform.isIOS
-                  ? CupertinoActivityIndicator()
-                  : CircularProgressIndicator(),
+                  ? const CupertinoActivityIndicator()
+                  : const CircularProgressIndicator(),
             )
                 : StreamBuilder<QuerySnapshot>(
               stream: chatRoomService.streamRooms(),
               builder: (context, roomSnapshot) {
                 if (roomSnapshot.hasData) {
                   if (roomSnapshot.data!.docs.isEmpty) {
-                    return Center(
+                    return const Center(
                       child: Text(
                           AppRes.no_user_or_group_found),
                     );
@@ -184,8 +184,8 @@ class HomeScreen extends StatelessWidget {
                 } else {
                   return Center(
                     child: Platform.isIOS
-                        ? CupertinoActivityIndicator()
-                        : CircularProgressIndicator(),
+                        ? const CupertinoActivityIndicator()
+                        : const CircularProgressIndicator(),
                   );
                 }
               },

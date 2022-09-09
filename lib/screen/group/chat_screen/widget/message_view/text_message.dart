@@ -92,8 +92,8 @@ class TextMessage extends StatelessWidget {
                           Flexible(
                             child: Linkify(
                               onOpen: (link) async {
-                                if (await canLaunch(link.url)) {
-                                  await launch(link.url);
+                                if (await canLaunchUrl(Uri.parse(link.url))) {
+                                  await launchUrl(Uri.parse(link.url));
                                 }
                               },
                               text: message!.content!,
@@ -193,8 +193,8 @@ class TextMessage extends StatelessWidget {
                     Flexible(
                       child: Linkify(
                         onOpen: (link) async {
-                          if (await canLaunch(link.url)) {
-                            await launch(link.url);
+                          if (await canLaunchUrl(Uri.parse(link.url))) {
+                            await launchUrl(Uri.parse(link.url));
                           }
                         },
                         text: message!.content!,

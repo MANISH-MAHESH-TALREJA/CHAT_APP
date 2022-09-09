@@ -1,3 +1,6 @@
+// ignore_for_file: constant_identifier_names
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -99,10 +102,10 @@ class AppRes {
 }
 
 class AssetsRes {
-  static String whatsAppIcon = AppRes.icons + "whatsapp_icon" + ".png";
-  static String profileImage = AppRes.images + "profile" + ".png";
-  static String groupImage = AppRes.images + "group_image" + ".png";
-  static String galleryImage = AppRes.images + "gallery_image" + ".png";
+  static String whatsAppIcon = "${AppRes.icons}whatsapp_icon.png";
+  static String profileImage = "${AppRes.images}profile.png";
+  static String groupImage = "${AppRes.images}group_image.png";
+  static String galleryImage = "${AppRes.images}gallery_image.png";
 }
 
 showErrorToast(String message, {String? title}) {
@@ -141,7 +144,7 @@ ChatRoomService chatRoomService = ChatRoomService();
 bool isEmail(String email) {
   String p =
       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-  RegExp regExp = new RegExp(p);
+  RegExp regExp = RegExp(p);
   return regExp.hasMatch(email);
 }
 
@@ -183,7 +186,9 @@ Future<bool> checkForExist(String name, String type) async {
     final data = await File(filePath).exists();
     return data;
   } catch (e) {
-    print(e);
+    if (kDebugMode) {
+      print(e);
+    }
     return false;
   }
 }
@@ -203,7 +208,9 @@ Future<bool> checkForSenderExist(String name, String type) async {
     final data = await File(filePath).exists();
     return data;
   } catch (e) {
-    print(e);
+    if (kDebugMode) {
+      print(e);
+    }
     return false;
   }
 }
@@ -216,16 +223,16 @@ Future<String?> getDownloadPath(String name, String type) async {
     try {
       var status = await Permission.storage.request();
       if (status.isGranted) {
-        if (!await Directory(directory.path + "/media").exists()) {
-          await Directory(directory.path + "/media").create();
-          if (!await Directory(directory.path + "/media/$type").exists()) {
-            await Directory(directory.path + "/media/$type").create();
+        if (!await Directory("${directory.path}/media").exists()) {
+          await Directory("${directory.path}/media").create();
+          if (!await Directory("${directory.path}/media/$type").exists()) {
+            await Directory("${directory.path}/media/$type").create();
           }
-        } else if (!await Directory(directory.path + "/media/$type").exists()) {
-          await Directory(directory.path + "/media/$type").create();
+        } else if (!await Directory("${directory.path}/media/$type").exists()) {
+          await Directory("${directory.path}/media/$type").create();
         }
 
-        directory = Directory(directory.path + "/media/$type");
+        directory = Directory("${directory.path}/media/$type");
 
         String filePath = "${directory.path}/$name";
         return filePath;
@@ -242,38 +249,38 @@ Future<String?> getDownloadPath(String name, String type) async {
     try {
       var status = await Permission.storage.request();
       if (status.isGranted) {
-        if (!await Directory(directory.path + "PlantyConnect").exists()) {
-          await Directory(directory.path + "PlantyConnect").create();
-          if (!await Directory(directory.path + "PlantyConnect/media")
+        if (!await Directory("${directory.path}PlantyConnect").exists()) {
+          await Directory("${directory.path}PlantyConnect").create();
+          if (!await Directory("${directory.path}PlantyConnect/media")
               .exists()) {
-            await Directory(directory.path + "PlantyConnect/media").create();
-            if (!await Directory(directory.path + "PlantyConnect/media/$type")
+            await Directory("${directory.path}PlantyConnect/media").create();
+            if (!await Directory("${directory.path}PlantyConnect/media/$type")
                 .exists()) {
-              await Directory(directory.path + "PlantyConnect/media/$type")
+              await Directory("${directory.path}PlantyConnect/media/$type")
                   .create();
             }
           } else if (!await Directory(
-                  directory.path + "PlantyConnect/media/$type")
+                  "${directory.path}PlantyConnect/media/$type")
               .exists()) {
-            await Directory(directory.path + "PlantyConnect/media/$type")
+            await Directory("${directory.path}PlantyConnect/media/$type")
                 .create();
           }
-        } else if (!await Directory(directory.path + "PlantyConnect/media")
+        } else if (!await Directory("${directory.path}PlantyConnect/media")
             .exists()) {
-          await Directory(directory.path + "PlantyConnect/media").create();
-          if (!await Directory(directory.path + "PlantyConnect/media/$type")
+          await Directory("${directory.path}PlantyConnect/media").create();
+          if (!await Directory("${directory.path}PlantyConnect/media/$type")
               .exists()) {
-            await Directory(directory.path + "PlantyConnect/media/$type")
+            await Directory("${directory.path}PlantyConnect/media/$type")
                 .create();
           }
         } else if (!await Directory(
-                directory.path + "PlantyConnect/media/$type")
+                "${directory.path}PlantyConnect/media/$type")
             .exists()) {
-          await Directory(directory.path + "PlantyConnect/media/$type")
+          await Directory("${directory.path}PlantyConnect/media/$type")
               .create();
         }
 
-        directory = Directory(directory.path + "PlantyConnect/media/$type");
+        directory = Directory("${directory.path}PlantyConnect/media/$type");
 
         String filePath = "${directory.path}/$name";
         return filePath;
@@ -295,20 +302,20 @@ Future<String?> getUploadPath(String name, String type) async {
     try {
       var status = await Permission.storage.request();
       if (status.isGranted) {
-        if (!await Directory(directory.path + "/media").exists()) {
-          await Directory(directory.path + "/media").create();
-          if (!await Directory(directory.path + "/media/$type").exists()) {
-            await Directory(directory.path + "/media/$type").create();
+        if (!await Directory("${directory.path}/media").exists()) {
+          await Directory("${directory.path}/media").create();
+          if (!await Directory("${directory.path}/media/$type").exists()) {
+            await Directory("${directory.path}/media/$type").create();
           }
-        } else if (!await Directory(directory.path + "/media/$type").exists()) {
-          await Directory(directory.path + "/media/$type").create();
+        } else if (!await Directory("${directory.path}/media/$type").exists()) {
+          await Directory("${directory.path}/media/$type").create();
         }
 
-        if (!await Directory(directory.path + "/media/$type/sent").exists()) {
-          await Directory(directory.path + "/media/$type/sent").create();
+        if (!await Directory("${directory.path}/media/$type/sent").exists()) {
+          await Directory("${directory.path}/media/$type/sent").create();
         }
 
-        directory = Directory(directory.path + "/media/$type/sent");
+        directory = Directory("${directory.path}/media/$type/sent");
 
         String filePath = "${directory.path}/$name";
         return filePath;
@@ -325,45 +332,45 @@ Future<String?> getUploadPath(String name, String type) async {
     try {
       var status = await Permission.storage.request();
       if (status.isGranted) {
-        if (!await Directory(directory.path + "PlantyConnect").exists()) {
-          await Directory(directory.path + "PlantyConnect").create();
-          if (!await Directory(directory.path + "PlantyConnect/media")
+        if (!await Directory("${directory.path}PlantyConnect").exists()) {
+          await Directory("${directory.path}PlantyConnect").create();
+          if (!await Directory("${directory.path}PlantyConnect/media")
               .exists()) {
-            await Directory(directory.path + "PlantyConnect/media").create();
-            if (!await Directory(directory.path + "PlantyConnect/media/$type")
+            await Directory("${directory.path}PlantyConnect/media").create();
+            if (!await Directory("${directory.path}PlantyConnect/media/$type")
                 .exists()) {
-              await Directory(directory.path + "PlantyConnect/media/$type")
+              await Directory("${directory.path}PlantyConnect/media/$type")
                   .create();
             }
           } else if (!await Directory(
-                  directory.path + "PlantyConnect/media/$type")
+                  "${directory.path}PlantyConnect/media/$type")
               .exists()) {
-            await Directory(directory.path + "PlantyConnect/media/$type")
+            await Directory("${directory.path}PlantyConnect/media/$type")
                 .create();
           }
-        } else if (!await Directory(directory.path + "PlantyConnect/media")
+        } else if (!await Directory("${directory.path}PlantyConnect/media")
             .exists()) {
-          await Directory(directory.path + "PlantyConnect/media").create();
-          if (!await Directory(directory.path + "PlantyConnect/media/$type")
+          await Directory("${directory.path}PlantyConnect/media").create();
+          if (!await Directory("${directory.path}PlantyConnect/media/$type")
               .exists()) {
-            await Directory(directory.path + "PlantyConnect/media/$type")
+            await Directory("${directory.path}PlantyConnect/media/$type")
                 .create();
           }
         } else if (!await Directory(
-                directory.path + "PlantyConnect/media/$type")
+                "${directory.path}PlantyConnect/media/$type")
             .exists()) {
-          await Directory(directory.path + "PlantyConnect/media/$type")
+          await Directory("${directory.path}PlantyConnect/media/$type")
               .create();
         }
 
-        if (!await Directory(directory.path + "PlantyConnect/media/$type/sent")
+        if (!await Directory("${directory.path}PlantyConnect/media/$type/sent")
             .exists()) {
-          await Directory(directory.path + "PlantyConnect/media/$type/sent")
+          await Directory("${directory.path}PlantyConnect/media/$type/sent")
               .create();
         }
 
         directory =
-            Directory(directory.path + "PlantyConnect/media/$type/sent");
+            Directory("${directory.path}PlantyConnect/media/$type/sent");
 
         String filePath = "${directory.path}/$name";
         return filePath;
@@ -384,7 +391,7 @@ showConfirmationDialog(Function? call, String? title) {
         mainAxisSize: MainAxisSize.min,
         children: [
           verticalSpaceSmall,
-          Text(
+          const Text(
             "Confirmation",
             style: TextStyle(
               fontSize: 22,
@@ -403,7 +410,7 @@ showConfirmationDialog(Function? call, String? title) {
               InkWell(
                 onTap: () => Get.back(),
                 child: Container(
-                  padding: EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
                   color: ColorRes.dimGray,
                   child: Text(
                     "Cancel",
@@ -417,7 +424,7 @@ showConfirmationDialog(Function? call, String? title) {
               InkWell(
                 onTap: call!(),
                 child: Container(
-                  padding: EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
                   color: ColorRes.green,
                   child: Text(
                     "Confirm",

@@ -98,7 +98,7 @@ class AddMembersViewModel extends BaseViewModel {
     );
   }
 
-  void nextClick() {
+  Future<void> nextClick() async {
     if (selectedMembers.isEmpty) {
       Get.back();
     } else {
@@ -117,13 +117,13 @@ class AddMembersViewModel extends BaseViewModel {
           List<dynamic>.from(groupModel!.members!.map((x) => x.toMap())));
       chatRoomService.updateGroupMembers(groupModel!.groupId!, membersId);
 
-      selectedMembers.forEach((element) async {
+      for (var element in selectedMembers) {
         chatRoomService.updateGroupNewMessage(groupModel!.groupId!, element.uid!);
 
         UserModel user =
             await userService.getUserModel(appState.currentUser!.uid!);
         sendMessage('alert', '${element.name} added by ${user.name}', null);
-      });
+      }
 
       for (var element in selectedMembers) {
         chatRoomService.updateGroupNewMessage(groupModel!.groupId!, element.uid!);

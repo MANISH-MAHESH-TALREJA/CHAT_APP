@@ -13,8 +13,8 @@ class CachedImage extends StatelessWidget {
   final String noImageAvailable =
       "https://www.esm.rochester.edu/uploads/NoPhotoAvailable.jpg";
 
-  CachedImage(
-    this.imageUrl, {
+  const CachedImage(
+    this.imageUrl, {super.key,
     this.isRound = false,
     this.radius = 0,
     this.height,
@@ -34,7 +34,7 @@ class CachedImage extends StatelessWidget {
               imageUrl: imageUrl,
               fit: fit,
               placeholder: (context, url) =>
-                  Center(child: CircularProgressIndicator()),
+                  const Center(child: CircularProgressIndicator()),
               errorWidget: (context, url, error) => Image.network(
                 noImageAvailable,
                 height: 25,
@@ -44,7 +44,7 @@ class CachedImage extends StatelessWidget {
             )),
       );
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
       return Image.network(
         noImageAvailable,
         height: 25,

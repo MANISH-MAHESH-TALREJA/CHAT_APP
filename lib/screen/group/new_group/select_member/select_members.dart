@@ -13,7 +13,7 @@ import 'package:stacked/stacked.dart';
 class SelectMembers extends StatelessWidget {
   final bool isGroup;
 
-  SelectMembers(this.isGroup);
+  const SelectMembers(this.isGroup, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -81,8 +81,8 @@ class SelectMembers extends StatelessWidget {
           body: model.isBusy
               ? Center(
             child: Platform.isIOS
-                ? CupertinoActivityIndicator()
-                : CircularProgressIndicator(),
+                ? const CupertinoActivityIndicator()
+                : const CircularProgressIndicator(),
           )
               : ListView.builder(
             itemCount: model.users!.length,
@@ -97,11 +97,11 @@ class SelectMembers extends StatelessWidget {
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: model.nextClick,
-            child: Icon(
+            backgroundColor: ColorRes.green,
+            child: const Icon(
               Icons.navigate_next_rounded,
               color: ColorRes.white,
             ),
-            backgroundColor: ColorRes.green,
           ),
         );
       },

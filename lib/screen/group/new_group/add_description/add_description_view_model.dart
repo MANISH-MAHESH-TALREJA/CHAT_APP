@@ -26,7 +26,7 @@ class AddDescriptionViewModel extends BaseViewModel {
 
   init(List<UserModel> users) async {
     setBusy(true);
-    this.members = users;
+    members = users;
     setBusy(false);
   }
 
@@ -42,13 +42,13 @@ class AddDescriptionViewModel extends BaseViewModel {
 
       List<String> membersId = [];
 
-      members!.forEach((element) {
+      for (var element in members!) {
         groupModel.members!.add(GroupMember(
           memberId: element.uid!,
           isAdmin: false,
         ));
         membersId.add(element.uid!);
-      });
+      }
 
       membersId.add(appState.currentUser!.uid!);
 
@@ -84,9 +84,9 @@ class AddDescriptionViewModel extends BaseViewModel {
           "lastMessageTime": DateTime.now(),
           'typing_id': null,
         };
-        membersId.forEach((element) {
+        for (var element in membersId) {
           data['${element}_newMessage'] = 1;
-        });
+        }
 
         List<String> tokenList = members!.map((e) => e.fcmToken!).toList();
         tokenList.removeWhere((element) => (element == appState.currentUser!.fcmToken));
@@ -104,8 +104,11 @@ class AddDescriptionViewModel extends BaseViewModel {
             isGroup: true,
           ),
         );
-        Get.offAll(() => HomeScreen());
-      } catch (e) {}
+        Get.offAll(() => const HomeScreen());
+      } catch (e)
+      {
+        debugPrint(e.toString());
+      }
       setBusy(false);
     }
   }

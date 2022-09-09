@@ -9,7 +9,7 @@ import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:flutter_web_chat_app/model/group_model.dart';
 import 'package:flutter_web_chat_app/model/message_model.dart';
 import 'package:flutter_web_chat_app/screen/group/chat_screen/chat_screen_view_model.dart';
-import 'package:flutter_web_chat_app/screen/group/chat_screen/widget/InputBottomBar.dart';
+import 'package:flutter_web_chat_app/screen/group/chat_screen/widget/input_bottom_bar.dart';
 import 'package:flutter_web_chat_app/screen/group/chat_screen/widget/header.dart';
 import 'package:flutter_web_chat_app/screen/group/chat_screen/widget/message_view/message_view.dart';
 import 'package:flutter_web_chat_app/screen/group/chat_screen/widget/scroll_down_button.dart';
@@ -95,6 +95,7 @@ class ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
             },
             child: StreamBuilder<DocumentSnapshot>(
               stream: groupService.getGroupStream(
+                  // ignore: unnecessary_null_comparison
                   (widget.groupModel!.groupId! != null ||
                       widget.groupModel!.groupId! != "")
                       ? widget.groupModel!.groupId!
@@ -177,19 +178,19 @@ class ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                                       itemsPerPage: 10,
                                       scrollController:
                                       model.listScrollController,
-                                      itemBuilder: (index, context,
-                                          documentSnapshot) {
+                                      itemBuilder: (context,
+                                          documentSnapshot, index) {
                                         if (!model.listMessage
                                             .contains(
-                                            documentSnapshot)) {
+                                            documentSnapshot[index])) {
                                           model.listMessage
-                                              .add(documentSnapshot);
+                                              .add(documentSnapshot[index]);
                                         }
                                         return MessageView(
                                           index,
                                           MessageModel.fromMap(
-                                            documentSnapshot.data() as Map<String, dynamic>,
-                                            documentSnapshot.id,
+                                            documentSnapshot[index].data() as Map<String, dynamic>,
+                                            documentSnapshot[index].id,
                                           ),
                                           model.downloadDocument,
                                           model.selectedMessages,
@@ -199,7 +200,7 @@ class ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                                           model.isForwardMode,
                                         );
                                       },
-                                      emptyDisplay: const Center(
+                                      onEmpty: const Center(
                                         child: Text("Send message"),
                                       ),
                                       reverse: true,
@@ -211,7 +212,7 @@ class ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                                     model.onTextFieldChange,
                                     onCameraTap: model.onCameraTap,
                                     onSend: model.onSend,
-                                    message: model.message,
+                                    message: model.mMessage,
                                     focusNode: model.focusNode,
                                     onAttachment:
                                     model.onAttachmentTap,

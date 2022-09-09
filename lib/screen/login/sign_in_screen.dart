@@ -12,6 +12,8 @@ import 'package:flutter_web_chat_app/utils/styles.dart';
 import 'package:stacked/stacked.dart';
 
 class SignInScreen extends StatelessWidget {
+  const SignInScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,18 +58,18 @@ class SignInScreen extends StatelessWidget {
                             readOnly: model.isBusy,
                           ),
                           Padding(
-                            padding: EdgeInsets.all(20.0),
+                            padding: const EdgeInsets.all(20.0),
                             child: model.isBusy
                                 ? Container(
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                       color: ColorRes.green,
                                       shape: BoxShape.circle,
                                     ),
-                                    padding: EdgeInsets.all(4),
+                                    padding: const EdgeInsets.all(4),
                                     child: Center(
                                       child: Platform.isMacOS
-                                          ? CupertinoActivityIndicator()
-                                          : CircularProgressIndicator(),
+                                          ? const CupertinoActivityIndicator()
+                                          : const CircularProgressIndicator(),
                                     ),
                                   )
                                 : EvolveButton(

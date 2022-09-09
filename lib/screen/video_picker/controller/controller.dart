@@ -20,9 +20,9 @@ class VideoController extends GetxController{
     }
   }
 
-  void onSend(){
+  Future<void> onSend() async {
     List<File> fileList = [];
-    selectedVideoList.forEach((element) async {
+    for (var element in selectedVideoList) {
       await element.file.then((file){
         fileList.add(file!);
         if(element == selectedVideoList.last){
@@ -30,6 +30,6 @@ class VideoController extends GetxController{
         }
       });
 
-    });
+    }
   }
 }

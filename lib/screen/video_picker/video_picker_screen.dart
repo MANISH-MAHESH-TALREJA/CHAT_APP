@@ -4,11 +4,14 @@ import 'package:flutter_web_chat_app/screen/video_picker/controller/controller.d
 import 'package:flutter_web_chat_app/screen/video_picker/video_picker_view_model.dart';
 import 'package:flutter_web_chat_app/utils/app.dart';
 import 'package:flutter_web_chat_app/utils/color_res.dart';
+import 'package:photo_manager/photo_manager.dart';
 import 'package:stacked/stacked.dart';
 
 // ignore: must_be_immutable
 class VideoPickerScreen extends StatelessWidget {
   VideoController videoController = Get.put(VideoController());
+
+  VideoPickerScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,21 +25,21 @@ class VideoPickerScreen extends StatelessWidget {
             backgroundColor: ColorRes.white,
             title: Row(
               children: [
-                Text(
+                const Text(
                   "Select Videos",
                   style: TextStyle(color: ColorRes.black),
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Obx(() => Text(
                       "(${videoController.selectedVideoList.length} / 10)",
-                      style: TextStyle(color: ColorRes.black),
+                      style: const TextStyle(color: ColorRes.black),
                     )),
-                Spacer(),
+                const Spacer(),
                 Obx(
-                  () => videoController.selectedVideoList.length > 0
+                  () => videoController.selectedVideoList.isNotEmpty
                       ? InkWell(
                           onTap: videoController.onSend,
-                          child: Text(
+                          child: const Text(
                             "Send",
                             style: TextStyle(color: ColorRes.green),
                           ),
@@ -49,18 +52,18 @@ class VideoPickerScreen extends StatelessWidget {
               onTap: () {
                 Get.back();
               },
-              child: Icon(
+              child: const Icon(
                 Icons.arrow_back,
                 color: ColorRes.black,
               ),
             ),
           ),
           body: model.isBusy
-              ? Center(child: CircularProgressIndicator())
+              ? const Center(child: CircularProgressIndicator())
               : GridView.builder(
                 controller: model.scrollController,
                 itemCount: model.videoList.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
                 ),
                 itemBuilder: (context, index) {
@@ -71,7 +74,7 @@ class VideoPickerScreen extends StatelessWidget {
                     },
                     child: FutureBuilder(
                         future: model.videoList[index]
-                            .thumbDataWithSize(200, 200),
+                            .thumbnailDataWithSize(const ThumbnailSize(200, 200)),
                         builder: (context, snapshot) {
                           return snapshot.hasData
                               ? Stack(
@@ -83,7 +86,7 @@ class VideoPickerScreen extends StatelessWidget {
                                         fit: BoxFit.cover,
                                       ),
                                     ),
-                                    Align(
+                                    const Align(
                                       alignment: Alignment.bottomRight,
                                       child: Padding(
                                         padding: EdgeInsets.only(
@@ -105,9 +108,9 @@ class VideoPickerScreen extends StatelessWidget {
                                               height: 200,
                                               width: 200,
                                               alignment:
-                                                  AlignmentDirectional(
+                                                  const AlignmentDirectional(
                                                       -0.7, 0.7),
-                                              child: Icon(
+                                              child: const Icon(
                                                 Icons.check_circle,
                                               ),
                                             )
@@ -115,9 +118,7 @@ class VideoPickerScreen extends StatelessWidget {
                                     )
                                   ],
                                 )
-                              : Container(
-                            child: Image.asset(AssetsRes.galleryImage,color: ColorRes.green.withOpacity(0.5),),
-                          );
+                              : Image.asset(AssetsRes.galleryImage,color: ColorRes.green.withOpacity(0.5),);
                         }),
                   );
                 },

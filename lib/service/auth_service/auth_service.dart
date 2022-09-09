@@ -36,7 +36,7 @@ class AuthService {
       });
     } catch (e) {
       handleException(e);
-      throw e;
+      rethrow;
     }
   }
 
@@ -45,7 +45,7 @@ class AuthService {
       await firebaseAuth.signOut();
     } catch (e) {
       handleException(e);
-      throw e;
+      rethrow;
     }
   }
 

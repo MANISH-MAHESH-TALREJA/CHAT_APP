@@ -11,7 +11,7 @@ class UserCard extends StatelessWidget {
   final bool typing;
   final int newBadge;
 
-  UserCard(this.user, this.onTap, {this.typing = false, this.newBadge = 0});
+  const UserCard(this.user, this.onTap, {super.key, this.typing = false, this.newBadge = 0});
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +20,13 @@ class UserCard extends StatelessWidget {
         onTap.call(user.userModel!, user.id!);
       },
       child: Card(
-        margin: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+        margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
         child: Padding(
           padding: const EdgeInsets.all(6),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
+              SizedBox(
                 height: 40,
                 width: 40,
                 child: ClipRRect(

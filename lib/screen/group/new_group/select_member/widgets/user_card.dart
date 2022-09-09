@@ -8,7 +8,7 @@ class UserCard extends StatelessWidget {
   final UserModel? user;
   final Function(UserModel)? onTap;
 
-  UserCard({
+  const UserCard({super.key,
     this.user,
     this.onTap,
     this.isSelected,
@@ -23,13 +23,13 @@ class UserCard extends StatelessWidget {
         onTap!.call(user!);
       },
       child: Card(
-        margin: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+        margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
         child: Padding(
           padding: const EdgeInsets.all(6),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
+              SizedBox(
                 height: 40,
                 width: 40,
                 child: ClipRRect(

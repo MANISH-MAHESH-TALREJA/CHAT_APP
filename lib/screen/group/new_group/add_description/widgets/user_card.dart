@@ -6,7 +6,7 @@ import 'package:flutter_web_chat_app/utils/styles.dart';
 class UserCard extends StatelessWidget {
   final UserModel? user;
 
-  UserCard({
+  const UserCard({super.key,
     this.user,
   });
 
@@ -21,7 +21,7 @@ class UserCard extends StatelessWidget {
           Container(
             height: 40,
             width: 40,
-            margin: EdgeInsets.only(bottom: 3),
+            margin: const EdgeInsets.only(bottom: 3),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(60),
               child: Image.network(

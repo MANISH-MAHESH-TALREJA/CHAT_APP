@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_web_chat_app/model/message_model.dart';
 import 'package:flutter_web_chat_app/utils/app_state.dart';
 import 'package:flutter_web_chat_app/utils/exception.dart';
@@ -12,9 +13,11 @@ class ChatRoomService {
     try {
       await chatRoom.doc(data['id']).set(data);
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       handleException(e);
-      throw e;
+      rethrow;
     }
   }
 
@@ -27,9 +30,11 @@ class ChatRoomService {
         }
       });
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       handleException(e);
-      throw e;
+      rethrow;
     }
   }
 
@@ -37,9 +42,11 @@ class ChatRoomService {
     try {
       await chatRoom.doc(chatId).update({"membersId": members});
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       handleException(e);
-      throw e;
+      rethrow;
     }
   }
 
@@ -47,9 +54,11 @@ class ChatRoomService {
     try {
       await chatRoom.doc(chatId).update({"${userId}_newMessage": 1});
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       handleException(e);
-      throw e;
+      rethrow;
     }
   }
 
@@ -60,9 +69,11 @@ class ChatRoomService {
           .orderBy("lastMessageTime", descending: true)
           .snapshots();
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       handleException(e);
-      throw e;
+      rethrow;
     }
   }
 
@@ -73,9 +84,11 @@ class ChatRoomService {
           .orderBy("lastMessageTime", descending: true)
           .get();
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       handleException(e);
-      throw e;
+      rethrow;
     }
   }
 
@@ -86,9 +99,11 @@ class ChatRoomService {
           .where("membersId", arrayContains: appState.currentUser!.uid)
           .snapshots();
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       handleException(e);
-      throw e;
+      rethrow;
     }
   }
 
@@ -96,9 +111,11 @@ class ChatRoomService {
     try {
       return chatRoom.doc(id).snapshots();
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       handleException(e);
-      throw e;
+      rethrow;
     }
   }
 
@@ -106,9 +123,11 @@ class ChatRoomService {
     try {
       return chatRoom.doc(id).get();
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       handleException(e);
-      throw e;
+      rethrow;
     }
   }
 

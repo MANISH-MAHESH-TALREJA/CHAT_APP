@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:flutter_web_chat_app/model/send_notification_model.dart';
@@ -15,7 +16,9 @@ class MessagingService {
   }
 
   void sendNotification(SendNotificationModel notification) async {
-    print("token = ${notification.fcmTokens}");
+    if (kDebugMode) {
+      print("token = ${notification.fcmTokens}");
+    }
     Response response = await http.post(
       Uri.parse('https://fcm.googleapis.com/fcm/send'),
       headers: <String, String>{
@@ -25,7 +28,10 @@ class MessagingService {
       body: jsonEncode(notification.toMap()),
     );
 
-    print(response.statusCode);
-    print(response.body);
+
+      if (kDebugMode) {
+        print(response.statusCode);
+        print(response.body);
+      }
   }
 }

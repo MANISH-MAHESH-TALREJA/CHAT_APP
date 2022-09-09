@@ -27,7 +27,7 @@ class SignInViewModel extends BaseViewModel {
             fcmToken: fcmToken,
           )..password = passwordController.text,
         );
-        Get.offAll(() => HomeScreen());
+        Get.offAll(() => const HomeScreen());
       } catch (e) {
         setBusy(false);
       }
@@ -35,28 +35,30 @@ class SignInViewModel extends BaseViewModel {
   }
 
   String? emailValidation(String? value) {
-    if (value!.isEmpty)
+    if (value!.isEmpty) {
       return AppRes.please_enter_email;
-    else if (!isEmail(value))
+    } else if (!isEmail(value)) {
       return AppRes.please_enter_valid_email;
-    else
+    } else {
       return null;
+    }
   }
 
   String? passwordValidation(String? value) {
-    if (value!.isEmpty)
+    if (value!.isEmpty) {
       return AppRes.please_enter_password;
-    else if (value.length < 6)
+    } else if (value.length < 6) {
       return AppRes.please_enter_min_6_characters;
-    else
+    } else {
       return null;
+    }
   }
 
   void signUpClick() {
-    Get.off(() => SignUpScreen());
+    Get.off(() => const SignUpScreen());
   }
 
   void forgotPasswordClick() {
-    Get.to(() => ForgotPasswordScreen());
+    Get.to(() => const ForgotPasswordScreen());
   }
 }

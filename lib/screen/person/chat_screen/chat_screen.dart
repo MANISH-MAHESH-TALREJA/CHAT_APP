@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:flutter_web_chat_app/model/message_model.dart';
 import 'package:flutter_web_chat_app/model/user_model.dart';
-import 'package:flutter_web_chat_app/screen/person/chat_screen/widget/InputBottomBar.dart';
+import 'package:flutter_web_chat_app/screen/person/chat_screen/widget/input_bottom_bar.dart';
 import 'package:flutter_web_chat_app/screen/person/chat_screen/chat_screen_view_model.dart';
 import 'package:flutter_web_chat_app/screen/person/chat_screen/widget/header.dart';
 import 'package:flutter_web_chat_app/screen/person/chat_screen/widget/message_view/message_view.dart';
@@ -30,14 +30,14 @@ class ChatScreen extends StatefulWidget {
   ChatScreen(
     this.receiver,
     this.isFromHome,
-    this.roomId,
+    this.roomId, {super.key}
   );
 
   @override
-  _ChatScreenState createState() => _ChatScreenState();
+  ChatScreenState createState() => ChatScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
+class ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
@@ -56,7 +56,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
     if (state == AppLifecycleState.detached ||
         state == AppLifecycleState.inactive ||
         state == AppLifecycleState.paused) {
-      print(widget.roomId);
+      debugPrint(widget.roomId);
       if (widget.roomId != null) {
         chatRoomService.updateLastMessage(
           {"${appState.currentUser!.uid}_typing": false},
@@ -149,8 +149,8 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                   ? model.isBusy
                   ? Center(
                 child: Platform.isIOS
-                    ? CupertinoActivityIndicator()
-                    : CircularProgressIndicator(),
+                    ? const CupertinoActivityIndicator()
+                    : const CircularProgressIndicator(),
               )
                   : Stack(
                 alignment: Alignment.bottomCenter,
@@ -159,7 +159,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                     absorbing: model.isAttachment!,
                     child: Column(
                       children: [
-                        Expanded(
+                        const Expanded(
                           child: Center(
                             child: Text("Send a message"),
                           ),
@@ -170,7 +170,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                           model.onTextFieldChange,
                           onCameraTap: model.onCameraTap,
                           onSend: model.onSend,
-                          message: model.message!,
+                          message: model.mMessage!,
                           focusNode: model.focusNode,
                           onAttachment:
                           model.onAttachmentTap,
@@ -183,7 +183,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                   SafeArea(
                     child: AnimatedOpacity(
                       opacity: model.isAttachment! ? 1 : 0,
-                      duration: Duration(milliseconds: 500),
+                      duration: const Duration(milliseconds: 500),
                       child: model.isAttachment!
                           ? AttachmentView(
                         onGalleryTap: (){
@@ -208,10 +208,10 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                       MainAxisAlignment.center,
                       children: [
                         Platform.isIOS
-                            ? CupertinoActivityIndicator()
-                            : CircularProgressIndicator(),
+                            ? const CupertinoActivityIndicator()
+                            : const CircularProgressIndicator(),
                         verticalSpaceSmall,
-                        Text("Uploading media")
+                        const Text("Uploading media")
                       ],
                     ),
                   )
@@ -227,7 +227,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                       children: [
                         Expanded(
                           child: PaginateFirestore(
-                            padding: EdgeInsets.all(10.0),
+                            padding: const EdgeInsets.all(10.0),
                             query: chatRoomService.getMessages(
                                 model.roomId!, model.chatLimit!),
                             itemBuilderType:
@@ -236,18 +236,18 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                             itemsPerPage: 10,
                             scrollController:
                             model.listScrollController,
-                            itemBuilder: (index, context,
-                                documentSnapshot) {
+                            itemBuilder: (context,
+                                documentSnapshot, index) {
                               if (!model.listMessage
-                                  .contains(documentSnapshot)) {
+                                  .contains(documentSnapshot[index])) {
                                 model.listMessage
-                                    .add(documentSnapshot);
+                                    .add(documentSnapshot[index]);
                               }
                               return MessageView(
                                 index,
                                 MessageModel.fromMap(
-                                  documentSnapshot.data()  as Map<String, dynamic>,
-                                  documentSnapshot.id,
+                                  documentSnapshot[index].data()  as Map<String, dynamic>,
+                                  documentSnapshot[index].id,
                                 ),
                                 model.downloadDocument,
                                 model.selectedMessages,
@@ -257,7 +257,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                                 model.isForwardMode,
                               );
                             },
-                            emptyDisplay: Center(
+                            onEmpty: const Center(
                               child: Text("Send message"),
                             ),
                             reverse: true,
@@ -280,7 +280,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                                 onCameraTap:
                                 model.onCameraTap,
                                 onSend: model.onSend,
-                                message: model.message!,
+                                message: model.mMessage!,
                                 focusNode:
                                 model.focusNode,
                                 onAttachment:
@@ -317,12 +317,12 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                                   ),
                                   width: Get.width,
                                   margin:
-                                  EdgeInsets.only(
+                                  const EdgeInsets.only(
                                     left: 5,
                                     bottom: 5,
                                     right: 5,
                                   ),
-                                  padding: EdgeInsets
+                                  padding: const EdgeInsets
                                       .symmetric(
                                     horizontal: 12,
                                     vertical: 8,
@@ -333,7 +333,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                                         .center,
                                     children: [
                                       horizontalSpaceSmall,
-                                      Icon(
+                                      const Icon(
                                         Icons.block,
                                         color:
                                         ColorRes
@@ -372,12 +372,12 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                                 ),
                                 width: Get.width,
                                 margin:
-                                EdgeInsets.only(
+                                const EdgeInsets.only(
                                   left: 5,
                                   bottom: 5,
                                   right: 5,
                                 ),
-                                padding: EdgeInsets
+                                padding: const EdgeInsets
                                     .symmetric(
                                   horizontal: 12,
                                   vertical: 8,
@@ -388,7 +388,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                                       .center,
                                   children: [
                                     horizontalSpaceSmall,
-                                    Icon(
+                                    const Icon(
                                       Icons.block,
                                       color: ColorRes
                                           .red,
@@ -419,7 +419,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                   SafeArea(
                     child: AnimatedOpacity(
                       opacity: model.isAttachment! ? 1 : 0,
-                      duration: Duration(milliseconds: 500),
+                      duration: const Duration(milliseconds: 500),
                       child: model.isAttachment!
                           ? AttachmentView(
                         onGalleryTap: (){
@@ -456,10 +456,10 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                       MainAxisAlignment.center,
                       children: [
                         Platform.isIOS
-                            ? CupertinoActivityIndicator()
-                            : CircularProgressIndicator(),
+                            ? const CupertinoActivityIndicator()
+                            : const CircularProgressIndicator(),
                         verticalSpaceSmall,
-                        Text("Uploading media")
+                        const Text("Uploading media")
                       ],
                     ),
                   )

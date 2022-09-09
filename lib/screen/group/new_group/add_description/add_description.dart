@@ -15,7 +15,7 @@ import 'package:stacked/stacked.dart';
 class AddDescription extends StatelessWidget {
   final List<UserModel> members;
 
-  AddDescription(this.members);
+  const AddDescription(this.members, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -62,8 +62,8 @@ class AddDescription extends StatelessWidget {
           body: model.isBusy
               ? Center(
                   child: Platform.isIOS
-                      ? CupertinoActivityIndicator()
-                      : CircularProgressIndicator(),
+                      ? const CupertinoActivityIndicator()
+                      : const CircularProgressIndicator(),
                 )
               : SingleChildScrollView(
                   child: Column(
@@ -92,7 +92,7 @@ class AddDescription extends StatelessWidget {
                           verticalSpaceTiny,
                           GridView.builder(
                             itemCount: model.members!.length,
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
                               return UserCard(
@@ -100,7 +100,7 @@ class AddDescription extends StatelessWidget {
                               );
                             },
                             gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
+                                const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 4,
                             ),
                           ),
@@ -111,11 +111,11 @@ class AddDescription extends StatelessWidget {
                 ),
           floatingActionButton: FloatingActionButton(
             onPressed: model.doneClick,
-            child: Icon(
+            backgroundColor: ColorRes.green,
+            child: const Icon(
               Icons.done,
               color: ColorRes.white,
             ),
-            backgroundColor: ColorRes.green,
           ),
         );
       },

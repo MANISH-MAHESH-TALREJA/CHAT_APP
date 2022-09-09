@@ -55,7 +55,10 @@ class SettingViewModel extends BaseViewModel {
         },
         "Are you sure you want logout?",
       );
-    } catch (e) {}
+    } catch (e)
+    {
+      debugPrint(e.toString());
+    }
   }
 
   void imageClick() async {

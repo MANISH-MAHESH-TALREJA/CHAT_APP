@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_web_chat_app/model/group_model.dart';
 import 'package:flutter_web_chat_app/utils/exception.dart';
 import 'package:flutter_web_chat_app/utils/firestore_collections.dart';
@@ -11,9 +12,11 @@ class GroupService {
     try {
       return await group.add(groupModel.toMap());
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       handleException(e);
-      throw e;
+      rethrow;
     }
   }
 
@@ -25,9 +28,11 @@ class GroupService {
         "description": desc,
       });
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       handleException(e);
-      throw e;
+      rethrow;
     }
   }
 
@@ -35,9 +40,11 @@ class GroupService {
     try {
       await group.doc(groupId).delete();
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       handleException(e);
-      throw e;
+      rethrow;
     }
   }
 
@@ -45,9 +52,11 @@ class GroupService {
     try {
       await group.doc(groupId).update({"members": members});
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       handleException(e);
-      throw e;
+      rethrow;
     }
   }
 
@@ -55,9 +64,11 @@ class GroupService {
     try {
       await group.doc(groupId).update(data);
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       handleException(e);
-      throw e;
+      rethrow;
     }
   }
 
@@ -65,9 +76,11 @@ class GroupService {
     try {
       return group.snapshots();
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       handleException(e);
-      throw e;
+      rethrow;
     }
   }
 
@@ -75,9 +88,11 @@ class GroupService {
     try {
       return group.doc(id).snapshots();
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       handleException(e);
-      throw e;
+      rethrow;
     }
   }
 
@@ -85,9 +100,11 @@ class GroupService {
     try {
       return await group.doc(id).get();
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       handleException(e);
-      throw e;
+      rethrow;
     }
   }
 
@@ -96,9 +113,11 @@ class GroupService {
       DocumentSnapshot doc = await group.doc(id).get();
       return GroupModel.fromMap(doc.data() as Map<String, dynamic>, doc.id);
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       handleException(e);
-      throw e;
+      rethrow;
     }
   }
 }
