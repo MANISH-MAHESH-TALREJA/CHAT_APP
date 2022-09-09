@@ -17,26 +17,26 @@ dependencies:
   get: ^4.6.5
   rxdart: ^0.27.5
   build_runner: ^2.2.0
-  firebase_core: ^1.21.1                  #NOT FOR WINDOWS
-  firebase_messaging: ^13.0.0             #NOT FOR WINDOWS
-  firebase_storage: ^10.3.7               #NOT FOR WINDOWS
-  cloud_firestore: ^3.4.6                 #NOT FOR WINDOWS
-  firebase_auth: ^3.7.0                   #NOT FOR WINDOWS
-  flutter_local_notifications: ^9.9.1     #NOT FOR WEB
+  firebase_core: ^1.21.1                    #NOT FOR WINDOWS
+  firebase_messaging: ^13.0.0               #NOT FOR WINDOWS
+  firebase_storage: ^10.3.7                 #NOT FOR WINDOWS
+  cloud_firestore: ^3.4.6                   #NOT FOR WINDOWS
+  firebase_auth: ^3.7.0                     #NOT FOR WINDOWS
+  flutter_local_notifications: ^9.9.1       #NOT FOR WEB
   flutter_screenutil: ^5.5.4
   intl: ^0.17.0
-  image_picker: ^0.8.5+3                  #NOT FOR WINDOWS
+  image_picker: ^0.8.5+3                    #NOT FOR WINDOWS
   file_picker: ^5.0.1
-  photo_manager: ^2.2.1                   #NOT FOR WEB AND WINDOWS
+  photo_manager: ^2.2.1                     #NOT FOR WEB AND WINDOWS
   # media_picker: ^1.3.5                    #NO NULL SAFETY. NEED TO MIGRATE
   # flutter_absolute_path: ^1.0.6           #NO NULL SAFETY. NEED TO MIGRATE
   path_provider: ^2.0.11
-  permission_handler: ^10.0.0             #NOT FOR WEB
-  open_file: ^3.2.1                       #NOT FOR WEB AND WINDOWS
+  permission_handler: ^10.0.0               #NOT FOR WEB
+  open_file: ^3.2.1                         #NOT FOR WEB AND WINDOWS
   cached_network_image: ^3.2.1
   flutter_linkify: ^5.0.2
   url_launcher: ^6.1.5
-  paginate_firestore: ^1.0.3+1            #NOT FOR WINDOWS
+  paginate_firestore: ^1.0.3+1              #NOT FOR WINDOWS
   provider: ^6.0.3
 
 
